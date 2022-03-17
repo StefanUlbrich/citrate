@@ -1,0 +1,37 @@
+# see https://github.com/tmtenbrink/rustfrc/blob/main/pyproject.toml
+
+# Created by poetry 
+
+[tool.poetry]
+name = "pysom"
+version = "0.1.0"
+description = "An implementation of self organizing maps in Rust"
+authors = ["Stefan Ulbrich"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.22.3"
+
+[tool.poetry.dev-dependencies]
+maturin = "^0.12.11"
+
+# [build-system]
+# requires = ["poetry-core>=1.0.0"]
+# build-backend = "poetry.core.masonry.api"
+
+# Created by maturin
+
+[project]
+name = "pysom"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+readme = "Readme.md"
+
+[build-system]
+requires = ["maturin>=0.12,<0.13"]
+build-backend = "maturin"
