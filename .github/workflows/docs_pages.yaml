@@ -2,6 +2,9 @@
 
 name: Docs2Pages
 on:
+  workflow_dispatch:
+    branches:
+      - main
   push:
     # tags: '*'
     branches:
