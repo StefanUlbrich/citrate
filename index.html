@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&lt;no title&gt; &#8212; Design by contract 0.2 documentation</title>
+    <title>Welcome to the self-organization workspace &#8212; Self-organization 0.2 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -62,7 +62,7 @@
       
       
       
-      <h1 class="site-logo" id="site-title">Design by contract 0.2 documentation</h1>
+      <h1 class="site-logo" id="site-title">Self-organization 0.2 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -139,7 +139,12 @@
                 <i class="fas fa-list"></i> Contents
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#development">
+   Development
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -150,7 +155,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1><no title></h1>
+                <h1>Welcome to the self-organization workspace</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -159,7 +164,12 @@
                             <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
-                            <ul class="simple visible nav section-nav flex-column">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#development">
+   Development
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -172,6 +182,64 @@
   <div class="warning admonition">
 <p class="admonition-title">Under construction</p>
 <p>Development just started. There is nothing to be seen here yet.</p>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="welcome-to-the-self-organization-workspace">
+<h1>Welcome to the self-organization workspace<a class="headerlink" href="#welcome-to-the-self-organization-workspace" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>:warning: <strong>NOTE:</strong> Under construction. Just started this project</p>
+</div></blockquote>
+<p>A testbed for self-organizing neural networks written in Rust.</p>
+<p>This is an experiment on writing a Python extension for numerical computation /
+machine learning in Rust with Python bindings. The aim of this project is to
+create an implementation of the <a class="reference external" href="https://en.wikipedia.org/wiki/Self-organizing_map">self-organizing
+maps</a> algorithm with support
+for parallelization and eventually, GPGPU. The algorithm has been chosen for its
+efficiency and simplicity (both in terms of implementation and
+comprehensibility). Plus, it’s my favorite and I’m doing active research with
+it.</p>
+<p>These are also my very first steps learning Rust and aims at eventually being a
+blueprint template for quickly getting started with</p>
+<ul class="simple">
+<li><p>Numerical python extensions written in Rust</p></li>
+<li><p>Seamless integration via <a class="reference external" href="https://pyo3.rs/v0.16.1/">PyO3</a> and <a class="reference external" href="https://docs.rs/numpy/0.7.0/numpy/">rust-numpy</a></p></li>
+<li><p>High-performance via <a class="reference external" href="https://github.com/rust-ndarray/ndarray">ndarray</a>/<a class="reference external" href="https://docs.rs/ndarray/0.13.1/ndarray/parallel/index.html">rayon</a>, <a class="reference external" href="https://github.com/LaurentMazare/tch-rs">tch-rs</a> (<a class="reference external" href="https://pytorch.org/">PyTorch</a> bindings)</p></li>
+<li><p>Dependency management / publishing with <a class="reference external" href="https://python-poetry.org/docs/">Poetry</a> and <a class="reference external" href="https://github.com/PyO3/maturin">Maturin</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Monorepo">Monorepo</a> with [Cargo workspaces]<a class="reference external" href="https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html">(</a>)</p></li>
+<li><p>Technical documentation / GitHub page with <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> and <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/sphinx/intro.html">MyST</a></p></li>
+<li><p>Eventually, distributed computation (e.g., <a class="reference external" href="https://en.wikipedia.org/wiki/Actor_model">actor model</a> or <a class="reference external" href="https://timelydataflow.github.io/timely-dataflow/">timely
+dataflow</a>)</p></li>
+<li><p>Hopefully, GUI application using <a class="reference external" href="https://tauri.studio/">Tauri</a>, <a class="reference external" href="https://angular.io/">Angular</a> and <a class="reference external" href="https://threejs.org/">ThreeJS</a></p></li>
+</ul>
+<p>Feel free use as a basis for your own projects (MIT licensed).</p>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>For the monorepo, there is a top-level python project defined using poetry. This project is
+mainly for dependency locking, integration testing and the overall project’s documentation.
+The python module
+build with Maturin is in a nested folder and it’s project file is also created with poetry.
+This is necessary as the top-level project can only add local packages that are either
+created with Poetry or contain a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file.</p>
+<p>While this setup supports a monorepo setup (and should support integration
+testing on the imported local packages), there is another caveat. Building the python extension with
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> creates a temp directory which does not copy the local rust dependencies. Newer versions of <code class="docutils literal notranslate"><span class="pre">pip</span></code>
+build within the tree, so this limitation can be avoided easily. Use the following commands to
+setup the environment.</p>
+<blockquote>
+<div><p>:warning: We want to avoid creating a virtual environment for the nested packages. Work in
+a top-level shell instead.</p>
+</div></blockquote>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> self-organization
+pyenv shell <span class="m">3</span>.10.2
+poetry env use <span class="m">3</span>.10.2
+poetry run pip install -U pip <span class="c1"># only required until pip&gt;=22.0 becomes the default</span>
+poetry install
+<span class="c1"># to debug / develop the extension</span>
+poetry shell
+<span class="nb">cd</span> pysom
+maturin develop
+</pre></div>
+</div>
+</div>
 </div>
 
 
