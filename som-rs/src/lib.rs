@@ -1,3 +1,9 @@
+extern crate ndarray;
+
+use ndarray::prelude::*;
+
+
+
 #[cfg(test)]
 mod tests {
     #[test]
