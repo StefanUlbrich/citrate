@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Design by contract'
+project = 'Self-organization'
 copyright = '2022, Stefan Ulbrich'
 author = 'Stefan Ulbrich'
 
