@@ -1,3 +1,4 @@
+# The default created by maturin .. needs to be adapted for monorepo layout
 name: CI
 
 on:
