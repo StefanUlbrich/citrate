@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "self-organization-workspace"
+version = "0.1.0"
+description = "Python workspace"
+authors = ["Stefan Ulbrich <stefan.frank.ulbrich@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pip = ">=22.0"
+pysom = {path = "pysom"}
+
+[tool.poetry.dev-dependencies]
+# pylint = "^2.12.1,!=2.12.2"
+black = "^21.12b0"
+# mypy = "^0.931"
+pytest = "^6.2.5"
+ipykernel = "^6.9.1"
+sphinx-book-theme = "^0.2.0"
+myst-parser = "^0.17.0"
+# pre-commit = "^2.17.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

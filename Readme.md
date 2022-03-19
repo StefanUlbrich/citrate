@@ -27,3 +27,33 @@ blueprint template for quickly getting started with
 * Hopefully, GUI application using [Tauri](https://tauri.studio/), [Angular](https://angular.io/) and [ThreeJS](https://threejs.org/)
 
 Feel free use as a basis for your own projects (MIT licensed).
+
+## Development
+
+For the monorepo, there is a top-level python project defined using poetry. This project is
+mainly for dependency locking, integration testing and the overall project's documentation.
+The python module
+build with Maturin is in a nested folder and it's project file is also created with poetry.
+This is necessary as the top-level project can only add local packages that are either
+created with Poetry or contain a `setup.py` file.
+
+While this setup supports a monorepo setup (and should support integration
+testing on the imported local packages), there is another caveat. Building the python extension with
+`pip` creates a temp directory which does not copy the local rust dependencies. Newer versions of `pip`
+build within the tree, so this limitation can be avoided easily. Use the following commands to
+setup the environment.
+
+> :warning: We want to avoid creating a virtual environment for the nested packages. Work in
+> a top-level shell instead.
+
+```sh
+cd self-organization
+pyenv shell 3.10.2
+poetry env use 3.10.2
+poetry run pip install -U pip # only required until pip>=22.0 becomes the default
+poetry install
+# to debug / develop the extension
+poetry shell
+cd pysom
+maturin develop
+```

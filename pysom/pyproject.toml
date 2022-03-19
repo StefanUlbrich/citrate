@@ -1,3 +1,4 @@
+# Needs to be a poetry project or otherwise, it cannot be added the top-level project
 # see https://github.com/tmtenbrink/rustfrc/blob/main/pyproject.toml
 
 # Created by poetry 
@@ -15,14 +16,10 @@ numpy = "^1.22.3"
 
 [tool.poetry.dev-dependencies]
 maturin = "^0.12.11"
-# pylint = "^2.12.1,!=2.12.2"
-black = "^21.12b0"
-# mypy = "^0.931"
-pytest = "^6.2.5"
-ipykernel = "^6.9.1"
-sphinx-book-theme = "^0.2.0"
-myst-parser = "^0.17.0"
-# pre-commit = "^2.17.0"
+
+
+[package.metadata.maturin]
+python-source = "python"
 
 
 # [build-system]
