@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 ndarray = { version = "0.15", features = ["rayon"] }
+num-traits = "0.2"

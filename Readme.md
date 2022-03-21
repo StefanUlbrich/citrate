@@ -57,3 +57,9 @@ poetry shell
 cd pysom
 maturin develop
 ```
+
+To install the virtual environment as a kernel for jupyter:
+
+```sh
+python -m ipykernel install --user --name py310_selforganization --display-name "Python3.10 (self-organization)"
+```
