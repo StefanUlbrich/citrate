@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "donjayamanne.githistory",
+        "stkb.rewrap",
+        "wmaurer.change-case",
+        "bungcip.better-toml",
+        "usernamehw.errorlens",
+        "njpwerner.autodocstring",
+        "DavidAnson.vscode-markdownlint",
+        "matklad.rust-analyzer"
+    ]
+}
