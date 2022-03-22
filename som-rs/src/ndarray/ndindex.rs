@@ -1,11 +1,9 @@
+use ndarray::{prelude::*, Shape};
 
-use ndarray::{prelude::*, Shape, Data};
-use num_traits::Float;
 pub struct NdIndexIterator<D: Dimension> {
     shape: Shape<D>,
     counter: usize,
 }
-
 impl<D> Iterator for NdIndexIterator<D>
 where
     D: Dimension,
@@ -33,11 +31,6 @@ where
     }
 }
 
-pub fn argmin(a: &Array1<f64>) -> usize {
-    let min = a.iter().fold(f64::INFINITY, |a, &b| a.min(b));
-    a.iter().position(|e| e.eq(&min)).unwrap()
-}
-
 pub fn ndindex<Sh>(shape: Sh) -> NdIndexIterator<Sh::Dim>
 where
     Sh: ShapeBuilder,
@@ -49,7 +42,8 @@ where
     }
 }
 
-pub fn uniform<Sh>(shape: Sh) -> Array2<f64>
+
+pub fn get_ndindex_array<Sh>(shape: Sh) -> Array2<f64>
 where
     Sh: ShapeBuilder,
 {
@@ -59,17 +53,9 @@ where
     let mut result = Array2::<f64>::zeros((m, n));
 
     for (mut r, i) in result.outer_iter_mut().zip(ndindex((m, n))) {
-        // it would be nicer to use f64::from + u32::try_from ... learn more about error/result handling!
+        // it would be nicer to use f64::from + u32::try_from ... learn more about error/result handling! .. there's something in num_traits
         r.assign(&i.mapv(|e| e as f64));
     }
 
     result
-}
-
-pub fn row_norm_l2<A, S>(points: &ArrayBase<S, Ix2>) -> Array1<A>
-where
-    S: Data<Elem = A>,
-    A: Float,
-{
-    points.mapv(|e| e.powi(2)).sum_axis(Axis(1)).mapv(A::sqrt)
 }
