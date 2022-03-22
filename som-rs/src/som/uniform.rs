@@ -1,3 +1,6 @@
+//! This module defines a self organizing maps with neurons
+//! distributed in a regular grid in the latent space
+
 use ndarray::prelude::*;
 use super::SelfOrganizingMap;
 use crate::ndarray::{ndindex::get_ndindex_array};
@@ -9,6 +12,16 @@ pub struct Uniform {
 }
 
 impl Uniform {
+
+    /// Creates a self organizing map with neurons
+    /// arranged in a regular grid according to the `shape` parameter
+    /// # Examples
+    ///
+    /// ```
+    /// use som_rs::som::uniform::Uniform;
+    ///
+    /// assert_eq!(Uniform::new(shape), );
+    /// ```
     pub fn new<Sh>(shape: Sh) -> Uniform
     where
         Sh: ShapeBuilder

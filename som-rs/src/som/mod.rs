@@ -1,31 +1,45 @@
-use crate::ndarray::{argmin, row_norm_l2, point_set::PointSet};
+//! The self-oranizing maps are implemented in this module
+use crate::ndarray::{argmin, point_set::{PointSet,row_norm_l2}};
 use ndarray::{prelude::*, Data};
 
 pub mod uniform;
 
 
-
+/// The common interface for all self-organizing map (SOM) implementations.
+/// Contains the the default implementation of the learning algorithm.
+/// A SOM contains a list of neurons and each points to
+/// - a coordinate in the feature space (variable)
+/// - a coordinate in a latent / neural space (fixed) that defines a
+///   topology and thus neighborhood relations.
 pub trait SelfOrganizingMap {
-    // Abstract methods
+    //
+    // Abstract methods. Must be implemented by types
+    //
 
     fn get_feature_mut(&mut self) -> &mut Array2<f64>;
     fn get_feature(&self) -> &Array2<f64>;
     fn get_latent(&self) -> &Array2<f64>;
 
+    //
     // Convenience methods
+    //
 
+    /// Returns the number of neurons
     fn get_number_neurons(&self) -> usize {
         self.get_feature().len_of(Axis(0))
     }
 
+    /// Returns the dimensionality of the feature space
     fn get_feature_dim(&self) -> usize {
         self.get_feature().len_of(Axis(1))
     }
 
+    /// Returns the dimensionality of the latent space
     fn get_latent_dim(&self) -> usize {
         self.get_latent().len_of(Axis(1))
     }
 
+    /// Returns the index of the best matching unit given an observed `feature`
     fn get_best_matching<S>(&self, feature: &ArrayBase<S, Ix1>) -> usize
     where
         S: Data<Elem = f64>,
@@ -33,8 +47,12 @@ pub trait SelfOrganizingMap {
         argmin(&row_norm_l2(&self.get_feature().get_differences(&feature)))
     }
 
+    //
     // default implementation of training methods
+    //
 
+    /// Adapt to a single observed `feature` given a learning `rate` and an `influence`
+    /// (standard variation to a Gauss kernel) in latent space.
     fn adapt<S>(&mut self, feature: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
     where
         S: Data<Elem = f64>,
@@ -60,6 +78,10 @@ pub trait SelfOrganizingMap {
         self.get_feature_mut().assign(&updated);
     }
 
+    /// Batch training of a PointSet repeatedly for a number of `epochs`.
+    /// Analog to the `adapt` method, `influences` and `rates` can be specified
+    /// as tuples of the start and end values at the beginning and end of
+    /// the learning respectively.
     fn batch<S>(
         &mut self,
         features: ArrayBase<S, Ix2>,
