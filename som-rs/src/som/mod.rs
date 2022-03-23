@@ -1,9 +1,18 @@
 //! The self-oranizing maps are implemented in this module
 use crate::ndarray::{argmin, point_set::{PointSet,row_norm_l2}};
 use ndarray::{prelude::*, Data};
+pub mod regular;
 
-pub mod uniform;
 
+pub trait TopologicalNetwork {
+    fn get_feature_mut(&mut self) -> &mut Array2<f64>;
+    fn get_feature(&self) -> &Array2<f64>;
+    // fn get_latent(&self) -> &Array2<f64>;
+    // fn get_latent_mut(&mut self) -> &Array2<f64>;
+
+    // We only need the distances for the algorithm
+    fn get_latent_distances(&self) -> Array2<f64>;
+}
 
 /// The common interface for all self-organizing map (SOM) implementations.
 /// Contains the the default implementation of the learning algorithm.
