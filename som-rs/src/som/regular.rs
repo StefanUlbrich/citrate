@@ -3,7 +3,7 @@
 
 use super::SelfOrganizingMap;
 use ndarray::prelude::*;
-use ndarray_rand::rand_distr::Uniform;
+use ndarray_rand::rand::{distributions::Distribution, Rng};
 use ndarray_rand::RandomExt;
 
 use crate::ndarray::ndindex::get_ndindex_array;
@@ -24,24 +24,24 @@ impl CartesianGrid {
     ///
     /// assert_eq!(Uniform::new(shape), );
     /// ```
-    pub fn new<Sh>(
+    pub fn new<Sh, IdS, R>(
         shape: Sh,
         output_dim: usize,
-        low: Option<f64>,
-        high: Option<f64>,
+        distribution: IdS,
+        rng: &mut R,
     ) -> CartesianGrid
     where
         Sh: ShapeBuilder,
+        IdS: Distribution<f64>,
+        R: Rng + ?Sized,
     {
         let latent = get_ndindex_array(shape);
 
-        let low = low.unwrap_or(0.0);
-        let high = high.unwrap_or(1.0);
-
         CartesianGrid {
-            feature: Array::<f64, Ix2>::random(
+            feature: Array::<f64, Ix2>::random_using(
                 (latent.shape()[0], output_dim),
-                Uniform::new(low, high),
+                distribution,
+                rng,
             ),
             latent: latent,
         }

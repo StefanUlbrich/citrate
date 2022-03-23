@@ -53,7 +53,7 @@ where
     let (m, n) = (dim.size(), dim.slice().len());
     let mut result = Array2::<f64>::zeros((m, n));
 
-    for (mut r, i) in result.outer_iter_mut().zip(ndindex((m, n))) {
+    for (mut r, i) in result.outer_iter_mut().zip(ndindex(shape)) {
         // it would be nicer to use f64::from + u32::try_from ... learn more about error/result handling! .. there's something in num_traits
         r.assign(&i.mapv(|e| e as f64));
     }

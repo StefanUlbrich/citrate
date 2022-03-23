@@ -75,16 +75,12 @@ pub trait SelfOrganizingMap {
         let best_matching = argmin(&row_norm_l2(&differences)); // index
         let best_matching = self.get_latent().slice(s![best_matching, ..]); // latent coordinate
 
-        // FIXME!
         let distances = &self.get_latent().get_distances(&best_matching); // in latent space
 
         // Gauss kernel
-        let strength = distances
-            .mapv(|e| e.powi(2))
-            .sum_axis(Axis(1))
-            .mapv(|e| (-1.0 * e / influence / 2.0).exp());
+        let strength = distances.mapv(|e| (-1.0 * e.powi(2) / influence / 2.0).exp());
 
-        let updated = self.get_feature() - (rate * strength * differences); // update rule
+        let updated = self.get_feature() - (rate * strength.insert_axis(Axis(1)) * differences); // update rule
 
         self.get_feature_mut().assign(&updated);
     }
@@ -102,19 +98,21 @@ pub trait SelfOrganizingMap {
     ) where
         S: Data<Elem = f64>,
     {
-        let influences = influences.unwrap_or((3.0, 1.0));
-        let rates = rates.unwrap_or((0.7, 0.1));
+        let influences = influences.unwrap_or((7., 0.01));
+        let rates = rates.unwrap_or((0.7, 0.01));
         let epochs = epochs.unwrap_or(1);
 
         let n_samples = features.len_of(Axis(0));
 
         for epoch in 0..epochs {
+            println!("{}", epoch);
             for (i, feature) in features.outer_iter().enumerate() {
                 let progress = ((epoch * n_samples + i) as f64) / ((epochs * n_samples) as f64);
                 let rate = rates.0 * (rates.1 / rates.0).powf(progress);
                 let influence = influences.0 * (influences.1 / influences.0).powf(progress);
 
                 self.adapt(&feature, influence, rate);
+                // println!("{}:{}: {},{}", epoch, i,rate, influence);
             }
         }
     }
