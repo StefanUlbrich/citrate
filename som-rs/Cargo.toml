@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 ndarray = { version = "0.15", features = ["rayon"] }
+ndarray-rand = "0.14"
 num-traits = "0.2"

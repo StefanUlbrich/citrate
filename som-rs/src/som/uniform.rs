@@ -2,16 +2,20 @@
 //! distributed in a regular grid in the latent space
 
 use ndarray::prelude::*;
+use ndarray_rand::RandomExt;
+use ndarray_rand::rand_distr::Uniform;
 use super::SelfOrganizingMap;
+
 use crate::ndarray::{ndindex::get_ndindex_array};
 
+
 #[derive(Debug, Default)]
-pub struct Uniform {
+pub struct CartesianGrid {
     feature: Array<f64, Ix2>,
     latent: Array<f64, Ix2>,
 }
 
-impl Uniform {
+impl CartesianGrid {
 
     /// Creates a self organizing map with neurons
     /// arranged in a regular grid according to the `shape` parameter
@@ -22,18 +26,23 @@ impl Uniform {
     ///
     /// assert_eq!(Uniform::new(shape), );
     /// ```
-    pub fn new<Sh>(shape: Sh) -> Uniform
+    pub fn new<Sh>(shape: Sh, output_dim: usize, low: Option<f64>, high: Option<f64>) -> CartesianGrid
     where
         Sh: ShapeBuilder
     {
-        Uniform {
-            feature: Array::<f64, Ix2>::zeros((3, 2)),
-            latent: get_ndindex_array(shape),
+        let latent =  get_ndindex_array(shape);
+
+        let low = low.unwrap_or(0.0);
+        let high = high.unwrap_or(1.0);
+
+        CartesianGrid {
+            feature: Array::<f64, Ix2>::random((latent.shape()[0], output_dim), Uniform::new(low,high)),
+            latent: latent
         }
     }
 }
 
-impl SelfOrganizingMap for Uniform {
+impl SelfOrganizingMap for CartesianGrid {
     fn get_latent(&self) -> &Array2<f64> {
         &self.latent
     }
