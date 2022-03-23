@@ -2,7 +2,6 @@
 use ndarray::{prelude::*, Data};
 use num_traits::Float;
 
-
 /// Computes the L2 norm for all rows of a `PointSet`
 ///
 /// # Examples
@@ -19,8 +18,6 @@ where
 {
     points.mapv(|e| e.powi(2)).sum_axis(Axis(1)).mapv(A::sqrt)
 }
-
-
 
 pub trait PointSet<A> {
     /// Computes the difference of each row to a given `point` (1D)
@@ -47,8 +44,6 @@ pub trait PointSet<A> {
         S: Data<Elem = A>,
         A: Float;
 }
-
-
 
 impl<A, T> PointSet<A> for ArrayBase<T, Ix2>
 where

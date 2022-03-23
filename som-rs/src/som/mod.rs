@@ -1,8 +1,10 @@
 //! The self-oranizing maps are implemented in this module
-use crate::ndarray::{argmin, point_set::{PointSet,row_norm_l2}};
+use crate::ndarray::{
+    argmin,
+    point_set::{row_norm_l2, PointSet},
+};
 use ndarray::{prelude::*, Data};
 pub mod regular;
-
 
 pub trait TopologicalNetwork {
     fn get_feature_mut(&mut self) -> &mut Array2<f64>;

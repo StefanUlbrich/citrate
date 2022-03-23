@@ -1,5 +1,5 @@
-pub mod som;
 pub mod ndarray;
+pub mod som;
 
 #[cfg(test)]
 mod tests {
@@ -8,7 +8,6 @@ mod tests {
     fn it_works() {
         let result = 2 + 2;
         assert_eq!(result, 4);
-
     }
 
     // fn test_uniform() {
