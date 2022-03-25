@@ -4,7 +4,7 @@ use crate::ndarray::{
     point_set::{row_norm_l2, PointSet},
 };
 use ndarray::{prelude::*, Data};
-pub mod regular;
+pub mod cartesian;
 
 pub trait TopologicalNetwork {
     fn get_feature_mut(&mut self) -> &mut Array2<f64>;

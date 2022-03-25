@@ -3,7 +3,7 @@ use ndarray_rand::rand::SeedableRng;
 use ndarray_rand::rand_distr::Uniform;
 use ndarray_rand::RandomExt;
 use rand_isaac::isaac64::Isaac64Rng;
-use som_rs::som::regular::CartesianGrid;
+use som_rs::som::cartesian::CartesianGrid;
 use som_rs::som::SelfOrganizingMap;
 
 fn main() {
