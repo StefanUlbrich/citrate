@@ -16,7 +16,7 @@ fn main() {
     let training = Array::random_using((5000, 2), Uniform::new(0., 9.), &mut rng);
     println!("{:?}", training);
 
-    som.batch(training, None, None, None);
+    som.batch(&training, None, None, None);
 
     let trained = som.get_feature().view().into_shape((10, 10, 2));
 

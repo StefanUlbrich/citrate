@@ -91,7 +91,7 @@ pub trait SelfOrganizingMap {
     /// the learning respectively.
     fn batch<S>(
         &mut self,
-        features: ArrayBase<S, Ix2>,
+        features: &ArrayBase<S, Ix2>,
         influences: Option<(f64, f64)>,
         rates: Option<(f64, f64)>,
         epochs: Option<usize>,
