@@ -4,9 +4,17 @@ version = "0.1.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+
+simple = []
+# rayon = ["rayon"]
+nd-rayon = ["ndarray/rayon"]
+# ndarray = []
+rand = ["rand_isaac","ndarray-rand"]
 
 [dependencies]
-ndarray = { version = "0.15", features = ["rayon"] }
-ndarray-rand = "0.14"
+ndarray = { version = "0.15", optional=true}
+rayon = {version = "*", optional=true}
+ndarray-rand = {version = "0.14", optional=true}
 num-traits = "0.2"
-rand_isaac = "0.3"
+rand_isaac = {version="0.3", optional=true}

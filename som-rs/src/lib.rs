@@ -1,6 +1,6 @@
 pub mod ndarray;
 pub mod som;
-
+pub mod som2;
 #[cfg(test)]
 mod tests {
 
