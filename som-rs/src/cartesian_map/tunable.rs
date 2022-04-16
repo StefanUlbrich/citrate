@@ -1,6 +1,10 @@
 pub struct CartesianFeature {}
 
 use ndarray::{prelude::*, Data};
+use crate::nd_tools::{
+    argmin,
+    point_set::{row_norm_l2, PointSet},
+};
 
 use crate::{Neural, Tunable};
 
@@ -10,6 +14,6 @@ impl Tunable for CartesianFeature {
         N: Neural,
         S: Data<Elem = f64>,
     {
-        todo!()
+        argmin(&row_norm_l2(&neurons.get_patterns().get_differences(&pattern)))
     }
 }

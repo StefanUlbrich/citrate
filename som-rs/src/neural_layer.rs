@@ -28,12 +28,12 @@ where
         self.tuning.get_best_matching(self, pattern)
     }
 
-    fn adapt<S>(mut self, pattern: &ArrayBase<S, Ix1>) -> Self
+    fn adapt<S>(mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64) -> Self
     where
         S: Data<Elem = f64>,
     {
         self.adaptivity
-            .adapt(&mut self.neurons, &mut self.tuning, pattern);
+            .adapt(&mut self.neurons, &mut self.tuning, pattern, influence, rate);
         self
     }
 

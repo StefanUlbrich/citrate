@@ -56,7 +56,7 @@ trait SelfOrganizing {
 
     /// Adapt the layer to an input pattern. Note this consumes
     /// the current later and returns a new created (zero-copy)
-    fn adapt<S>(self, pattern: &ArrayBase<S, Ix1>) -> Self
+    fn adapt<S>(self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64) -> Self
     where
         S: Data<Elem = f64>;
 
@@ -68,30 +68,34 @@ trait SelfOrganizing {
 
 /// Interface for structures encapsulating algorithms for self-organization
 trait Adaptable {
-    fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>)
+    fn adapt<S, N, T>(
+        &mut self,
+        neurons: &mut N,
+        tuning: &mut T,
+        pattern: &ArrayBase<S, Ix1>,
+        influence: f64,
+        rate: f64,
+    )
     //&Self::ArgType)
     where
         T: Tunable,
         N: Neural,
         S: Data<Elem = f64>;
-
 }
 
 /// Interface for structures encapsulating algorithms for training from data sets
 trait Trainable {
-
-    fn train<S,N, A, F>(
+    fn train<S, N, A, F>(
         &mut self,
         neurons: &mut N,
         adaptation: &mut A,
         feature: &mut F,
-        patterns:  &ArrayBase<S, Ix2>,
+        patterns: &ArrayBase<S, Ix2>,
     ) where
         N: Neural,
         F: Tunable,
         A: Adaptable,
         S: Data<Elem = f64>;
-
 }
 
 /// Interface for structures encapsulating representations of network layer topologies.
@@ -109,7 +113,6 @@ trait Topological {
 /// Interface for structures encapsulating representations input patterns. See
 /// [neural tuning](https://en.wikipedia.org/wiki/Neuronal_tuning)
 trait Tunable {
-
     // Cannot be specialized in implementation
     // See https://stackoverflow.com/a/53085395/9415551
     // fn get_best_matching<N,P>(&self, neurons: &N, pattern: &P)
