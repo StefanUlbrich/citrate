@@ -1,16 +1,14 @@
+use ndarray::{prelude::*, Data};
 ///! Naming convenctions
 /// * traits: Start with capital letter and are adjectives
 /// * structs: Start with capital letter and are substantives
-
-
-
 use std::fmt::Debug;
 
-pub mod neural_layer;
 pub mod cartesian_map;
 pub mod maps;
+pub mod neural_layer;
 
-#[cfg(feature="ndarray")]
+#[cfg(feature = "ndarray")]
 pub mod nd_tools;
 
 /// Provides access to the neurons of a neural network.
@@ -21,26 +19,17 @@ pub mod nd_tools;
 /// * tuning patterns: List of patterns of the feature space
 ///   each individual neural is tuned to
 /// Provides read-only, modifying and consuming access.
-trait Neural<D1: Debug, D2: Debug> {
-
-
-    fn get_lateral(&self) -> &D1;
-    fn get_lateral_mut(&mut self) -> &mut D1;
-    fn set_lateral(&mut self, lateral: D1);
-    fn get_patterns(&self) -> &D2;
-    fn get_patterns_mut(&mut self) -> &mut D2;
-    fn set_patterns(&mut self, patterns: D2);
-
+trait Neural {
+    fn get_lateral(&self) -> &Array2<f64>;
+    fn get_lateral_mut(&mut self) -> &mut Array2<f64>;
+    fn set_lateral(&mut self, lateral: Array2<f64>);
+    fn get_patterns(&self) -> &Array2<f64>;
+    fn get_patterns_mut(&mut self) -> &mut Array2<f64>;
+    fn set_patterns(&mut self, patterns: Array2<f64>);
 }
 
 /// Interface to all self-organizing neural layers in this crate
-trait SelfOrganizing<D1: Debug, D2: Debug> {
-
-    type ArgTypeA;
-    type ArgTypeF;
-    type ArgTypeB;
-
-
+trait SelfOrganizing {
     // Associated to topology
 
     /// Init the lateral connections according to network type
@@ -48,12 +37,14 @@ trait SelfOrganizing<D1: Debug, D2: Debug> {
 
     /// Get the distance/connection between a selected neuron
     /// and the rest of the layer
-    fn get_lateral_distance(&mut self, index: usize) -> D1;
+    fn get_lateral_distance(&mut self, index: usize) -> Array2<f64>;
 
     // Associated to the feature space
 
     /// Get the best matching neuron given a pattern
-    fn get_best_matching(&self, pattern: &Self::ArgTypeF) -> usize;
+    fn get_best_matching<S>(&self, pattern: &ArrayBase<S, Ix1>) -> usize
+    where
+        S: Data<Elem = f64>;
 
     // Associated to adaptivity (Single Datapoints)
     // Ownership has to be transferred.
@@ -65,84 +56,90 @@ trait SelfOrganizing<D1: Debug, D2: Debug> {
 
     /// Adapt the layer to an input pattern. Note this consumes
     /// the current later and returns a new created (zero-copy)
-    fn adapt<T>(self, pattern: T) -> Self;
+    fn adapt<S>(self, pattern: &ArrayBase<S, Ix1>) -> Self
+    where
+        S: Data<Elem = f64>;
 
     // Train a layer given a training set
-    fn train(self, patterns: &Self::ArgTypeB) -> Self;
+    fn train<S>(self, patterns: &ArrayBase<S, Ix2>) -> Self
+    where
+        S: Data<Elem = f64>;
 }
 
-
 /// Interface for structures encapsulating algorithms for self-organization
-trait Adaptable<D1: Debug,D2: Debug> {
-    type ArgType;
-
-    fn adapt<N,F,T>(&mut self, neurons: &mut N, feature: &mut F, pattern: T) //&Self::ArgType)
+trait Adaptable {
+    fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>)
+    //&Self::ArgType)
     where
-        F: Tunable<D1,D2>,
-        N: Neural<D1,D2>;
+        T: Tunable,
+        N: Neural,
+        S: Data<Elem = f64>;
 
 }
 
 /// Interface for structures encapsulating algorithms for training from data sets
-trait Trainable<D1: Debug,D2: Debug> {
-    type ArgType;
+trait Trainable {
 
-    fn train<N, A, F>(&mut self, neurons: &mut N, adaptation: &mut A, feature: &mut F, data: &Self::ArgType)
-        where
-            N: Neural<D1,D2>,
-            F: Tunable<D1,D2>,
-            A: Adaptable<D1,D2>;
+    fn train<S,N, A, F>(
+        &mut self,
+        neurons: &mut N,
+        adaptation: &mut A,
+        feature: &mut F,
+        patterns:  &ArrayBase<S, Ix2>,
+    ) where
+        N: Neural,
+        F: Tunable,
+        A: Adaptable,
+        S: Data<Elem = f64>;
+
 }
 
 /// Interface for structures encapsulating representations of network layer topologies.
-trait Topological<D1: Debug,D2: Debug> {
-    fn get_lateral_connections<D>(&mut self, data: &D) -> f64
+trait Topological {
+    fn get_lateral_connections<N>(&mut self, data: &N) -> f64
     where
-        D: Neural<D1,D2>;
+        N: Neural;
 
     fn init_lateral<N>(&self, neurons: &mut N)
     where
-        N: Neural<D1,D2>;
+        N: Neural;
 }
 
 // Tunable?
 /// Interface for structures encapsulating representations input patterns. See
 /// [neural tuning](https://en.wikipedia.org/wiki/Neuronal_tuning)
-trait Tunable<D1: Debug,D2: Debug> {
-    type ArgType;
+trait Tunable {
 
     // Cannot be specialized in implementation
     // See https://stackoverflow.com/a/53085395/9415551
     // fn get_best_matching<N,P>(&self, neurons: &N, pattern: &P)
 
-    fn get_best_matching<N>(&self, neurons: &N, pattern: &Self::ArgType) -> usize
+    fn get_best_matching<S, N>(&self, neurons: &N, pattern: &ArrayBase<S, Ix1>) -> usize
     where
-        N: Neural<D1,D2>;
+        N: Neural,
+        S: Data<Elem = f64>;
 }
 
-
 /// Data for the neurons of a layer
-struct Neurons<D1: Debug,D2: Debug> {
+struct Neurons {
     /// Lateral layer. Can be coordinates or connections (depending on method)
-    lateral: D1,
+    lateral: Array2<f64>,
     /// Tuned Patterns the neurons
-    patterns: D2,
+    patterns: Array2<f64>,
 }
 
 /// Composable representation of a neural layer
 /// capable of self-organization
-struct NeuralLayer<D1, D2, A, T, F, B>
+struct NeuralLayer<A, T, F, B>
 where
-    D1: Debug,
-    D2: Debug,
-    A: Adaptable<D1,D2>,
-    T: Topological<D1,D2>,
-    F: Tunable<D1,D2>,
-    B: Trainable<D1,D2>,
+    A: Adaptable,
+    T: Topological,
+    F: Tunable,
+    B: Trainable,
     // B: Trainable<D1,D2> + Copy,
 {
     /// needs to be nested to share it with the algorithms
-    neurons: Neurons<D1,D2>,
+    neurons: Neurons,
     /// Algorithm for adaptivity
     adaptivity: A,
     /// Algorithm related to topology
@@ -152,11 +149,6 @@ where
     /// Algorithm related to batch processing
     training: B,
 }
-
-
-
-
-
 
 // struct ToroidTopology {}
 // impl<V> Topological<V> for ToroidTopology
@@ -177,15 +169,6 @@ where
 //         42.0
 //     }
 // }
-
-
-
-
-
-
-
-
-
 
 #[test]
 fn main() {
@@ -209,7 +192,6 @@ fn main() {
     // nn = nn.adapt(&2.0);
     // println!("{}", nn.neurons.lateral);
 }
-
 
 // #[cfg(test)]
 // mod tests {

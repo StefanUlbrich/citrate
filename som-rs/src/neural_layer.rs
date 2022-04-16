@@ -1,42 +1,46 @@
+use ndarray::{prelude::*, Data};
 use std::fmt::Debug;
 
 use super::{
     Adaptable, Neural, NeuralLayer, Neurons, SelfOrganizing, Topological, Trainable, Tunable,
 };
 
-impl<D1, D2, A, T, F, B> SelfOrganizing<D1, D2> for NeuralLayer<D1, D2, A, T, F, B>
+impl<A, T, F, B> SelfOrganizing for NeuralLayer<A, T, F, B>
 where
-    D1: Debug,
-    D2: Debug,
-    A: Adaptable<D1, D2>,
-    T: Topological<D1, D2>,
-    F: Tunable<D1, D2>,
-    B: Trainable<D1, D2>,
+    A: Adaptable,
+    T: Topological,
+    F: Tunable,
+    B: Trainable,
 {
-    type ArgTypeA = A::ArgType;
-    type ArgTypeF = F::ArgType;
-    type ArgTypeB = B::ArgType;
-
     fn init_lateral(mut self) -> Self {
         self.topology.init_lateral(&mut self.neurons);
         self
     }
 
-    fn get_lateral_distance(&mut self, index: usize) -> D1 {
+    fn get_lateral_distance(&mut self, index: usize) -> Array2<f64> {
         todo!()
     }
 
-    fn get_best_matching(&self, pattern: &Self::ArgTypeF) -> usize {
-        self.tuning.get_best_matching(self, &pattern)
+    fn get_best_matching<S>(&self, pattern: &ArrayBase<S, Ix1>) -> usize
+    where
+        S: Data<Elem = f64>,
+    {
+        self.tuning.get_best_matching(self, pattern)
     }
 
-    fn adapt<P>(mut self, pattern: P //&Self::ArgTypeA
-    ) -> Self {
-        self.adaptivity.adapt(&mut self.neurons, &mut self.tuning, pattern);
+    fn adapt<S>(mut self, pattern: &ArrayBase<S, Ix1>) -> Self
+    where
+        S: Data<Elem = f64>,
+    {
+        self.adaptivity
+            .adapt(&mut self.neurons, &mut self.tuning, pattern);
         self
     }
 
-    fn train(mut self, patterns: &Self::ArgTypeB) -> Self {
+    fn train<S>(mut self, patterns: &ArrayBase<S, Ix2>) -> Self
+    where
+        S: Data<Elem = f64>,
+    {
         self.training.train(
             &mut self.neurons,
             &mut self.adaptivity,
@@ -47,120 +51,61 @@ where
     }
 }
 
-#[cfg(feature = "ndarray")]
-impl<D1: Debug, D2: Debug> Neural<D1, D2> for Neurons<D1, D2> {
-    fn get_lateral(&self) -> &D1 {
+// #[cfg(feature = "ndarray")]
+impl Neural for Neurons {
+    fn get_lateral(&self) -> &Array2<f64> {
         &self.lateral
     }
 
-    fn get_lateral_mut(&mut self) -> &mut D1 {
+    fn get_lateral_mut(&mut self) -> &mut Array2<f64> {
         &mut self.lateral
     }
-    fn set_lateral(&mut self, lateral: D1) {
+    fn set_lateral(&mut self, lateral: Array2<f64>) {
         todo!()
     }
 
-    fn get_patterns(&self) -> &D2 {
+    fn get_patterns(&self) -> &Array2<f64> {
         &self.patterns
     }
 
-    fn get_patterns_mut(&mut self) -> &mut D2 {
+    fn get_patterns_mut(&mut self) -> &mut Array2<f64> {
         &mut self.patterns
     }
 
-    fn set_patterns(&mut self, patterns: D2) {
+    fn set_patterns(&mut self, patterns: Array2<f64>) {
         todo!()
     }
 }
-#[cfg(feature = "ndarray")]
-impl<D1, D2, A, T, F, B> Neural<D1, D2> for NeuralLayer<D1, D2, A, T, F, B>
+
+impl<A, T, F, B> Neural for NeuralLayer<A, T, F, B>
 where
-    D1: Debug,
-    D2: Debug,
-    A: Adaptable<D1, D2>,
-    T: Topological<D1, D2>,
-    F: Tunable<D1, D2>,
-    B: Trainable<D1, D2>,
+    A: Adaptable,
+    T: Topological,
+    F: Tunable,
+    B: Trainable,
 {
-    fn get_lateral(&self) -> &D1 {
+    fn get_lateral(&self) -> &Array2<f64> {
         &self.neurons.lateral
     }
 
-    fn get_lateral_mut(&mut self) -> &mut D1 {
+    fn get_lateral_mut(&mut self) -> &mut Array2<f64> {
         todo!()
     }
-    fn set_lateral(&mut self, lateral: D1) {
+    fn set_lateral(&mut self, lateral: Array2<f64>) {
         todo!()
     }
 
-    fn get_patterns(&self) -> &D2 {
+    fn get_patterns(&self) -> &Array2<f64> {
         &self.neurons.patterns
     }
 
-    fn get_patterns_mut(&mut self) -> &mut D2 {
+    fn get_patterns_mut(&mut self) -> &mut Array2<f64> {
         todo!()
     }
 
-    fn set_patterns(&mut self, patterns: D2) {
-        todo!()
-    }
-}
-
-#[cfg(not(feature = "ndarray"))]
-impl<V: Debug> Neural<V> for Neurons<V> {
-    fn get_lateral(&self) -> &V {
-        &self.lateral
-    }
-
-    fn get_lateral_mut(&mut self) -> &mut V {
-        &mut self.lateral
-    }
-    fn set_lateral(&mut self, lateral: V) {
-        todo!()
-    }
-
-    fn get_patterns(&self) -> &V {
-        &self.patterns
-    }
-
-    fn get_patterns_mut(&mut self) -> &mut V {
-        &mut self.patterns
-    }
-
-    fn set_patterns(&mut self, patterns: V) {
+    fn set_patterns(&mut self, patterns: Array2<f64>) {
         todo!()
     }
 }
 
-#[cfg(not(feature = "ndarray"))]
-impl<V, A, T, F, B> Neural<V> for NeuralLayer<V, A, T, F, B>
-where
-    V: Debug,
-    A: Adaptable<V>,
-    T: Topological<V>,
-    F: Tunable<V>,
-    B: Trainable<V>,
-{
-    fn get_lateral(&self) -> &V {
-        &self.neurons.lateral
-    }
-
-    fn get_lateral_mut(&mut self) -> &mut V {
-        todo!()
-    }
-    fn set_lateral(&mut self, lateral: V) {
-        todo!()
-    }
-
-    fn get_patterns(&self) -> &V {
-        &self.neurons.patterns
-    }
-
-    fn get_patterns_mut(&mut self) -> &mut V {
-        todo!()
-    }
-
-    fn set_patterns(&mut self, patterns: V) {
-        todo!()
-    }
-}
+// #[cfg(not(feature = "ndarray"))]
