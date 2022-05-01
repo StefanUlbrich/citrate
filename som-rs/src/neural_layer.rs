@@ -1,15 +1,73 @@
 use ndarray::{prelude::*, Data};
-use std::fmt::Debug;
 
-use super::{
-    Adaptable, Neural, NeuralLayer, Neurons, SelfOrganizing, Topological, Trainable, Competitive,
-};
+use crate::{Adaptable, Neural, Neurons, Responsive, Topological, Trainable};
+
+/// Public trait that defines the concept of self organization
+pub trait SelfOrganizing {
+    // Associated to topology
+
+    /// Init the lateral connections according to network type
+    fn init_lateral(&mut self); // -> Self;
+
+    /// Get the distance/connection between a selected neuron
+    /// and the rest of the layer
+    fn get_lateral_distance(&mut self, index: usize) -> Array2<f64>;
+
+    // Associated to the feature space
+
+    /// Get the best matching neuron given a pattern
+    fn get_best_matching<S>(&mut self, pattern: &ArrayBase<S, Ix1>) -> usize
+    where
+        S: Data<Elem = f64>;
+
+    // Associated to adaptivity (Single Datapoints)
+    // Ownership has to be transferred.
+    // The object needs to be partially deconstructed to
+    // grant write access to data and the adaptivity data structure
+    // returns ownership.
+    // The doubtfully best alternative is making adaptivity and training
+    // Copyable
+
+    /// Adapt the layer to an input pattern. Note this consumes
+    /// the current later and returns a new created (zero-copy)
+    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
+    //-> Self
+    where
+        S: Data<Elem = f64>;
+
+    // Train a layer given a training set
+    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
+    //-> Self
+    where
+        S: Data<Elem = f64>;
+}
+
+/// Struct that implements structural composition
+pub struct NeuralLayer<A, T, R, L>
+where
+    A: Adaptable,
+    T: Topological,
+    R: Responsive,
+    L: Trainable,
+    // B: Trainable<D1,D2> + Copy,
+{
+    /// needs to be nested to share it with the algorithms
+    pub neurons: Neurons,
+    /// Algorithm for adaptivity
+    pub adaptivity: A,
+    /// Algorithm related to topology
+    pub topology: T,
+    /// Algorithm to feature pattern matching and lateral inhibition
+    pub responsiveness: R,
+    /// Algorithm related to batch processing
+    pub training: L, // Box<B>,
+}
 
 impl<A, T, F, B> SelfOrganizing for NeuralLayer<A, T, F, B>
 where
     A: Adaptable,
     T: Topological,
-    F: Competitive,
+    F: Responsive,
     B: Trainable,
 {
     fn init_lateral(&mut self) //-> Self
@@ -26,26 +84,33 @@ where
     where
         S: Data<Elem = f64>,
     {
-        self.competition.get_best_matching(self, pattern)
+        self.responsiveness.get_best_matching(self, pattern)
     }
 
-    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64) //-> Self
+    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
+    //-> Self
     where
         S: Data<Elem = f64>,
     {
-        self.adaptivity
-            .adapt(&mut self.neurons, &mut self.competition, pattern, influence, rate);
+        self.adaptivity.adapt(
+            &mut self.neurons,
+            &mut self.responsiveness,
+            pattern,
+            influence,
+            rate,
+        );
         //self
     }
 
-    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>) //-> Self
+    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
+    //-> Self
     where
         S: Data<Elem = f64>,
     {
         self.training.train(
             &mut self.neurons,
             &mut self.adaptivity,
-            &mut self.competition,
+            &mut self.responsiveness,
             patterns,
         );
         // self
@@ -53,36 +118,12 @@ where
 }
 
 // #[cfg(feature = "ndarray")]
-impl Neural for Neurons {
-    fn get_lateral(&self) -> &Array2<f64> {
-        &self.lateral
-    }
-
-    fn get_lateral_mut(&mut self) -> &mut Array2<f64> {
-        &mut self.lateral
-    }
-    fn set_lateral(&mut self, lateral: Array2<f64>) {
-        todo!()
-    }
-
-    fn get_patterns(&self) -> &Array2<f64> {
-        &self.patterns
-    }
-
-    fn get_patterns_mut(&mut self) -> &mut Array2<f64> {
-        &mut self.patterns
-    }
-
-    fn set_patterns(&mut self, patterns: Array2<f64>) {
-        todo!()
-    }
-}
 
 impl<A, T, F, B> Neural for NeuralLayer<A, T, F, B>
 where
     A: Adaptable,
     T: Topological,
-    F: Competitive,
+    F: Responsive,
     B: Trainable,
 {
     fn get_lateral(&self) -> &Array2<f64> {

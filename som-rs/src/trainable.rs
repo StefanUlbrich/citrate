@@ -1,4 +1,19 @@
-// #[derive(Copy,Clone)]
+use crate::{Adaptable, Neural, Responsive};
+/// Interface for structures encapsulating algorithms for training from data sets
+pub trait Trainable {
+    fn train<S, N, A, F>(
+        &mut self,
+        neurons: &mut N,
+        adaptation: &mut A,
+        feature: &mut F,
+        patterns: &ArrayBase<S, Ix2>,
+    ) where
+        N: Neural,
+        F: Responsive,
+        A: Adaptable,
+        S: Data<Elem = f64>;
+}
+
 pub struct BatchTraining {
     pub radii: (f64, f64),
     pub rates: (f64, f64),
@@ -6,8 +21,6 @@ pub struct BatchTraining {
 }
 
 use ndarray::{prelude::*, Data};
-
-use crate::{Adaptable, Neural, Trainable, Competitive};
 
 impl Trainable for BatchTraining {
     fn train<S, N, A, T>(
@@ -18,7 +31,7 @@ impl Trainable for BatchTraining {
         patterns: &ArrayBase<S, Ix2>,
     ) where
         N: Neural,
-        T: Competitive,
+        T: Responsive,
         A: Adaptable,
         S: Data<Elem = f64>,
     {
@@ -27,7 +40,8 @@ impl Trainable for BatchTraining {
         for epoch in 0..self.epochs {
             println!("{}", epoch);
             for (i, pattern) in patterns.outer_iter().enumerate() {
-                let progress = ((epoch * n_samples + i) as f64) / ((self.epochs * n_samples) as f64);
+                let progress =
+                    ((epoch * n_samples + i) as f64) / ((self.epochs * n_samples) as f64);
                 let rate = self.rates.0 * (self.rates.1 / self.rates.0).powf(progress);
                 let influence = self.radii.0 * (self.radii.1 / self.radii.0).powf(progress);
 

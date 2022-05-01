@@ -1,17 +1,23 @@
-pub struct ClassicAdaptivity {}
+pub struct KohonenAdaptivity {}
 
 use ndarray::{prelude::*, Data};
 
-use crate::{Adaptable, Neural, Competitive};
 use crate::nd_tools::{
     argmin,
     point_set::{row_norm_l2, PointSet},
 };
+use crate::{Adaptable, Neural, Responsive};
 
-impl Adaptable for ClassicAdaptivity {
-    fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
-    where
-        T: Competitive,
+impl Adaptable for KohonenAdaptivity {
+    fn adapt<S, N, T>(
+        &mut self,
+        neurons: &mut N,
+        tuning: &mut T,
+        pattern: &ArrayBase<S, Ix1>,
+        influence: f64,
+        rate: f64,
+    ) where
+        T: Responsive,
         N: Neural,
         S: Data<Elem = f64>,
     {
@@ -31,18 +37,5 @@ impl Adaptable for ClassicAdaptivity {
         let updated = neurons.get_patterns() - (rate * strength.insert_axis(Axis(1)) * differences); // update rule
 
         neurons.get_patterns_mut().assign(&updated);
-    }
-}
-
-pub struct SmoothAdaptivity {}
-
-impl Adaptable for SmoothAdaptivity {
-    fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
-    where
-        T: Competitive,
-        N: Neural,
-        S: Data<Elem = f64>,
-    {
-        todo!()
     }
 }
