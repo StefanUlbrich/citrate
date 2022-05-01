@@ -7,7 +7,7 @@ pub struct BatchTraining {
 
 use ndarray::{prelude::*, Data};
 
-use crate::{Adaptable, Neural, Trainable, Tunable};
+use crate::{Adaptable, Neural, Trainable, Competitive};
 
 impl Trainable for BatchTraining {
     fn train<S, N, A, T>(
@@ -18,7 +18,7 @@ impl Trainable for BatchTraining {
         patterns: &ArrayBase<S, Ix2>,
     ) where
         N: Neural,
-        T: Tunable,
+        T: Competitive,
         A: Adaptable,
         S: Data<Elem = f64>,
     {

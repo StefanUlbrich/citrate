@@ -9,7 +9,7 @@ pub struct CartesianTopology<D> where D: Dimension {
 impl<D> CartesianTopology<D>
 where D: Dimension
 {
-    fn new<Sh>(shape: Sh) -> Self
+    pub fn new<Sh>(shape: Sh) -> Self
     where Sh: ShapeBuilder<Dim = D> {
         CartesianTopology { shape: shape.into_shape() }
     }

@@ -2,7 +2,7 @@ pub struct ClassicAdaptivity {}
 
 use ndarray::{prelude::*, Data};
 
-use crate::{Adaptable, Neural, Tunable};
+use crate::{Adaptable, Neural, Competitive};
 use crate::nd_tools::{
     argmin,
     point_set::{row_norm_l2, PointSet},
@@ -11,7 +11,7 @@ use crate::nd_tools::{
 impl Adaptable for ClassicAdaptivity {
     fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
     where
-        T: Tunable,
+        T: Competitive,
         N: Neural,
         S: Data<Elem = f64>,
     {
@@ -39,7 +39,7 @@ pub struct SmoothAdaptivity {}
 impl Adaptable for SmoothAdaptivity {
     fn adapt<S, N, T>(&mut self, neurons: &mut N, tuning: &mut T, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
     where
-        T: Tunable,
+        T: Competitive,
         N: Neural,
         S: Data<Elem = f64>,
     {

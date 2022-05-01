@@ -8,8 +8,13 @@ pub mod cartesian_map;
 pub mod maps;
 pub mod neural_layer;
 
-#[cfg(feature = "ndarray")]
+// #[cfg(feature = "ndarray")]
 pub mod nd_tools;
+
+pub use crate::{
+    cartesian_map::topological::CartesianTopology,
+    maps::{adaptable::ClassicAdaptivity, trainable::BatchTraining, tunable::CartesianFeature},
+};
 
 /// Provides access to the neurons of a neural network.
 /// The data is separated in
@@ -19,7 +24,7 @@ pub mod nd_tools;
 /// * tuning patterns: List of patterns of the feature space
 ///   each individual neural is tuned to
 /// Provides read-only, modifying and consuming access.
-trait Neural {
+pub trait Neural {
     fn get_lateral(&self) -> &Array2<f64>;
     fn get_lateral_mut(&mut self) -> &mut Array2<f64>;
     fn set_lateral(&mut self, lateral: Array2<f64>);
@@ -29,11 +34,11 @@ trait Neural {
 }
 
 /// Interface to all self-organizing neural layers in this crate
-trait SelfOrganizing {
+pub trait SelfOrganizing {
     // Associated to topology
 
     /// Init the lateral connections according to network type
-    fn init_lateral(self) -> Self;
+    fn init_lateral(&mut self);// -> Self;
 
     /// Get the distance/connection between a selected neuron
     /// and the rest of the layer
@@ -42,7 +47,7 @@ trait SelfOrganizing {
     // Associated to the feature space
 
     /// Get the best matching neuron given a pattern
-    fn get_best_matching<S>(&self, pattern: &ArrayBase<S, Ix1>) -> usize
+    fn get_best_matching<S>(&mut self, pattern: &ArrayBase<S, Ix1>) -> usize
     where
         S: Data<Elem = f64>;
 
@@ -56,18 +61,20 @@ trait SelfOrganizing {
 
     /// Adapt the layer to an input pattern. Note this consumes
     /// the current later and returns a new created (zero-copy)
-    fn adapt<S>(self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64) -> Self
+    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
+    //-> Self
     where
         S: Data<Elem = f64>;
 
     // Train a layer given a training set
-    fn train<S>(self, patterns: &ArrayBase<S, Ix2>) -> Self
+    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
+    //-> Self
     where
         S: Data<Elem = f64>;
 }
 
 /// Interface for structures encapsulating algorithms for self-organization
-trait Adaptable {
+pub trait Adaptable {
     fn adapt<S, N, T>(
         &mut self,
         neurons: &mut N,
@@ -78,13 +85,13 @@ trait Adaptable {
     )
     //&Self::ArgType)
     where
-        T: Tunable,
+        T: Competitive,
         N: Neural,
         S: Data<Elem = f64>;
 }
 
 /// Interface for structures encapsulating algorithms for training from data sets
-trait Trainable {
+pub trait Trainable {
     fn train<S, N, A, F>(
         &mut self,
         neurons: &mut N,
@@ -93,13 +100,13 @@ trait Trainable {
         patterns: &ArrayBase<S, Ix2>,
     ) where
         N: Neural,
-        F: Tunable,
+        F: Competitive,
         A: Adaptable,
         S: Data<Elem = f64>;
 }
 
 /// Interface for structures encapsulating representations of network layer topologies.
-trait Topological {
+pub trait Topological {
     fn get_lateral_connections<N>(&mut self, data: &N) -> f64
     where
         N: Neural;
@@ -112,7 +119,7 @@ trait Topological {
 // Tunable?
 /// Interface for structures encapsulating representations input patterns. See
 /// [neural tuning](https://en.wikipedia.org/wiki/Neuronal_tuning)
-trait Tunable {
+pub trait Competitive {
     // Cannot be specialized in implementation
     // See https://stackoverflow.com/a/53085395/9415551
     // fn get_best_matching<N,P>(&self, neurons: &N, pattern: &P)
@@ -124,33 +131,42 @@ trait Tunable {
 }
 
 /// Data for the neurons of a layer
-struct Neurons {
+pub struct Neurons {
     /// Lateral layer. Can be coordinates or connections (depending on method)
-    lateral: Array2<f64>,
+    pub lateral: Array2<f64>,
     /// Tuned Patterns the neurons
-    patterns: Array2<f64>,
+    pub patterns: Array2<f64>,
+}
+
+impl Neurons {
+    pub fn new() -> Neurons{
+        Neurons{
+            lateral: Array2::<f64>::zeros((0,0)),
+            patterns: Array2::<f64>::zeros((0,0)),
+        }
+    }
 }
 
 /// Composable representation of a neural layer
 /// capable of self-organization
-struct NeuralLayer<A, T, F, B>
+pub struct NeuralLayer<A, T, C, L>
 where
     A: Adaptable,
     T: Topological,
-    F: Tunable,
-    B: Trainable,
+    C: Competitive,
+    L: Trainable,
     // B: Trainable<D1,D2> + Copy,
 {
     /// needs to be nested to share it with the algorithms
-    neurons: Neurons,
+    pub neurons: Neurons,
     /// Algorithm for adaptivity
-    adaptivity: A,
+    pub adaptivity: A,
     /// Algorithm related to topology
-    topology: T,
+    pub topology: T,
     /// Algorithm to feature pattern matching
-    tuning: F,
+    pub competition: C,
     /// Algorithm related to batch processing
-    training: B,
+    pub training: L // Box<B>,
 }
 
 // struct ToroidTopology {}

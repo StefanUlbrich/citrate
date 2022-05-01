@@ -6,9 +6,9 @@ use crate::nd_tools::{
     point_set::{row_norm_l2, PointSet},
 };
 
-use crate::{Neural, Tunable};
+use crate::{Neural, Competitive};
 
-impl Tunable for CartesianFeature {
+impl Competitive for CartesianFeature {
     fn get_best_matching<S, N>(&self, neurons: &N, pattern: &ArrayBase<S, Ix1>) -> usize
     where
         N: Neural,
