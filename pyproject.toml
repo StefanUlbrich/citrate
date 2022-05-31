@@ -8,6 +8,7 @@ authors = ["Stefan Ulbrich <stefan.frank.ulbrich@gmail.com>"]
 python = "3.10.*" # https://github.com/python-poetry/poetry/issues/3894
 pip = ">=22.0"
 pysom = {path = "pysom"}
+nb-black = "^1.0.7"
 
 [tool.poetry.dev-dependencies]
 # pylint = "^2.12.1,!=2.12.2"
