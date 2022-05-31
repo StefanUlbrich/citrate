@@ -20,3 +20,8 @@ ndarray = { version = "0.15", features = ["rayon"]}
 # ndarray-rand = {version = "0.14", optional=true}
 num-traits = "0.2"
 # rand_isaac = {version="0.3", optional=true}
+
+[dev-dependencies]
+ndarray-rand = "0.14"
+rand_isaac = "0.3"
+ndarray = "0.15"
