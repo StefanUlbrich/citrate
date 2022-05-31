@@ -1,6 +1,44 @@
-///! Naming convenctions
-/// * traits: Start with capital letter and are adjectives
-/// * structs: Start with capital letter and are substantives
+//! Naming convenctions
+//! * traits: Start with capital letter and are adjectives
+//! * structs: Start with capital letter and are substantives
+//!
+//! ```rust
+//! use som_rs::default::*;
+//! use som_rs::{NeuralLayer, Neurons, SelfOrganizing};
+//!
+//! fn main() {
+//!     println!("Hello, SOM!");
+//!
+//!     let seed = 42;
+//!
+//!     let mut rng = Isaac64Rng::seed_from_u64(seed);
+//!
+//!     let mut som = NeuralLayer {
+//!         neurons: Neurons {
+//!             // lateral: Array2::<f64>::zeros((0,0)),
+//!             patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
+//!             ..Default::default()
+//!         },
+//!         adaptivity: KohonenAdaptivity {},
+//!         topology: CartesianTopology::new((10, 10)),
+//!         responsiveness: CartesianResponsiveness {},
+//!         training: BatchTraining {
+//!             radii: (2.0, 0.2),
+//!             rates: (0.7, 0.1),
+//!             epochs: 1,
+//!         },
+//!     };
+//!
+//!     println!("{}", som.neurons.lateral);
+//!
+//!     som.init_lateral();
+//!     let training = Array::random_using((5000, 2), Uniform::new(0., 9.), &mut rng);
+//!     som.train(&training);
+//!     som.adapt(&training.row(0), 0.7, 0.7);
+//! }
+//! ```
+
+
 pub mod neural_layer;
 pub mod neurons;
 
@@ -27,49 +65,12 @@ pub mod default {
 // #[cfg(feature = "ndarray")]
 pub mod nd_tools;
 
-#[test]
-fn main() {
-    // use maps::{adaptable::ClassicAdaptivity, trainable::BatchTraining};
-    // use cartesian_map::{topological::CartesianTopology, tunable::CartesianFeature};
+#[cfg(test)]
+mod tests {
 
-    // let mut nn = NeuralLayer {
-    //     neurons: Neurons{
-    //         lateral: 3.0,
-    //         patterns: 4.0,
-    //     },
-    //     adaptivity: ClassicAdaptivity {},
-    //     topology: CartesianTopology { shape: (10,10)},
-    //     tuning: CartesianFeature {},
-    //     training: BatchTraining {
-    //         start_rate: 0.9,
-    //         end_rate: 0.1,
-    //     },
-    // };
-
-    // nn = nn.adapt(&2.0);
-    // println!("{}", nn.neurons.lateral);
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
 }
-
-// #[cfg(test)]
-// mod tests {
-
-//     #[test]
-//     fn it_works() {
-//         let result = 2 + 2;
-//         assert_eq!(result, 4);
-//     }
-
-//     // fn test_uniform() {
-//     //     let a = uniform((2, 3));
-//     //     let b = array![
-//     //         [0.0, 0.0],
-//     //         [0.0, 1.0],
-//     //         [1.0, 0.0],
-//     //         [1.0, 1.0],
-//     //         [2.0, 0.0],
-//     //         [2.0, 1.0]
-//     //     ];
-
-//     //     assert_eq!(a, b);
-//     // }
-// }

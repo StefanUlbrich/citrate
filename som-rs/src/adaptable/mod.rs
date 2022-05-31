@@ -7,17 +7,17 @@ use crate::{Neural, Responsive};
 
 /// Interface for structures encapsulating algorithms for self-organization
 pub trait Adaptable {
-    fn adapt<S, N, T>(
+    fn adapt<S, N, R>(
         &mut self,
         neurons: &mut N,
-        tuning: &mut T,
+        responsiveness: &mut R,
         pattern: &ArrayBase<S, Ix1>,
         influence: f64,
         rate: f64,
     )
     //&Self::ArgType)
     where
-        T: Responsive,
+        R: Responsive,
         N: Neural,
         S: Data<Elem = f64>;
 }

@@ -9,15 +9,15 @@ use crate::nd_tools::{
 use crate::{Adaptable, Neural, Responsive};
 
 impl Adaptable for KohonenAdaptivity {
-    fn adapt<S, N, T>(
+    fn adapt<S, N, R>(
         &mut self,
         neurons: &mut N,
-        tuning: &mut T,
+        responsiveness: &mut R,
         pattern: &ArrayBase<S, Ix1>,
         influence: f64,
         rate: f64,
     ) where
-        T: Responsive,
+        R: Responsive,
         N: Neural,
         S: Data<Elem = f64>,
     {
@@ -39,3 +39,13 @@ impl Adaptable for KohonenAdaptivity {
         neurons.get_patterns_mut().assign(&updated);
     }
 }
+
+// #[cfg(test)]
+// mod tests {
+
+//     #[test]
+//     fn it_works() {
+//         let result = 2 + 2;
+//         assert_eq!(result, 4);
+//     }
+// }

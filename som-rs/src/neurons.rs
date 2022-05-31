@@ -20,9 +20,9 @@ pub trait Neural {
 
 #[derive(Default)]
 pub struct Neurons {
-    /// Lateral layer. Can be coordinates or connections (depending on method)
+    /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method)
     pub lateral: Array2<f64>,
-    /// Tuned Patterns the neurons
+    /// Tuned Patterns the neurons. This is the cookbook.
     pub patterns: Array2<f64>,
 }
 
@@ -57,5 +57,15 @@ impl Neural for Neurons {
 
     fn set_patterns(&mut self, patterns: Array2<f64>) {
         todo!()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
     }
 }
