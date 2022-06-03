@@ -20,9 +20,9 @@ pub trait Neural {
 
 #[derive(Default)]
 pub struct Neurons {
-    /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method)
+    /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method). Row matrix.
     pub lateral: Array2<f64>,
-    /// Tuned Patterns the neurons. This is the cookbook.
+    /// Tuning Patterns the neurons. This is the codebook. Row matrix.
     pub patterns: Array2<f64>,
 }
 

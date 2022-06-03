@@ -3,15 +3,19 @@ use numpy::ndarray::{ArrayD, ArrayViewD};
 use numpy::{IntoPyArray, PyReadonlyArray1, PyReadonlyArray2, PyReadonlyArrayDyn};
 use numpy::{PyArray2, PyArray3, PyArrayDyn, ToPyArray};
 use pyo3::prelude::*;
-use pyo3::{pymodule, types::PyModule, PyResult, Python};
+use pyo3::Python;
 
 use ndarray::prelude::*;
 use ndarray_rand::rand::SeedableRng;
-use ndarray_rand::rand_distr::Uniform;
-use ndarray_rand::RandomExt;
+use ndarray_rand::{rand_distr::Uniform, RandomExt};
 use rand_isaac::isaac64::Isaac64Rng;
-use som_rs::som::cartesian::CartesianGrid;
-use som_rs::som::SelfOrganizingMap;
+
+// use som_rs::som::cartesian::CartesianGrid;
+// use som_rs::som::SelfOrganizingMap;
+
+use som_rs::{default::*, Neural};
+// use som_rs::neurons;
+use som_rs::{NeuralLayer, Neurons, SelfOrganizing};
 
 // #[pyclass]
 // struct Test{
@@ -19,7 +23,12 @@ use som_rs::som::SelfOrganizingMap;
 // }
 #[pyclass(unsendable, module = "pysom")]
 struct PyCartesianGrid {
-    __som: CartesianGrid,
+    __som: NeuralLayer<
+        KohonenAdaptivity,
+        CartesianTopology<Dim<[usize; 2]>>,
+        CartesianResponsiveness,
+        BatchTraining,
+    >,
 }
 
 #[pymethods]
@@ -28,17 +37,38 @@ impl PyCartesianGrid {
     fn new(shape: (usize, usize), output_dim: usize) -> Self {
         let seed = 42;
         let mut rng = Isaac64Rng::seed_from_u64(seed);
-        PyCartesianGrid {
-            __som: CartesianGrid::new(shape, output_dim, Uniform::new(0., 9.), &mut rng),
-        }
+        let mut som = NeuralLayer {
+            neurons: Neurons {
+                lateral: Array::random_using(shape, Uniform::new(0., 10.), &mut rng),
+                patterns: Array::random_using(
+                    (shape.0 * shape.1, output_dim),
+                    Uniform::new(0., 10.),
+                    &mut rng,
+                ),
+                ..Default::default()
+            },
+            adaptivity: KohonenAdaptivity {},
+            topology: CartesianTopology::new((10, 10)),
+            responsiveness: CartesianResponsiveness {},
+            training: BatchTraining {
+                radii: (2.0, 0.2),
+                rates: (0.7, 0.1),
+                epochs: 1,
+            },
+        };
+
+        // println!("{}", som.neurons.lateral);
+
+        som.init_lateral();
+        PyCartesianGrid { __som: som }
     }
 
     #[getter]
     fn get_feature<'py>(&self, py: Python<'py>) -> &'py PyArray2<f64> {
-        self.__som.get_feature().to_pyarray(py)
+        self.__som.get_patterns().to_pyarray(py)
     }
 
-    fn get_best_matching(&self, feature: PyReadonlyArray1<f64>) -> usize {
+    fn get_best_matching(&mut self, feature: PyReadonlyArray1<f64>) -> usize {
         self.__som.get_best_matching(&feature.as_array())
     }
 
@@ -48,12 +78,20 @@ impl PyCartesianGrid {
     fn batch(
         &mut self,
         features: PyReadonlyArray2<f64>,
-        influences: Option<(f64, f64)>,
+        radii: Option<(f64, f64)>,
         rates: Option<(f64, f64)>,
         epochs: Option<usize>,
     ) {
-        self.__som
-            .batch(&features.as_array(), influences, rates, epochs)
+        if let Some(r) = rates {
+            self.__som.training.rates = r;
+        }
+        if let Some(e) = epochs {
+            self.__som.training.epochs = e;
+        }
+        if let Some(r) = radii {
+            self.__som.training.radii = r;
+        }
+        self.__som.train(&features.as_array())
     }
 }
 
