@@ -47,7 +47,7 @@ pub mod responsive;
 pub mod topological;
 pub mod trainable;
 
-pub use neural_layer::{NeuralLayer, SelfOrganizing};
+pub use neural_layer::{NeuralLayer, SelfOrganizing, SelforganizingNeural};
 pub use neurons::{Neural, Neurons};
 
 pub use adaptable::Adaptable;

@@ -33,6 +33,6 @@ fn test_kohonen(){
 
     som.init_lateral();
     let training = Array::random_using((5000, 2), Uniform::new(0., 9.), &mut rng);
-    som.train(&training);
+    som.train(&training.view());
     som.adapt(&training.row(0), 0.7, 0.7);
 }

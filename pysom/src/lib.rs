@@ -15,7 +15,7 @@ use rand_isaac::isaac64::Isaac64Rng;
 
 use som_rs::{default::*, Neural};
 // use som_rs::neurons;
-use som_rs::{NeuralLayer, Neurons, SelfOrganizing};
+use som_rs::{NeuralLayer, Neurons, SelfOrganizing, SelforganizingNeural};
 
 // #[pyclass]
 // struct Test{
@@ -23,18 +23,19 @@ use som_rs::{NeuralLayer, Neurons, SelfOrganizing};
 // }
 #[pyclass(unsendable, module = "pysom")]
 struct PyCartesianGrid {
-    __som: NeuralLayer<
-        KohonenAdaptivity,
-        CartesianTopology<Dim<[usize; 2]>>,
-        CartesianResponsiveness,
-        BatchTraining,
-    >,
+    __som: Box<dyn SelforganizingNeural>,
+    // __som: NeuralLayer<
+    //     KohonenAdaptivity,
+    //     CartesianTopology<Dim<[usize; 2]>>,
+    //     CartesianResponsiveness,
+    //     BatchTraining,
+    // >,
 }
 
 #[pymethods]
 impl PyCartesianGrid {
     #[new]
-    fn new(shape: (usize, usize), output_dim: usize) -> Self {
+    fn new(shape: (usize, usize), output_dim: usize /*, string->parameters */) -> Self {
         let seed = 42;
         let mut rng = Isaac64Rng::seed_from_u64(seed);
         let mut som = NeuralLayer {
@@ -60,7 +61,7 @@ impl PyCartesianGrid {
         // println!("{}", som.neurons.lateral);
 
         som.init_lateral();
-        PyCartesianGrid { __som: som }
+        PyCartesianGrid { __som: Box::new(som) }
     }
 
     #[getter]
@@ -82,15 +83,15 @@ impl PyCartesianGrid {
         rates: Option<(f64, f64)>,
         epochs: Option<usize>,
     ) {
-        if let Some(r) = rates {
-            self.__som.training.rates = r;
-        }
-        if let Some(e) = epochs {
-            self.__som.training.epochs = e;
-        }
-        if let Some(r) = radii {
-            self.__som.training.radii = r;
-        }
+        // if let Some(r) = rates {
+        //     self.__som.training.rates = r;
+        // }
+        // if let Some(e) = epochs {
+        //     self.__som.training.epochs = e;
+        // }
+        // if let Some(r) = radii {
+        //     self.__som.training.radii = r;
+        // }
         self.__som.train(&features.as_array())
     }
 }

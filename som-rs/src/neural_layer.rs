@@ -16,9 +16,8 @@ pub trait SelfOrganizing {
     // Associated to the feature space
 
     /// Get the best matching neuron given a pattern
-    fn get_best_matching<S>(&mut self, pattern: &ArrayBase<S, Ix1>) -> usize
-    where
-        S: Data<Elem = f64>;
+    fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize;
+
 
     // Associated to adaptivity (Single Datapoints)
     // Ownership has to be transferred.
@@ -28,18 +27,24 @@ pub trait SelfOrganizing {
     // The doubtfully best alternative is making adaptivity and training
     // Copyable
 
+    // fn get_best_matching<S>(&mut self, pattern: &ArrayBase<S, Ix1>) -> usize
+    // where
+    //     S: Data<Elem = f64>;
+    // fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
+    // where
+    //     S: Data<Elem = f64>;
+    // fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
+    // where
+    //     S: Data<Elem = f64>;
+
     /// Adapt the layer to an input pattern. Note this consumes
     /// the current later and returns a new created (zero-copy)
-    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
+    fn adapt(&mut self, pattern: &ArrayView1<f64>, influence: f64, rate: f64);
     //-> Self
-    where
-        S: Data<Elem = f64>;
 
     // Train a layer given a training set
-    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
+    fn train(&mut self, patterns: &ArrayView2<f64>);
     //-> Self
-    where
-        S: Data<Elem = f64>;
 }
 
 /// Struct that implements structural composition
@@ -80,17 +85,12 @@ where
         todo!()
     }
 
-    fn get_best_matching<S>(&mut self, pattern: &ArrayBase<S, Ix1>) -> usize
-    where
-        S: Data<Elem = f64>,
+    fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize
     {
         self.responsiveness.get_best_matching(self, pattern)
     }
 
-    fn adapt<S>(&mut self, pattern: &ArrayBase<S, Ix1>, influence: f64, rate: f64)
-    //-> Self
-    where
-        S: Data<Elem = f64>,
+    fn adapt(&mut self, pattern: &ArrayView1<f64>, influence: f64, rate: f64)
     {
         self.adaptivity.adapt(
             &mut self.neurons,
@@ -102,10 +102,7 @@ where
         //self
     }
 
-    fn train<S>(&mut self, patterns: &ArrayBase<S, Ix2>)
-    //-> Self
-    where
-        S: Data<Elem = f64>,
+    fn train(&mut self, patterns: &ArrayView2<f64>)
     {
         self.training.train(
             &mut self.neurons,
@@ -148,6 +145,16 @@ where
     fn set_patterns(&mut self, patterns: Array2<f64>) {
         todo!()
     }
+}
+
+pub trait SelforganizingNeural: SelfOrganizing + Neural {}
+impl<A, T, F, B> SelforganizingNeural for NeuralLayer<A, T, F, B>
+where
+    A: Adaptable,
+    T: Topological,
+    F: Responsive,
+    B: Trainable,
+{
 }
 
 // #[cfg(not(feature = "ndarray"))]
