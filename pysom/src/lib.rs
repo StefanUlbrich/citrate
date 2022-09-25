@@ -13,9 +13,76 @@ use rand_isaac::isaac64::Isaac64Rng;
 // use som_rs::som::cartesian::CartesianGrid;
 // use som_rs::som::SelfOrganizingMap;
 
-use som_rs::{default::*, Neural};
+use som_rs::{default::*, Adaptable, Neural, Responsive, Topological, Trainable};
 // use som_rs::neurons;
 use som_rs::{NeuralLayer, Neurons, SelfOrganizing, SelforganizingNeural};
+
+#[pyclass(unsendable, module = "pysom")]
+struct PyKohonenAdaptivity {
+    __component: Box<dyn Adaptable<Neurons, Box<dyn Responsive<Neurons>>>>,
+}
+#[pymethods]
+impl PyKohonenAdaptivity {
+    #[new]
+    fn new() -> Self {
+        PyKohonenAdaptivity {
+            __component: Box::new(KohonenAdaptivity {}),
+        }
+    }
+}
+
+#[pyclass(unsendable, module = "pysom")]
+struct PyCartesianResponsiveness {
+    __component: Box<dyn Responsive<Neurons>>,
+}
+#[pymethods]
+impl PyCartesianResponsiveness {
+    #[new]
+    fn new() -> Self {
+        PyCartesianResponsiveness {
+            __component: Box::new(CartesianResponsiveness {}),
+        }
+    }
+}
+
+#[pyclass(unsendable, module = "pysom")]
+struct PyCartesianTopology {
+    __component: Box<dyn Topological<Neurons>>,
+}
+// #[pymethods]
+// impl PyCartesianTopology {
+//     #[new]
+//     fn new() -> Self {
+//         PyCartesianTopology {
+//             __component: Box::new(CartesianTopology { shape: todo!() }),
+//         }
+//     }
+// }
+
+#[pyclass(unsendable, module = "pysom")]
+struct PyBatchTraining {
+    __component: Box<
+        dyn Trainable<
+            Neurons,
+            Box<dyn Adaptable<Neurons, Box<dyn Responsive<Neurons>>>>,
+            Box<dyn Responsive<Neurons>>,
+        >,
+    >,
+}
+#[pymethods]
+impl PyBatchTraining {
+    /// .
+    #[new]
+    fn new(radii: (f64, f64), rates: (f64, f64), epochs: usize) -> Self {
+        PyBatchTraining {
+            __component: Box::new(BatchTraining {
+                radii,
+                rates,
+                epochs,
+            }),
+        }
+    }
+}
 
 // #[pyclass]
 // struct Test{
@@ -61,7 +128,9 @@ impl PyCartesianGrid {
         // println!("{}", som.neurons.lateral);
 
         som.init_lateral();
-        PyCartesianGrid { __som: Box::new(som) }
+        PyCartesianGrid {
+            __som: Box::new(som),
+        }
     }
 
     #[getter]

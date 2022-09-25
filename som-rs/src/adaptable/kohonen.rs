@@ -8,19 +8,19 @@ use crate::nd_tools::{
 };
 use crate::{Adaptable, Neural, Responsive};
 
-impl Adaptable for KohonenAdaptivity {
-    fn adapt<S, N, R>(
+impl<N, R> Adaptable<N, R> for KohonenAdaptivity
+where
+    R: Responsive<N>,
+    N: Neural,
+{
+    fn adapt(
         &mut self,
         neurons: &mut N,
         responsiveness: &mut R,
-        pattern: &ArrayBase<S, Ix1>,
+        pattern: &ArrayView1<f64>,
         influence: f64,
         rate: f64,
-    ) where
-        R: Responsive,
-        N: Neural,
-        S: Data<Elem = f64>,
-    {
+    ) {
         // TODO!!
         // we want to reuse differences ... but best matching should be used ...  think about it!
 

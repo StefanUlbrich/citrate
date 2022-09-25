@@ -20,7 +20,7 @@ Cargo.lock
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
+!.vscode/template.settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -42,3 +42,5 @@ Cargo.lock
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,rust
 
 /*/venv
+
+docs/notebooks

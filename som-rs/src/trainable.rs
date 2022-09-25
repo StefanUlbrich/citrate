@@ -1,17 +1,35 @@
 use crate::{Adaptable, Neural, Responsive};
 /// Interface for structures encapsulating algorithms for training from data sets
-pub trait Trainable {
-    fn train<S, N, A, F>(
+pub trait Trainable<N, A, R>
+where
+N: Neural,
+A: Adaptable<N,R>,
+R: Responsive<N>,
+{
+    fn train(
         &mut self,
         neurons: &mut N,
         adaptation: &mut A,
-        feature: &mut F,
-        patterns: &ArrayBase<S, Ix2>,
-    ) where
-        N: Neural,
-        F: Responsive,
-        A: Adaptable,
-        S: Data<Elem = f64>;
+        feature: &mut R,
+        patterns: &ArrayView2<f64>,
+    );
+}
+
+impl<N, A, R> Trainable<N, A, R> for Box<dyn Trainable<N, A, R>>
+where
+    N: Neural,
+    A: Adaptable<N,R>,
+    R: Responsive<N>,
+{
+    fn train(
+        &mut self,
+        neurons: &mut N,
+        adaptation: &mut A,
+        feature: &mut R,
+        patterns: &ArrayView2<f64>,
+    ) {
+        (**self).train(neurons, adaptation, feature, patterns)
+    }
 }
 
 pub struct BatchTraining {
@@ -22,19 +40,19 @@ pub struct BatchTraining {
 
 use ndarray::{prelude::*, Data};
 
-impl Trainable for BatchTraining {
-    fn train<S, N, A, T>(
+impl<N, A, R> Trainable<N, A, R> for BatchTraining
+where
+    N: Neural,
+    A: Adaptable<N,R>,
+    R: Responsive<N>,
+{
+    fn train(
         &mut self,
         neurons: &mut N,
         adaptation: &mut A,
-        tuning: &mut T,
-        patterns: &ArrayBase<S, Ix2>,
-    ) where
-        N: Neural,
-        T: Responsive,
-        A: Adaptable,
-        S: Data<Elem = f64>,
-    {
+        tuning: &mut R,
+        patterns: &ArrayView2<f64>,
+    ) {
         let n_samples = patterns.len_of(Axis(0));
 
         for epoch in 0..self.epochs {
@@ -51,6 +69,7 @@ impl Trainable for BatchTraining {
         }
     }
 }
+
 
 #[cfg(test)]
 mod tests {

@@ -18,7 +18,6 @@ pub trait SelfOrganizing {
     /// Get the best matching neuron given a pattern
     fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize;
 
-
     // Associated to adaptivity (Single Datapoints)
     // Ownership has to be transferred.
     // The object needs to be partially deconstructed to
@@ -50,10 +49,10 @@ pub trait SelfOrganizing {
 /// Struct that implements structural composition
 pub struct NeuralLayer<A, T, R, L>
 where
-    A: Adaptable,
-    T: Topological,
-    R: Responsive,
-    L: Trainable,
+    A: Adaptable<Neurons, R>,
+    T: Topological<Neurons>,
+    R: Responsive<Neurons>,
+    L: Trainable<Neurons, A, R>,
     // B: Trainable<D1,D2> + Copy,
 {
     /// needs to be nested to share it with the algorithms
@@ -68,12 +67,12 @@ where
     pub training: L, // Box<B>,
 }
 
-impl<A, T, F, B> SelfOrganizing for NeuralLayer<A, T, F, B>
+impl<A, T, R, B> SelfOrganizing for NeuralLayer<A, T, R, B>
 where
-    A: Adaptable,
-    T: Topological,
-    F: Responsive,
-    B: Trainable,
+    A: Adaptable<Neurons, R>,
+    T: Topological<Neurons>,
+    R: Responsive<Neurons>,
+    B: Trainable<Neurons, A, R>,
 {
     fn init_lateral(&mut self) //-> Self
     {
@@ -85,13 +84,11 @@ where
         todo!()
     }
 
-    fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize
-    {
-        self.responsiveness.get_best_matching(self, pattern)
+    fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize {
+        self.responsiveness.get_best_matching(&self.neurons, pattern)
     }
 
-    fn adapt(&mut self, pattern: &ArrayView1<f64>, influence: f64, rate: f64)
-    {
+    fn adapt(&mut self, pattern: &ArrayView1<f64>, influence: f64, rate: f64) {
         self.adaptivity.adapt(
             &mut self.neurons,
             &mut self.responsiveness,
@@ -102,8 +99,7 @@ where
         //self
     }
 
-    fn train(&mut self, patterns: &ArrayView2<f64>)
-    {
+    fn train(&mut self, patterns: &ArrayView2<f64>) {
         self.training.train(
             &mut self.neurons,
             &mut self.adaptivity,
@@ -116,12 +112,12 @@ where
 
 // #[cfg(feature = "ndarray")]
 
-impl<A, T, F, B> Neural for NeuralLayer<A, T, F, B>
+impl<A, T, R, B> Neural for NeuralLayer<A, T, R, B>
 where
-    A: Adaptable,
-    T: Topological,
-    F: Responsive,
-    B: Trainable,
+    A: Adaptable<Neurons, R>,
+    T: Topological<Neurons>,
+    R: Responsive<Neurons>,
+    B: Trainable<Neurons, A, R>,
 {
     fn get_lateral(&self) -> &Array2<f64> {
         &self.neurons.lateral
@@ -148,12 +144,12 @@ where
 }
 
 pub trait SelforganizingNeural: SelfOrganizing + Neural {}
-impl<A, T, F, B> SelforganizingNeural for NeuralLayer<A, T, F, B>
+impl<A, T, R, B> SelforganizingNeural for NeuralLayer<A, T, R, B>
 where
-    A: Adaptable,
-    T: Topological,
-    F: Responsive,
-    B: Trainable,
+    A: Adaptable<Neurons, R>,
+    T: Topological<Neurons>,
+    R: Responsive<Neurons>,
+    B: Trainable<Neurons, A, R>,
 {
 }
 

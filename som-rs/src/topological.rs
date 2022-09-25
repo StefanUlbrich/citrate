@@ -3,14 +3,22 @@ use crate::Neural;
 use ndarray::{prelude::*, Shape};
 
 /// Interface for structures encapsulating representations of network layer topologies.
-pub trait Topological {
-    fn get_lateral_connections<N>(&mut self, data: &N) -> f64
-    where
-        N: Neural;
+pub trait Topological<N>
+where
+    N: Neural,
+{
+    // fn get_lateral_connections<N>(&mut self, data: &N) -> f64;
 
-    fn init_lateral<N>(&self, neurons: &mut N)
-    where
-        N: Neural;
+    fn init_lateral(&self, neurons: &mut N);
+}
+
+impl<N> Topological<N> for Box<dyn Topological<N>>
+where
+    N: Neural,
+{
+    fn init_lateral(&self, neurons: &mut N) {
+        (**self).init_lateral(neurons)
+    }
 }
 
 pub struct CartesianTopology<D>
@@ -34,21 +42,19 @@ where
     }
 }
 
-impl<D> Topological for CartesianTopology<D>
+impl<D, N> Topological<N> for CartesianTopology<D>
 where
+    N: Neural,
     D: Dimension,
 {
-    fn get_lateral_connections<N>(&mut self, neurons: &N) -> f64
-    where
-        N: Neural,
-    {
-        todo!()
-    }
+    // fn get_lateral_connections<N>(&mut self, neurons: &N) -> f64
+    // where
+    //     N: Neural,
+    // {
+    //     todo!()
+    // }
 
-    fn init_lateral<N>(&self, neurons: &mut N)
-    where
-        N: Neural,
-    {
+    fn init_lateral(&self, neurons: &mut N) {
         neurons
             .get_lateral_mut()
             .assign(&get_ndindex_array(&self.shape));
