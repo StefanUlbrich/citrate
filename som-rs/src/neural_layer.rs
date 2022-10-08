@@ -153,6 +153,7 @@ where
 {
 }
 
+pub type BoxedSelforganizingNeural = Box<dyn SelforganizingNeural + Send>;
 // #[cfg(not(feature = "ndarray"))]
 
 // #[cfg(test)]

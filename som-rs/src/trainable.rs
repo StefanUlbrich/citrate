@@ -1,10 +1,14 @@
+use core::panic;
+
 use crate::{Adaptable, Neural, Responsive};
+
+pub type BoxedTrainable<N, A, R> = Box<dyn Trainable<N, A, R> + Send>;
 /// Interface for structures encapsulating algorithms for training from data sets
 pub trait Trainable<N, A, R>
 where
-N: Neural,
-A: Adaptable<N,R>,
-R: Responsive<N>,
+    N: Neural,
+    A: Adaptable<N, R>,
+    R: Responsive<N>,
 {
     fn train(
         &mut self,
@@ -13,12 +17,13 @@ R: Responsive<N>,
         feature: &mut R,
         patterns: &ArrayView2<f64>,
     );
+    fn clone_dyn(&self) -> Box<dyn Trainable<N, A, R> + Send>;
 }
 
-impl<N, A, R> Trainable<N, A, R> for Box<dyn Trainable<N, A, R>>
+impl<N, A, R> Trainable<N, A, R> for Box<dyn Trainable<N, A, R> + Send>
 where
     N: Neural,
-    A: Adaptable<N,R>,
+    A: Adaptable<N, R>,
     R: Responsive<N>,
 {
     fn train(
@@ -30,8 +35,24 @@ where
     ) {
         (**self).train(neurons, adaptation, feature, patterns)
     }
+
+    fn clone_dyn(&self) -> Box<dyn Trainable<N, A, R> + Send> {
+        panic!()
+    }
 }
 
+impl<N, A, R> Clone for Box<dyn Trainable<N, A, R> + Send>
+where
+    N: Neural,
+    A: Adaptable<N, R>,
+    R: Responsive<N>,
+{
+    fn clone(&self) -> Self {
+        (**self).clone_dyn()
+    }
+}
+
+#[derive(Clone)]
 pub struct BatchTraining {
     pub radii: (f64, f64),
     pub rates: (f64, f64),
@@ -43,7 +64,7 @@ use ndarray::{prelude::*, Data};
 impl<N, A, R> Trainable<N, A, R> for BatchTraining
 where
     N: Neural,
-    A: Adaptable<N,R>,
+    A: Adaptable<N, R>,
     R: Responsive<N>,
 {
     fn train(
@@ -68,8 +89,11 @@ where
             }
         }
     }
-}
 
+    fn clone_dyn(&self) -> Box<dyn Trainable<N, A, R> + Send> {
+        Box::new(self.clone()) // Forward to the derive(Clone) impl    }
+    }
+}
 
 #[cfg(test)]
 mod tests {

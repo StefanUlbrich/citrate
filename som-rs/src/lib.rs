@@ -38,7 +38,6 @@
 //! }
 //! ```
 
-
 pub mod neural_layer;
 pub mod neurons;
 
@@ -47,13 +46,13 @@ pub mod responsive;
 pub mod topological;
 pub mod trainable;
 
-pub use neural_layer::{NeuralLayer, SelfOrganizing, SelforganizingNeural};
+pub use neural_layer::{NeuralLayer, SelfOrganizing, SelforganizingNeural, BoxedSelforganizingNeural};
 pub use neurons::{Neural, Neurons};
 
-pub use adaptable::Adaptable;
-pub use responsive::Responsive;
-pub use topological::Topological;
-pub use trainable::Trainable;
+pub use adaptable::{Adaptable, BoxedAdaptable};
+pub use responsive::{BoxedResponsive, Responsive};
+pub use topological::{BoxedTopological, Topological};
+pub use trainable::{BoxedTrainable, Trainable};
 
 pub mod default {
     pub use crate::adaptable::KohonenAdaptivity;
