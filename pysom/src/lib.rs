@@ -11,7 +11,7 @@ use rand_isaac::isaac64::Isaac64Rng;
 // use som_rs::som::cartesian::CartesianGrid;
 // use som_rs::som::SelfOrganizingMap;
 
-use som_rs::{default::*, BoxedSelforganizingNeural};
+use som_rs::{default::*, BoxedSelforganizing};
 use som_rs::{BoxedAdaptable, BoxedResponsive, BoxedTopological, BoxedTrainable};
 
 // use som_rs::neurons;
@@ -25,11 +25,11 @@ struct PyAdaptivity {
 }
 #[pymethods]
 impl PyAdaptivity {
-    #[new]
-    fn new() -> Self {
-        PyAdaptivity {
+    #[staticmethod]
+    fn kohonen() -> Result<Self, PyErr> {
+        Ok(PyAdaptivity {
             __component: Box::new(KohonenAdaptivity {}),
-        }
+        })
     }
 }
 
@@ -41,11 +41,11 @@ struct PyResponsiveness {
 }
 #[pymethods]
 impl PyResponsiveness {
-    #[new]
-    fn new() -> Self {
-        PyResponsiveness {
+    #[staticmethod]
+    fn cartesian() -> Result<Self, PyErr>  {
+        Ok(PyResponsiveness {
             __component: Box::new(CartesianResponsiveness {}),
-        }
+        })
     }
 }
 
@@ -56,8 +56,8 @@ struct PyTopology {
 }
 #[pymethods]
 impl PyTopology {
-    #[new]
-    fn new(shape: &PySequence) -> Result<Self, PyErr> {
+    #[staticmethod]
+    fn cartesian(shape: &PySequence) -> Result<Self, PyErr> {
         let shape: Vec<Ix> = shape.extract()?;
         let shape = Dim(shape);
         let shape = Shape::from(shape);
@@ -79,21 +79,22 @@ struct PyTraining {
 #[pymethods]
 impl PyTraining {
     /// .
-    #[new]
-    fn new(radii: (f64, f64), rates: (f64, f64), epochs: usize) -> Self {
-        PyTraining {
+    #[staticmethod]
+
+    fn new(radii: (f64, f64), rates: (f64, f64), epochs: usize) -> Result<Self, PyErr> {
+        Ok(PyTraining {
             __component: Box::new(BatchTraining {
                 radii,
                 rates,
                 epochs,
             }),
-        }
+        })
     }
 }
 
 #[pyclass]
 struct PyNeuralLayer {
-    __som: BoxedSelforganizingNeural,
+    __som: BoxedSelforganizing,
 }
 
 #[pymethods]

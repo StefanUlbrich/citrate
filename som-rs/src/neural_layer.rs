@@ -3,7 +3,7 @@ use ndarray::{prelude::*, Data};
 use crate::{Adaptable, Neural, Neurons, Responsive, Topological, Trainable};
 
 /// Public trait that defines the concept of self organization
-pub trait SelfOrganizing {
+pub trait Selforganizing : Neural{
     // Associated to topology
 
     /// Init the lateral connections according to network type
@@ -67,7 +67,7 @@ where
     pub training: L, // Box<B>,
 }
 
-impl<A, T, R, B> SelfOrganizing for NeuralLayer<A, T, R, B>
+impl<A, T, R, B> Selforganizing for NeuralLayer<A, T, R, B>
 where
     A: Adaptable<Neurons, R>,
     T: Topological<Neurons>,
@@ -143,17 +143,20 @@ where
     }
 }
 
-pub trait SelforganizingNeural: SelfOrganizing + Neural {}
-impl<A, T, R, B> SelforganizingNeural for NeuralLayer<A, T, R, B>
-where
-    A: Adaptable<Neurons, R>,
-    T: Topological<Neurons>,
-    R: Responsive<Neurons>,
-    B: Trainable<Neurons, A, R>,
-{
-}
 
-pub type BoxedSelforganizingNeural = Box<dyn SelforganizingNeural + Send>;
+pub type BoxedSelforganizing = Box<dyn Selforganizing + Send>;
+
+// pub trait SelforganizingNeural: SelfOrganizing + Neural {}
+// impl<A, T, R, B> SelforganizingNeural for NeuralLayer<A, T, R, B>
+// where
+//     A: Adaptable<Neurons, R>,
+//     T: Topological<Neurons>,
+//     R: Responsive<Neurons>,
+//     B: Trainable<Neurons, A, R>,
+// {
+// }
+// pub type BoxedSelforganizingNeural = Box<dyn SelforganizingNeural + Send>;
+
 // #[cfg(not(feature = "ndarray"))]
 
 // #[cfg(test)]

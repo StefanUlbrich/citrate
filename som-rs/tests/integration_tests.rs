@@ -4,8 +4,8 @@ use ndarray_rand::rand_distr::Uniform;
 use ndarray_rand::RandomExt;
 use rand_isaac::isaac64::Isaac64Rng;
 
-use som_rs::{default::*, Adaptable, BoxedSelforganizingNeural, BoxedTrainable, Trainable};
-use som_rs::{NeuralLayer, Neurons, SelfOrganizing, SelforganizingNeural};
+use som_rs::{default::*, BoxedSelforganizing, BoxedTrainable};
+use som_rs::{NeuralLayer, Neurons, Selforganizing};
 
 #[test]
 fn test_kohonen() {
@@ -88,7 +88,7 @@ fn test_boxed_2() {
 
     fn create_som(
         training: BoxedTrainable<Neurons, KohonenAdaptivity, CartesianResponsiveness>,
-    ) -> BoxedSelforganizingNeural {
+    ) -> BoxedSelforganizing {
         let seed = 42;
 
         let mut rng = Isaac64Rng::seed_from_u64(seed);
@@ -112,13 +112,13 @@ fn test_boxed_2() {
     }
 
     // does not workworks not
-    // let mut som = Box::<dyn SelforganizingNeural>::new(..);
+    // let mut som = Box::<dyn Selforganizing>::new(..);
 
     // That way, it works
-    // let mut som: Box<dyn SelforganizingNeural> = create_som(training);
+    // let mut som: Box<dyn Selforganizing> = create_som(training);
 
     // This works too
-    let mut som: Box<dyn SelforganizingNeural> = Box::new(NeuralLayer {
+    let mut som: Box<dyn Selforganizing> = Box::new(NeuralLayer {
         neurons: Neurons {
             // lateral: Array2::<f64>::zeros((0,0)),
             patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
