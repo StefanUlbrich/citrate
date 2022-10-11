@@ -5,7 +5,7 @@ use ndarray_rand::RandomExt;
 use rand_isaac::isaac64::Isaac64Rng;
 
 use som_rs::{default::*, BoxedSelforganizing, BoxedTrainable};
-use som_rs::{NeuralLayer, Neurons, Selforganizing};
+use som_rs::{SelforganizingNetwork, NeuralLayer, Selforganizing};
 
 #[test]
 fn test_kohonen() {
@@ -13,8 +13,8 @@ fn test_kohonen() {
 
     let mut rng = Isaac64Rng::seed_from_u64(seed);
 
-    let mut som = NeuralLayer {
-        neurons: Neurons {
+    let mut som = SelforganizingNetwork {
+        neurons: NeuralLayer {
             // lateral: Array2::<f64>::zeros((0,0)),
             patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
             ..Default::default()
@@ -22,7 +22,7 @@ fn test_kohonen() {
         adaptivity: KohonenAdaptivity {},
         topology: CartesianTopology::new((10, 10)),
         responsiveness: CartesianResponsiveness {},
-        training: BatchTraining {
+        training: IncrementalLearning {
             radii: (2.0, 0.2),
             rates: (0.7, 0.1),
             epochs: 1,
@@ -42,8 +42,8 @@ fn test_boxed() {
     let seed = 42;
     let mut rng = Isaac64Rng::seed_from_u64(seed);
 
-    fn create() -> BoxedTrainable<Neurons, KohonenAdaptivity, CartesianResponsiveness> {
-        Box::new(BatchTraining {
+    fn create() -> BoxedTrainable<NeuralLayer, KohonenAdaptivity, CartesianResponsiveness> {
+        Box::new(IncrementalLearning {
             radii: (2.0, 0.2),
             rates: (0.7, 0.1),
             epochs: 1,
@@ -54,8 +54,8 @@ fn test_boxed() {
     // let adaptivity = Box::<dyn Adaptable>::new(KohonenAdaptivity {}) ;
 
     // println!("{}", som.neurons.lateral);
-    let mut som = NeuralLayer {
-        neurons: Neurons {
+    let mut som = SelforganizingNetwork {
+        neurons: NeuralLayer {
             // lateral: Array2::<f64>::zeros((0,0)),
             patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
             ..Default::default()
@@ -76,8 +76,8 @@ fn test_boxed_2() {
     let seed = 42;
     let mut rng = Isaac64Rng::seed_from_u64(seed);
 
-    fn create() -> BoxedTrainable<Neurons, KohonenAdaptivity, CartesianResponsiveness> {
-        Box::new(BatchTraining {
+    fn create() -> BoxedTrainable<NeuralLayer, KohonenAdaptivity, CartesianResponsiveness> {
+        Box::new(IncrementalLearning {
             radii: (2.0, 0.2),
             rates: (0.7, 0.1),
             epochs: 1,
@@ -87,13 +87,13 @@ fn test_boxed_2() {
     // let adaptivity = Box::<dyn Adaptable>::new(KohonenAdaptivity {}) ;
 
     fn create_som(
-        training: BoxedTrainable<Neurons, KohonenAdaptivity, CartesianResponsiveness>,
+        training: BoxedTrainable<NeuralLayer, KohonenAdaptivity, CartesianResponsiveness>,
     ) -> BoxedSelforganizing {
         let seed = 42;
 
         let mut rng = Isaac64Rng::seed_from_u64(seed);
-        Box::new(NeuralLayer {
-            neurons: Neurons {
+        Box::new(SelforganizingNetwork {
+            neurons: NeuralLayer {
                 // lateral: Array2::<f64>::zeros((0,0)),
                 patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
                 ..Default::default()
@@ -118,8 +118,8 @@ fn test_boxed_2() {
     // let mut som: Box<dyn Selforganizing> = create_som(training);
 
     // This works too
-    let mut som: Box<dyn Selforganizing> = Box::new(NeuralLayer {
-        neurons: Neurons {
+    let mut som: Box<dyn Selforganizing> = Box::new(SelforganizingNetwork {
+        neurons: NeuralLayer {
             // lateral: Array2::<f64>::zeros((0,0)),
             patterns: Array::random_using((100, 3), Uniform::new(0., 10.), &mut rng),
             ..Default::default()

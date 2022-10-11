@@ -53,7 +53,7 @@ where
 }
 
 #[derive(Clone)]
-pub struct BatchTraining {
+pub struct IncrementalLearning {
     pub radii: (f64, f64),
     pub rates: (f64, f64),
     pub epochs: usize,
@@ -61,7 +61,7 @@ pub struct BatchTraining {
 
 use ndarray::{prelude::*, Data};
 
-impl<N, A, R> Trainable<N, A, R> for BatchTraining
+impl<N, A, R> Trainable<N, A, R> for IncrementalLearning
 where
     N: Neural,
     A: Adaptable<N, R>,

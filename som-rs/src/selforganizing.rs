@@ -1,6 +1,6 @@
 use ndarray::{prelude::*, Data};
 
-use crate::{Adaptable, Neural, Neurons, Responsive, Topological, Trainable};
+use crate::{Adaptable, Neural, NeuralLayer, Responsive, Topological, Trainable};
 
 /// Public trait that defines the concept of self organization
 pub trait Selforganizing : Neural{
@@ -47,16 +47,16 @@ pub trait Selforganizing : Neural{
 }
 
 /// Struct that implements structural composition
-pub struct NeuralLayer<A, T, R, L>
+pub struct SelforganizingNetwork<A, T, R, L>
 where
-    A: Adaptable<Neurons, R>,
-    T: Topological<Neurons>,
-    R: Responsive<Neurons>,
-    L: Trainable<Neurons, A, R>,
+    A: Adaptable<NeuralLayer, R>,
+    T: Topological<NeuralLayer>,
+    R: Responsive<NeuralLayer>,
+    L: Trainable<NeuralLayer, A, R>,
     // B: Trainable<D1,D2> + Copy,
 {
     /// needs to be nested to share it with the algorithms
-    pub neurons: Neurons,
+    pub neurons: NeuralLayer,
     /// Algorithm for adaptivity
     pub adaptivity: A,
     /// Algorithm related to topology
@@ -67,12 +67,12 @@ where
     pub training: L, // Box<B>,
 }
 
-impl<A, T, R, B> Selforganizing for NeuralLayer<A, T, R, B>
+impl<A, T, R, B> Selforganizing for SelforganizingNetwork<A, T, R, B>
 where
-    A: Adaptable<Neurons, R>,
-    T: Topological<Neurons>,
-    R: Responsive<Neurons>,
-    B: Trainable<Neurons, A, R>,
+    A: Adaptable<NeuralLayer, R>,
+    T: Topological<NeuralLayer>,
+    R: Responsive<NeuralLayer>,
+    B: Trainable<NeuralLayer, A, R>,
 {
     fn init_lateral(&mut self) //-> Self
     {
@@ -112,12 +112,12 @@ where
 
 // #[cfg(feature = "ndarray")]
 
-impl<A, T, R, B> Neural for NeuralLayer<A, T, R, B>
+impl<A, T, R, B> Neural for SelforganizingNetwork<A, T, R, B>
 where
-    A: Adaptable<Neurons, R>,
-    T: Topological<Neurons>,
-    R: Responsive<Neurons>,
-    B: Trainable<Neurons, A, R>,
+    A: Adaptable<NeuralLayer, R>,
+    T: Topological<NeuralLayer>,
+    R: Responsive<NeuralLayer>,
+    B: Trainable<NeuralLayer, A, R>,
 {
     fn get_lateral(&self) -> &Array2<f64> {
         &self.neurons.lateral

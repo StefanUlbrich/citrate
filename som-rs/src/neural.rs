@@ -19,23 +19,23 @@ pub trait Neural {
 }
 
 #[derive(Default)]
-pub struct Neurons {
+pub struct NeuralLayer {
     /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method). Row matrix.
     pub lateral: Array2<f64>,
     /// Tuning Patterns the neurons. This is the codebook. Row matrix.
     pub patterns: Array2<f64>,
 }
 
-impl Neurons {
-    pub fn new() -> Neurons {
-        Neurons {
+impl NeuralLayer {
+    pub fn new() -> NeuralLayer {
+        NeuralLayer {
             lateral: Array2::<f64>::zeros((0, 0)),
             patterns: Array2::<f64>::zeros((0, 0)),
         }
     }
 }
 
-impl Neural for Neurons {
+impl Neural for NeuralLayer {
     fn get_lateral(&self) -> &Array2<f64> {
         &self.lateral
     }

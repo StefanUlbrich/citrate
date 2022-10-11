@@ -1,3 +1,6 @@
+use std::sync::Arc;
+use std::sync::Mutex;
+
 use pyo3::prelude::*;
 use pyo3::Python;
 
@@ -15,13 +18,13 @@ use som_rs::{default::*, BoxedSelforganizing};
 use som_rs::{BoxedAdaptable, BoxedResponsive, BoxedTopological, BoxedTrainable};
 
 // use som_rs::neurons;
-use som_rs::{NeuralLayer, Neurons};
+use som_rs::{SelforganizingNetwork, NeuralLayer};
 
 #[pyclass]
 #[derive(Clone)]
 struct PyAdaptivity {
     // Why send? https://stackoverflow.com/a/60109068
-    __component: BoxedAdaptable<Neurons, BoxedResponsive<Neurons>>,
+    __component: BoxedAdaptable<NeuralLayer, BoxedResponsive<NeuralLayer>>,
 }
 #[pymethods]
 impl PyAdaptivity {
@@ -33,11 +36,30 @@ impl PyAdaptivity {
     }
 }
 
+
+// Can we get Arc to work?
+// #[pyclass]
+// struct Test {
+// __component2: Arc<Mutex< dyn Responsive<Neurons> + Send >>,
+// }
+// #[pymethods]
+// impl Test{
+//     #[new]
+//     fn new() -> Self{
+//         Test { __component2: Arc::new( Mutex::new(CartesianResponsiveness {})) }
+//     }
+
+//     fn test(& mut self) {
+//         let a = self.__component2.as_ref().get_mut()?;
+//         a.get_best_matching()
+
+//     }
+// }
+
 #[pyclass]
 #[derive(Clone)]
 struct PyResponsiveness {
-    // __component: Arc<dyn Responsive<Neurons> >,
-    __component: BoxedResponsive<Neurons>,
+    __component: BoxedResponsive<NeuralLayer>,
 }
 #[pymethods]
 impl PyResponsiveness {
@@ -52,7 +74,7 @@ impl PyResponsiveness {
 #[pyclass]
 #[derive(Clone)]
 struct PyTopology {
-    __component: BoxedTopological<Neurons>,
+    __component: BoxedTopological<NeuralLayer>,
 }
 #[pymethods]
 impl PyTopology {
@@ -71,19 +93,18 @@ impl PyTopology {
 #[derive(Clone)]
 struct PyTraining {
     __component: BoxedTrainable<
-        Neurons,
-        BoxedAdaptable<Neurons, BoxedResponsive<Neurons>>,
-        BoxedResponsive<Neurons>,
+        NeuralLayer,
+        BoxedAdaptable<NeuralLayer, BoxedResponsive<NeuralLayer>>,
+        BoxedResponsive<NeuralLayer>,
     >,
 }
 #[pymethods]
 impl PyTraining {
     /// .
     #[staticmethod]
-
-    fn new(radii: (f64, f64), rates: (f64, f64), epochs: usize) -> Result<Self, PyErr> {
+    fn incremental(radii: (f64, f64), rates: (f64, f64), epochs: usize) -> Result<Self, PyErr> {
         Ok(PyTraining {
-            __component: Box::new(BatchTraining {
+            __component: Box::new(IncrementalLearning {
                 radii,
                 rates,
                 epochs,
@@ -93,12 +114,12 @@ impl PyTraining {
 }
 
 #[pyclass]
-struct PyNeuralLayer {
+struct PySelforganizingNetwork {
     __som: BoxedSelforganizing,
 }
 
 #[pymethods]
-impl PyNeuralLayer {
+impl PySelforganizingNetwork {
     #[new]
     fn new(
         adaptivity: PyAdaptivity,
@@ -108,13 +129,13 @@ impl PyNeuralLayer {
     ) -> Self {
         let seed = 42;
         let mut rng = Isaac64Rng::seed_from_u64(seed);
-        let neurons = Neurons {
+        let neurons = NeuralLayer {
             lateral: Array::random_using((1, 1), Uniform::new(0., 10.), &mut rng),
             patterns: Array::random_using((1, 1), Uniform::new(0., 10.), &mut rng),
             ..Default::default()
         };
-        return PyNeuralLayer {
-            __som: Box::new(NeuralLayer {
+        return PySelforganizingNetwork {
+            __som: Box::new(SelforganizingNetwork {
                 neurons: neurons,
                 adaptivity: adaptivity.__component,
                 topology: topology.__component,
@@ -126,7 +147,7 @@ impl PyNeuralLayer {
 }
 
 // #[pymethods]
-// impl PyNeuralLayer {
+// impl PySelforganizingNetwork {
 
 //     #[new]
 //     fn new(shape: (usize, usize), output_dim: usize /*, string->parameters */) -> Self {
@@ -198,7 +219,7 @@ fn pysom(_py: Python<'_>, module: &PyModule) -> PyResult<()> {
     module.add_class::<PyResponsiveness>()?;
     module.add_class::<PyTopology>()?;
     module.add_class::<PyTraining>()?;
-    module.add_class::<PyNeuralLayer>()?;
+    module.add_class::<PySelforganizingNetwork>()?;
 
     Ok(())
 }

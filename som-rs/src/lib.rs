@@ -38,16 +38,16 @@
 //! }
 //! ```
 
-pub mod neural_layer;
-pub mod neurons;
+pub mod selforganizing;
+pub mod neural;
 
 pub mod adaptable;
 pub mod responsive;
 pub mod topological;
 pub mod trainable;
 
-pub use neural_layer::{NeuralLayer, Selforganizing, BoxedSelforganizing};
-pub use neurons::{Neural, Neurons};
+pub use selforganizing::{SelforganizingNetwork, Selforganizing, BoxedSelforganizing};
+pub use neural::{Neural, NeuralLayer};
 
 pub use adaptable::{Adaptable, BoxedAdaptable};
 pub use responsive::{BoxedResponsive, Responsive};
@@ -58,7 +58,7 @@ pub mod default {
     pub use crate::adaptable::KohonenAdaptivity;
     pub use crate::responsive::CartesianResponsiveness;
     pub use crate::topological::CartesianTopology;
-    pub use crate::trainable::BatchTraining;
+    pub use crate::trainable::IncrementalLearning;
 }
 
 // #[cfg(feature = "ndarray")]
