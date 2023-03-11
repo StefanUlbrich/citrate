@@ -1,3 +1,7 @@
+pub mod categorical;
+
+use categorical::Categorical;
+
 use ndarray::ArrayView1;
 
 // Maybe call feature but not component. Mixture type?
@@ -35,7 +39,7 @@ pub trait MixtureType {
 
     fn initialize(&mut self, n_components: i32);
 
-    fn store(&self) -> Self::SufficientStatistics;
+    fn store(&self) -> &Self::SufficientStatistics;
     fn restore(&mut self, sufficient_statistics: Self::SufficientStatistics);
 }
 
@@ -92,8 +96,8 @@ where
     pub fn store(
         &self,
     ) -> (
-        <Categorical as MixtureType>::SufficientStatistics,
-        T::SufficientStatistics,
+        &<Categorical as MixtureType>::SufficientStatistics,
+        &T::SufficientStatistics,
     ) {
         (self.weighting.store(), self.mixture.store())
     }
@@ -103,93 +107,23 @@ where
             <Categorical as MixtureType>::SufficientStatistics,
             T::SufficientStatistics,
         ),
-        maximize: Option<bool>,
     ) {
         self.weighting.restore(sufficient_statistics.0);
         self.mixture.restore(sufficient_statistics.1);
     }
 }
 
-pub struct Categorical {
-    dimension: i32,
-    prior: Option<f64>,
-}
 
-impl Categorical {
-    fn new(dimension: i32, prior: Option<f64>) -> Categorical {
-        Categorical { dimension, prior }
-    }
-}
-
-impl MixtureType for Categorical {
-    type SufficientStatistics = f64;
-
-    type DataIn<'a> = f64;
-
-    type DataOut = f64;
-
-    fn expect(&self, weights: Self::DataIn<'_>, data: &Self::DataIn<'_>) -> (Self::DataOut, f64) {
-        todo!()
-    }
-
-    fn compute(
-        &mut self,
-        responsibilities: &Self::DataIn<'_>,
-        store: Option<bool>,
-    ) -> Self::SufficientStatistics {
-        todo!()
-    }
-
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
-        todo!()
-    }
-
-    fn update(&mut self, sufficient_statistics: &Self::SufficientStatistics, weight: (f64, f64)) {
-        todo!()
-    }
-
-    fn merge(
-        sufficient_statistics: &[&Self::SufficientStatistics],
-        weights: &[f64],
-    ) -> Self::SufficientStatistics {
-        todo!()
-    }
-
-    fn initialize(&mut self, n_components: i32) {
-        todo!()
-    }
-
-    fn store(&self) -> Self::SufficientStatistics {
-        todo!()
-    }
-
-    fn restore(&mut self, sufficient_statistics: Self::SufficientStatistics) {
-        todo!()
-    }
-
-    fn predict(&self, responsibilities: &Self::DataIn<'_>, data: &Self::DataIn<'_>) -> Self::DataOut {
-        todo!()
-    }
-}
-
-pub struct Gaussian {
-    dimension: i64,
-}
 
 // We need a makro here
-pub struct JointDistributions<S, T> {
-    components: (S, T),
-}
+// pub struct JointDistributions<S, T> {
+//     components: (S, T),
+// }
 
 
 /// Bayesian linear regression
-pub struct Linear {
 
-}
 
-pub struct GeneralizedLinear {
-
-}
 
 
 ///
