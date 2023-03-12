@@ -17,6 +17,9 @@ ndarray = { version = "0.15", features = ["serde"] }
 ndarray-rand = "0.14"
 ractor = {version = "0.7", optional = true}
 
+# https://www.reddit.com/r/rust/comments/a39er8/comment/eb4f7jd/?utm_source=share&utm_medium=web2x&context=3
+som-rs = {version = "0.1", path="../som-rs", optional = true}
+
 [features]
 parallel = ["ractor"]
-
+som = ["som-rs"]

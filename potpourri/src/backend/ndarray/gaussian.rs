@@ -36,7 +36,7 @@ impl MixtureType for Categorical {
         todo!()
     }
 
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
+    fn maximize(&mut self, sufficient_statistics: (&<Categorical as MixtureType>::SufficientStatistics, &Self::SufficientStatistics)) {
         todo!()
     }
 

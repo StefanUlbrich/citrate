@@ -1,12 +1,14 @@
-pub mod categorical;
+pub mod backend; // TODO find a better way
+pub mod default;
 
-use categorical::Categorical;
+pub use backend::ndarray::categorical::Categorical;
 
-use ndarray::ArrayView1;
+pub use default::{MixtureModel, MixtureModelStatus};
 
 // Maybe call feature but not component. Mixture type?
 pub trait MixtureType {
     type SufficientStatistics;
+    type ModelParameters;
     type DataIn<'a>;
     type DataOut;
 
@@ -25,7 +27,11 @@ pub trait MixtureType {
     /// Maximize the model parameters from
     fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics);
 
-    fn predict(&self, responsibilities: &Self::DataIn<'_>, data: &Self::DataIn<'_>) -> Self::DataOut;
+    fn predict(
+        &self,
+        responsibilities: &Self::DataIn<'_>,
+        data: &Self::DataIn<'_>,
+    ) -> Self::DataOut;
 
     /// Update the stored sufficient statistics (for incremental learning)
     /// Weights is a tuple (a float should suffice, if summing to one)
@@ -37,94 +43,58 @@ pub trait MixtureType {
         weights: &[f64],
     ) -> Self::SufficientStatistics;
 
+    // Do I need this? I doubt it--initialization is done in the algorithm.
     fn initialize(&mut self, n_components: i32);
 
+    // Do I need these? Rather try to make the models serializable
     fn store(&self) -> &Self::SufficientStatistics;
     fn restore(&mut self, sufficient_statistics: Self::SufficientStatistics);
 }
 
-pub struct MixtureModel<T>
+/// A mixture model has a discrete and unobservable variable (i.e., latent) variable
+/// associated with each data point. It can be interpreted as a pointer to the component
+/// of a mixture generated the sample. This component computes weights the components
+/// in the mixture, that is, the probability for each component that the next sample will
+/// be drawn from it. In case of non-probabilistic models (k-mm and SOM) this is irrelevant.
+pub trait LatentModel {
+    type DataIn<'a>;
+    type DataOut;
+
+    type Weights<'a>;
+
+    // look that up again
+    fn maximize(&self, responsibilities: &Self::DataIn<'_>) -> &Self::Weights<'_>;
+}
+
+pub trait ExpectationMaximization<T>
 where
     T: MixtureType,
 {
-    pub n_components: i32,
-    pub mixture: T,
-    pub weighting: Categorical,
-    pub n_init: i32,
-    pub n_iterations: i32,
-    pub status: MixtureModelStatus,
-}
+    type SufficientStatistics;
 
-pub struct MixtureModelStatus {
-    pub is_fitted: bool,
-    pub converged: bool,
-    pub likelihood: f64
-}
-impl MixtureModelStatus {
-    fn new() -> MixtureModelStatus {
-        MixtureModelStatus { is_fitted: false, converged: false, likelihood : f64::NAN }
+    fn fit(&mut self, data: T::DataIn<'_>) {
+        // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
+        todo!()
     }
-}
-
-impl<T> MixtureModel<T>
-where
-    T: MixtureType,
-{
-    pub fn fit(&mut self, data: T::DataIn<'_>) {
+    fn predict(&self, data: &T::DataIn<'_>) -> T::DataOut {
+        // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
         todo!()
     }
 
-    pub fn predict(&self, data: &T::DataIn<'_>) -> T::DataOut{
-        todo!()
-    }
+    // abstract methods that depend on the backend
+    /// Random initialization by creating a random responsibility matrix
+    fn initialize(&mut self);
+    /// collects expectations from the LatentModel and Components and computes the responsibility matrix with bayes. A separate maximize is not needed
+    fn expect(&self, data: &T::DataIn<'_>) -> T::DataOut;
 
-    pub fn new(n_components: i32, mut mixture: T, prior: Option<f64>, n_init: i32, n_iterations: i32) -> MixtureModel<T> {
-        let mut weighting = Categorical::new(1, prior);
-        weighting.initialize(n_components);
-        mixture.initialize(n_components);
-
-        MixtureModel {
-            n_components,
-            mixture,
-            weighting,
-            n_init,
-            n_iterations,
-            status: MixtureModelStatus::new()
-        }
-    }
-
-    pub fn store(
-        &self,
-    ) -> (
-        &<Categorical as MixtureType>::SufficientStatistics,
-        &T::SufficientStatistics,
-    ) {
-        (self.weighting.store(), self.mixture.store())
-    }
-    pub fn restore(
-        &mut self,
-        sufficient_statistics: (
-            <Categorical as MixtureType>::SufficientStatistics,
-            T::SufficientStatistics,
-        ),
-    ) {
-        self.weighting.restore(sufficient_statistics.0);
-        self.mixture.restore(sufficient_statistics.1);
-    }
 }
-
-
 
 // We need a makro here
 // pub struct JointDistributions<S, T> {
 //     components: (S, T),
 // }
 
-
 /// Bayesian linear regression
-
-
-
 
 ///
 ///

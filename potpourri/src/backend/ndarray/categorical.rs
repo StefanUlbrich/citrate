@@ -3,22 +3,22 @@ use ndarray::prelude::*;
 use super::MixtureType;
 
 
-pub struct Categorical {
+pub struct Categorical<D> {
     pub dimension: i32,
     pub prior: Option<f64>,
     pub pmf: Array2<f64>,
-    sufficient_statistics: Array2<f64>
+    sufficient_statistics: Array<f64, D>
 }
 
-impl Categorical {
+impl<D> Categorical<D> {
     pub fn new(dimension: i32, prior: Option<f64>) -> Categorical {
         // let prior = prior.unwrap_or(1.0);
         Categorical { dimension, prior, pmf: Array2::<f64>::zeros((0,0)), sufficient_statistics: Array2::<f64>::zeros((0,0)) }
     }
 }
 
-impl MixtureType for Categorical {
-    type SufficientStatistics = Array2<f64>;
+impl<D> MixtureType for Categorical<D> {
+    type SufficientStatistics = Array<f64, D>;
 
     type DataIn<'a> = ArrayView2<'a, f64>;
 
@@ -36,7 +36,7 @@ impl MixtureType for Categorical {
         todo!()
     }
 
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
+    fn maximize(&mut self, sufficient_statistics:  (&<Categorical as MixtureType>::SufficientStatistics, &Self::SufficientStatistics)) {
         todo!()
     }
 

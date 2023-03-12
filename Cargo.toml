@@ -1,6 +1,10 @@
 [workspace]
+resolver = "2" # Important! wgpu/Bevy needs this!
 
 members = [
     "som-rs",
-    "pysom"
+    "pysom",
+    # "testbed",
+    "potpourri",
+    # "visualization"
 ]
