@@ -1,27 +1,48 @@
-pub mod backend; // TODO find a better way
-pub mod default;
+/**
+ * Package for models with discrete, unobservable latent variables that can be learned with the
+ * Expectation Maximization algorithm.
+ *
+ * The package aims at highest modularity to allow for easy experimentation for research
+ * such as adding parallelization on clusters and exploring new models
+ *
+ * Conventions:
+ * * Traits: Capital letters and CamelCase, adjectives used as nouns that indicate a cabability.
+ * * Structs: Capital letters and CamelCase, nouns describing things and concepts
+ * * methods/functions: snake_case and imperatives or short, discriptive imperative clauses
+ */
 
-pub use backend::ndarray::categorical::Categorical;
+pub mod backend;
 
-pub use default::{MixtureModel, MixtureModelStatus};
+#[cfg(feature = "ndarray")]
+pub use crate::backend::ndarray::MixtureModel;
 
-// Maybe call feature but not component. Mixture type?
-pub trait MixtureType {
+#[cfg(feature = "ractor")]
+pub use backend::ractor::mixture::mixture;
+
+
+
+pub trait Mixables {
     type SufficientStatistics;
-    type ModelParameters;
+    type Likelihood;
     type DataIn<'a>;
     type DataOut;
 
-    /// The E-Step. Computes the responsibility matrix and likelihood
-    fn expect(&self, weights: Self::DataIn<'_>, data: &Self::DataIn<'_>) -> (Self::DataOut, f64);
+    // weights: Self::DataIn<'_>,
 
-    /// Computes the sufficient statistics from the responsibility matrix. Optionally, stores the
+    /// The E-Step. Computes the likelihood for each component in the mixture
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64);
+
+    // Consider combining `compute` and `maximize` – no that is a bad idea
+    // &mut self,
+    // store: Option<bool>, // consider removing. The parent class should take care of that
+
+    /// Computes the sufficient statistics from the responsibility matrix. The
+    ///  Optionally, stores the
     /// sufficient statistics (for incremental learning and store.restore functionality)
     /// can be disabled for performance (defaults to `True`)
     fn compute(
-        &mut self,
-        responsibilities: &Self::DataIn<'_>,
-        store: Option<bool>,
+        &self,
+        responsibilities: &Self::Likelihood,
     ) -> Self::SufficientStatistics;
 
     /// Maximize the model parameters from
@@ -46,37 +67,38 @@ pub trait MixtureType {
     // Do I need this? I doubt it--initialization is done in the algorithm.
     fn initialize(&mut self, n_components: i32);
 
-    // Do I need these? Rather try to make the models serializable
-    fn store(&self) -> &Self::SufficientStatistics;
-    fn restore(&mut self, sufficient_statistics: Self::SufficientStatistics);
+
 }
 
+/// Probabilistic mixables should implement this trait
+pub trait Probabilistic {}
+
+// pub trait LatentModel {
+//     type DataIn<'a>;
+//     type DataOut;
+
+//     type Weights<'a>;
+
+//     // look that up again
+//     fn maximize(&self, responsibilities: &Self::DataIn<'_>) -> &Self::Weights<'_>;
+// }
+
+// No ajective, something with latent? LatentStateEstimating?
 /// A mixture model has a discrete and unobservable variable (i.e., latent) variable
 /// associated with each data point. It can be interpreted as a pointer to the component
 /// of a mixture generated the sample. This component computes weights the components
 /// in the mixture, that is, the probability for each component that the next sample will
 /// be drawn from it. In case of non-probabilistic models (k-mm and SOM) this is irrelevant.
-pub trait LatentModel {
+pub trait ExpectationMaximizing
+{
     type DataIn<'a>;
     type DataOut;
 
-    type Weights<'a>;
-
-    // look that up again
-    fn maximize(&self, responsibilities: &Self::DataIn<'_>) -> &Self::Weights<'_>;
-}
-
-pub trait ExpectationMaximization<T>
-where
-    T: MixtureType,
-{
-    type SufficientStatistics;
-
-    fn fit(&mut self, data: T::DataIn<'_>) {
+    fn fit(&mut self, data: Self::DataIn<'_>) {
         // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
         todo!()
     }
-    fn predict(&self, data: &T::DataIn<'_>) -> T::DataOut {
+    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut {
         // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
         todo!()
     }
@@ -84,10 +106,10 @@ where
     // abstract methods that depend on the backend
     /// Random initialization by creating a random responsibility matrix
     fn initialize(&mut self);
-    /// collects expectations from the LatentModel and Components and computes the responsibility matrix with bayes. A separate maximize is not needed
-    fn expect(&self, data: &T::DataIn<'_>) -> T::DataOut;
-
 }
+
+/// Two options:
+/// 1. implementations of ExpectationMaximization decide on whether they are probabilistic or best matching
 
 // We need a makro here
 // pub struct JointDistributions<S, T> {

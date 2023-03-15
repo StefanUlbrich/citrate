@@ -1,5 +1,5 @@
-use super::{MixtureType, Categorical};
+use super::{Mixables};
 
-pub struct som {
+pub struct SOM {
 
 }

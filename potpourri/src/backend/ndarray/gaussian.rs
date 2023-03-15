@@ -1,42 +1,30 @@
 use ndarray::prelude::*;
 
-use super::{MixtureType, Categorical};
+use crate::{Mixables};
 
-
-type GaussianSufficientStatistics = (Array2, Array2);
 
 pub struct Gaussian {
     pub dimension: i32,
     pub means: Array2<f64>,
     pub covariances: Array4<f64>,
-    sufficient_statistics: GaussianSufficientStatistics,
 }
 
 impl Gaussian {
-    pub fn new(dimension: i32, prior: Option<f64>) -> Categorical {
-        Categorical { dimension, prior }
+    pub fn new(dimension: i32, prior: Option<f64>) -> Gaussian {
+        todo!()
     }
 }
 
-impl MixtureType for Categorical {
-    type SufficientStatistics =GaussianSufficientStatistics;
+impl Mixables for Gaussian {
+    type SufficientStatistics = (Array2<f64>, Array2<f64>);
 
     type DataIn<'a> = ArrayView2<'a, f64>;
     type DataOut = Array2<f64>;
 
-    fn expect(&self, weights: Self::DataIn<'_>, data: &Self::DataIn<'_>) -> (Self::DataOut, f64) {
-        todo!()
-    }
 
-    fn compute(
-        &mut self,
-        responsibilities: &Self::DataIn<'_>,
-        store: Option<bool>,
-    ) -> Self::SufficientStatistics {
-        todo!()
-    }
 
-    fn maximize(&mut self, sufficient_statistics: (&<Categorical as MixtureType>::SufficientStatistics, &Self::SufficientStatistics)) {
+
+    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
         todo!()
     }
 
@@ -55,15 +43,21 @@ impl MixtureType for Categorical {
         todo!()
     }
 
-    fn store(&self) -> Self::SufficientStatistics {
-        todo!()
-    }
-
-    fn restore(&mut self, sufficient_statistics: Self::SufficientStatistics) {
-        todo!()
-    }
 
     fn predict(&self, responsibilities: &Self::DataIn<'_>, data: &Self::DataIn<'_>) -> Self::DataOut {
+        todo!()
+    }
+
+    type Likelihood = Array2<f64>;
+
+    fn compute(
+        &self,
+        responsibilities: &Self::Likelihood,
+    ) -> Self::SufficientStatistics {
+        todo!()
+    }
+
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
         todo!()
     }
 }

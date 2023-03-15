@@ -1,4 +1,4 @@
-use super::{MixtureType, Categorical};
+use super::{Mixables};
 
 pub struct kmeans {
 
