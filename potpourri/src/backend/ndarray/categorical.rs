@@ -1,4 +1,6 @@
-use std::f32::NAN;
+#[cfg(feature = "ndarray")]
+
+
 
 use ndarray::prelude::*;
 

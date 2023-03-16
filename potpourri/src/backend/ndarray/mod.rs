@@ -2,11 +2,11 @@ pub mod categorical;
 pub mod gaussian;
 pub mod kmeans;
 pub mod linear;
-pub(crate) mod probabilistic;
 pub mod som;
+pub(crate) mod probabilistic;
 
 use crate::{ExpectationMaximizing, Mixables};
-use ndarray::prelude::*;
+
 use ndarray_rand::{rand, rand::prelude::*, rand_distr::Dirichlet};
 
 /// The basis struct to use for models
