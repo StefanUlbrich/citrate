@@ -1,22 +1,31 @@
-use ndarray::prelude::*;
 use crate::Mixables;
+use ndarray::prelude::*;
 
 use super::categorical::{Categorical, Latent};
 
-
 pub(crate) struct Density<T>
 where
-    T: Mixables<Likelihood = <Categorical as Mixables>::Likelihood>,
+    // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
+    T: for<'a> Mixables<
+        Likelihood = <Categorical as Mixables>::Likelihood,
+        DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
+    >,
 {
     mixables: T,
-    categorical: Categorical
+    categorical: Categorical,
 }
 
 impl<T> Mixables for Density<T>
 where
-    T: Mixables<Likelihood = <Categorical as Mixables>::Likelihood>,
+    T: for<'a> Mixables<
+        Likelihood = <Categorical as Mixables>::Likelihood,
+        DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
+    >,
 {
-    type SufficientStatistics = (<Categorical as Mixables>::SufficientStatistics, T::SufficientStatistics);
+    type SufficientStatistics = (
+        <Categorical as Mixables>::SufficientStatistics,
+        T::SufficientStatistics,
+    );
 
     type Likelihood = T::Likelihood;
 
@@ -25,14 +34,19 @@ where
     type DataOut = T::DataOut;
 
     fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
-        self.categorical.expect(data).0 * self.mixables.expect(data).0
+
+        // Todo compute the second parameter
+        (
+            self.categorical.expect(data).0 * self.mixables.expect(data).0,
+            self.mixables.expect(data).1,
+        )
     }
 
-    fn compute(
-        &self,
-        responsibilities: &Self::Likelihood,
-    ) -> Self::SufficientStatistics {
-        (self.categorical.compute(responsibilities), self.mixables.compute(responsibilities))
+    fn compute(&self, responsibilities: &Self::Likelihood) -> Self::SufficientStatistics {
+        (
+            self.categorical.compute(responsibilities),
+            self.mixables.compute(responsibilities),
+        )
     }
 
     fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
@@ -45,7 +59,6 @@ where
         responsibilities: &Self::DataIn<'_>,
         data: &Self::DataIn<'_>,
     ) -> Self::DataOut {
-
         todo!()
     }
 
@@ -64,7 +77,6 @@ where
     fn initialize(&mut self, n_components: i32) {
         todo!()
     }
-
 }
 
 #[cfg(test)]

@@ -1,4 +1,3 @@
-#[cfg(feature = "ndarray")]
 
 
 
@@ -36,7 +35,7 @@ impl Mixables for Categorical {
     type DataOut = Array2<f64>;
 
     fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
-        (self.pmf.clone().reshape((1,2)), f64::NAN)
+        (self.pmf.clone().into_shape((1,2)).expect("Could not reshape"), f64::NAN)
     }
 
     // fn compute(

@@ -15,7 +15,7 @@ where
     T: Mixables,
 {
     mixable: T,
-    // n_components: usize,
+    n_components: usize,
     max_iterations: usize,
     n_init: usize,
     incremental: bool,
@@ -40,14 +40,14 @@ where
 {
     fn new(
         mixable: T,
-        // n_components: usize,
+        n_components: usize,
         max_iterations: usize,
         n_init: usize,
         incremental: bool,
     ) -> MixtureModel<T> {
         MixtureModel {
             mixable,
-            // n_components,
+            n_components,
             max_iterations,
             n_init,
             incremental,
@@ -63,6 +63,11 @@ where
                 initialized: false
             },
         }
+    }
+
+    fn initialize_manually(&mut self, responsibilities: T::Likelihood){
+        self.info.initialized = true;
+        self.initialization = Some(responsibilities);
     }
 }
 
@@ -84,18 +89,18 @@ where
             }
 
             // multiple initializations can be parallelized when using iterator funtions
-            let best = (0..self.n_init).map(|x| {
+            let best = (0..self.n_init).map(|_| {
 
                 if !self.info.initialized && !self.info.fitted {
-                    self.initialize()
+                    self.initialize();
                 }
 
-                let converged = true;
-                let n_iterations = 0;
+                let mut converged = true;
+                let mut n_iterations = 0;
 
-                let last_likelihood = f64::NEG_INFINITY;
+                let mut last_likelihood = f64::NEG_INFINITY;
 
-                let sufficient_statistics = self.mixable.compute(&self.initialization.unwrap());
+                let mut sufficient_statistics = self.mixable.compute(self.initialization.as_ref().unwrap());
                 self.mixable.maximize(&sufficient_statistics);
 
                 // the inner loop cannot be parallelized
@@ -108,6 +113,7 @@ where
                         n_iterations = i;
                         break;
                     }
+                    last_likelihood = likelihood;
                 }
 
                 if converged {
@@ -131,13 +137,14 @@ where
             // incremental learning
 
             // Guess I will have to read the paper
-            let responsibilities = self.mixable.expect(&data);
-            let sufficient_statistics = self.mixable.compute(&responsibilities);
+            let (responsibilities, _) = self.mixable.expect(&data);
+            let mut sufficient_statistics = self.mixable.compute(&responsibilities);
             sufficient_statistics = T::merge(
-                (&self.last_sufficient_statistics, &sufficient_statistics),
-                (1.0 - self.incremental_weight, self.incremental_weight),
+                &[&self.last_sufficient_statistics.as_ref().expect("Model has not been trained before"), &sufficient_statistics],
+                &[1.0 - self.incremental_weight, self.incremental_weight],
             );
-            self.batch()
+            // todo!
+            // self.batch()
         }
     }
 
@@ -147,18 +154,13 @@ where
         todo!()
     }
 
-    fn initialize(&mut self, responsibilities: Option<T::Likelihood> ) {
+    fn initialize(&mut self) {
 
-        if let Some(r) = responsibilities {
-            self.info.initialized = true;
-            self.initialization = Some(r);
-        } else {
             let dirichlet = Dirichlet::new(&vec![1.0; self.n_components]).unwrap();
 
             let responsibilities = dirichlet.sample(&mut rand::thread_rng());
             // Standard.sample_iter(&mut rng).take(16).collect();
 
-        }
 
     }
 
