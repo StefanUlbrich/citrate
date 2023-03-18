@@ -12,6 +12,7 @@
  */
 
 pub mod backend;
+pub mod errors;
 
 #[cfg(feature = "ndarray")]
 pub use crate::backend::ndarray::MixtureModel;
@@ -19,6 +20,7 @@ pub use crate::backend::ndarray::MixtureModel;
 #[cfg(feature = "ractor")]
 pub use backend::ractor::mixture::mixture;
 
+use errors::Error;
 
 
 pub trait Mixables {
@@ -73,17 +75,7 @@ pub trait Mixables {
 /// Probabilistic mixables should implement this trait
 pub trait Probabilistic {}
 
-// pub trait LatentModel {
-//     type DataIn<'a>;
-//     type DataOut;
 
-//     type Weights<'a>;
-
-//     // look that up again
-//     fn maximize(&self, responsibilities: &Self::DataIn<'_>) -> &Self::Weights<'_>;
-// }
-
-// No ajective, something with latent? LatentStateEstimating?
 /// A mixture model has a discrete and unobservable variable (i.e., latent) variable
 /// associated with each data point. It can be interpreted as a pointer to the component
 /// of a mixture generated the sample. This component computes weights the components
@@ -94,42 +86,14 @@ pub trait ExpectationMaximizing
     type DataIn<'a>;
     type DataOut;
 
-    fn fit(&mut self, data: Self::DataIn<'_>) {
-        // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
-        todo!()
-    }
-    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut {
-        // provide a standard implementation of batch and incremental learning independent of the data and sufficient statistic types
-        todo!()
-    }
+    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> ;
+    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut ;
 
     // abstract methods that depend on the backend
     /// Random initialization by creating a random responsibility matrix
     fn initialize(&mut self);
 }
 
-/// Two options:
-/// 1. implementations of ExpectationMaximization decide on whether they are probabilistic or best matching
-
-// We need a makro here
-// pub struct JointDistributions<S, T> {
-//     components: (S, T),
-// }
-
-/// Bayesian linear regression
-
-///
-///
-///
-///
-///
-///
-///
-///
-
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
 
 #[cfg(test)]
 mod tests {
@@ -137,7 +101,7 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let result = add(2, 2);
+        let result = 4;
         assert_eq!(result, 4);
     }
 }

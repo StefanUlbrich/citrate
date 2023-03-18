@@ -18,6 +18,7 @@ documentation = "https://stefanulbrich.github.io/citrate/"
 ndarray = { version = "0.15", features = ["serde"], optional = true}
 ndarray-rand = { version="0.14", optional = true}
 ractor = {version = "0.7", optional = true}
+thiserror = "1.0.40"
 
 # https://www.reddit.com/r/rust/comments/a39er8/comment/eb4f7jd/?utm_source=share&utm_medium=web2x&context=3
 # som-rs = {version = "0.1", path="../som-rs", optional = true}
