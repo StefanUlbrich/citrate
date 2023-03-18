@@ -1,9 +1,9 @@
-#[cfg(feature = "ndarray")]
-use ndarray::ErrorKind;
+// #[cfg(feature = "ndarray")]
+// use ndarray::ErrorKind;
 
 #[derive(thiserror::Error, Debug, Clone)]
 pub enum Error {
-    #[error("The combination of training parameters is invalid: {0}")]
+    #[error("The combination of training parameters is invalid: {n_init:?}, {incremental:?}, {initialized:?}")]
     InvalidTrainingConfiguration {
         n_init: usize,
         incremental: bool,

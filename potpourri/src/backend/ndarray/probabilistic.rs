@@ -59,7 +59,6 @@ where
 
     fn predict(
         &self,
-        responsibilities: &Self::DataIn<'_>,
         data: &Self::DataIn<'_>,
     ) -> Self::DataOut {
         todo!()

@@ -1,7 +1,6 @@
 use ndarray::prelude::*;
 
-use crate::{Mixables};
-
+use crate::Mixables;
 
 pub struct Gaussian {
     pub dimension: i32,
@@ -20,9 +19,6 @@ impl Mixables for Gaussian {
 
     type DataIn<'a> = ArrayView2<'a, f64>;
     type DataOut = Array2<f64>;
-
-
-
 
     fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
         todo!()
@@ -43,17 +39,13 @@ impl Mixables for Gaussian {
         todo!()
     }
 
-
-    fn predict(&self, responsibilities: &Self::DataIn<'_>, data: &Self::DataIn<'_>) -> Self::DataOut {
+    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut {
         todo!()
     }
 
     type LogLikelihood = Array2<f64>;
 
-    fn compute(
-        &self,
-        responsibilities: &Self::LogLikelihood,
-    ) -> Self::SufficientStatistics {
+    fn compute(&self, responsibilities: &Self::LogLikelihood) -> Self::SufficientStatistics {
         todo!()
     }
 

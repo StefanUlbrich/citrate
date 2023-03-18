@@ -52,7 +52,7 @@ pub trait Mixables {
 
     fn predict(
         &self,
-        responsibilities: &Self::DataIn<'_>,
+        // responsibilities: &Self::DataIn<'_>,
         data: &Self::DataIn<'_>,
     ) -> Self::DataOut;
 
