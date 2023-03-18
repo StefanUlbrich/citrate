@@ -3,13 +3,8 @@
 
 use ndarray::prelude::*;
 
-use crate::Mixables;
+use crate::{Mixables, Latent};
 
-pub trait Latent<T> where T: Mixables{
-
-    fn join(likelihood_a: &T::LogLikelihood, likelihood_b: &T::LogLikelihood) -> T::LogLikelihood;
-
-}
 
 pub struct Categorical {
     pub dimension: i32,
@@ -72,9 +67,6 @@ impl Mixables for Categorical {
         todo!()
     }
 
-    fn initialize(&mut self, n_components: i32) {
-        todo!()
-    }
 
     fn compute(
         &self,

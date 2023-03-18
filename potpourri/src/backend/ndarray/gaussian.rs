@@ -35,9 +35,6 @@ impl Mixables for Gaussian {
         todo!()
     }
 
-    fn initialize(&mut self, n_components: i32) {
-        todo!()
-    }
 
     fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut {
         todo!()

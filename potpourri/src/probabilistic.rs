@@ -1,32 +1,37 @@
 // Todo: move outside of the backend!
 
-
 use crate::Mixables;
-use ndarray::prelude::*;
 
-use super::categorical::{Categorical, Latent};
+pub trait Latent<T>
+where
+    T: Mixables,
+{
+    fn join(likelihood_a: &T::LogLikelihood, likelihood_b: &T::LogLikelihood) -> T::LogLikelihood;
+}
 
-pub(crate) struct Density<T>
+pub struct Density<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
     T: for<'a> Mixables<
-        LogLikelihood = <Categorical as Mixables>::LogLikelihood,
-        DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
+        LogLikelihood = L::LogLikelihood,
+        DataIn<'a> = L::DataIn<'a>,
     >,
+    L: Mixables + Latent<T>,
 {
     mixables: T,
-    categorical: Categorical,
+    categorical: L,
 }
 
-impl<T> Mixables for Density<T>
+impl<T, L> Mixables for Density<T, L>
 where
     T: for<'a> Mixables<
-        LogLikelihood = <Categorical as Mixables>::LogLikelihood,
-        DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
+        LogLikelihood = L::LogLikelihood,
+        DataIn<'a> = L::DataIn<'a>,
     >,
+    L: Mixables + Latent<T>,
 {
     type SufficientStatistics = (
-        <Categorical as Mixables>::SufficientStatistics,
+        L::SufficientStatistics,
         T::SufficientStatistics,
     );
 
@@ -37,10 +42,9 @@ where
     type DataOut = T::DataOut;
 
     fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64) {
-
         // Todo compute the second parameter
         (
-            self.categorical.expect(data).0 * self.mixables.expect(data).0,
+            L::join(&self.categorical.expect(data).0, &self.mixables.expect(data).0),
             self.mixables.expect(data).1,
         )
     }
@@ -57,10 +61,7 @@ where
         self.mixables.maximize(&sufficient_statistics.1);
     }
 
-    fn predict(
-        &self,
-        data: &Self::DataIn<'_>,
-    ) -> Self::DataOut {
+    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut {
         todo!()
     }
 
@@ -73,10 +74,6 @@ where
         sufficient_statistics: &[&Self::SufficientStatistics],
         weights: &[f64],
     ) -> Self::SufficientStatistics {
-        todo!()
-    }
-
-    fn initialize(&mut self, n_components: i32) {
         todo!()
     }
 }

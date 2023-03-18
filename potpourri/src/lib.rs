@@ -13,9 +13,13 @@
 
 pub mod backend;
 pub mod errors;
+pub mod mixture;
+pub mod probabilistic;
 
-#[cfg(feature = "ndarray")]
-pub use crate::backend::ndarray::MixtureModel;
+use std::option;
+
+pub use mixture::MixtureModel;
+pub use probabilistic::{Density, Latent};
 
 #[cfg(feature = "ractor")]
 pub use backend::ractor::mixture::mixture;
@@ -66,9 +70,6 @@ pub trait Mixables {
         weights: &[f64],
     ) -> Self::SufficientStatistics;
 
-    // Do I need this? I doubt it--initialization is done in the algorithm.
-    fn initialize(&mut self, n_components: i32);
-
 
 }
 
@@ -89,11 +90,13 @@ pub trait ExpectationMaximizing
     fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> ;
     fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut ;
 
-    // abstract methods that depend on the backend
-    /// Random initialization by creating a random responsibility matrix
-    fn initialize(&mut self);
 }
 
+/// To be implemented in the backend modules
+pub trait Initializable<T> {
+    /// Random initialization by creating a random responsibility matrix
+    fn initialize(&mut self, responsibilities: Option<T>);
+}
 
 #[cfg(test)]
 mod tests {
