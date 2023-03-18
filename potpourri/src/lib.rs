@@ -23,14 +23,14 @@ pub use backend::ractor::mixture::mixture;
 
 pub trait Mixables {
     type SufficientStatistics;
-    type Likelihood;
+    type LogLikelihood;
     type DataIn<'a>;
     type DataOut;
 
     // weights: Self::DataIn<'_>,
 
     /// The E-Step. Computes the likelihood for each component in the mixture
-    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64);
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64);
 
     // Consider combining `compute` and `maximize` – no that is a bad idea
     // &mut self,
@@ -42,7 +42,7 @@ pub trait Mixables {
     /// can be disabled for performance (defaults to `True`)
     fn compute(
         &self,
-        responsibilities: &Self::Likelihood,
+        responsibilities: &Self::LogLikelihood,
     ) -> Self::SufficientStatistics;
 
     /// Maximize the model parameters from

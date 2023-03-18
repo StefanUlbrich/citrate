@@ -7,7 +7,7 @@ pub(crate) struct Density<T>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
     T: for<'a> Mixables<
-        Likelihood = <Categorical as Mixables>::Likelihood,
+        LogLikelihood = <Categorical as Mixables>::LogLikelihood,
         DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
     >,
 {
@@ -18,7 +18,7 @@ where
 impl<T> Mixables for Density<T>
 where
     T: for<'a> Mixables<
-        Likelihood = <Categorical as Mixables>::Likelihood,
+        LogLikelihood = <Categorical as Mixables>::LogLikelihood,
         DataIn<'a> = <Categorical as Mixables>::DataIn<'a>,
     >,
 {
@@ -27,13 +27,13 @@ where
         T::SufficientStatistics,
     );
 
-    type Likelihood = T::Likelihood;
+    type LogLikelihood = T::LogLikelihood;
 
     type DataIn<'a> = T::DataIn<'a>;
 
     type DataOut = T::DataOut;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64) {
 
         // Todo compute the second parameter
         (
@@ -42,7 +42,7 @@ where
         )
     }
 
-    fn compute(&self, responsibilities: &Self::Likelihood) -> Self::SufficientStatistics {
+    fn compute(&self, responsibilities: &Self::LogLikelihood) -> Self::SufficientStatistics {
         (
             self.categorical.compute(responsibilities),
             self.mixables.compute(responsibilities),

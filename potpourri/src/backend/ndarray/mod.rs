@@ -22,7 +22,7 @@ where
     incremental_weight: f64,
     tol: f64,
     last_sufficient_statistics: Option<T::SufficientStatistics>,
-    initialization: Option<T::Likelihood>,
+    initialization: Option<T::LogLikelihood>,
     info: MixtureInfo,
 }
 
@@ -65,7 +65,7 @@ where
         }
     }
 
-    fn initialize_manually(&mut self, responsibilities: T::Likelihood){
+    fn initialize_manually(&mut self, responsibilities: T::LogLikelihood){
         self.info.initialized = true;
         self.initialization = Some(responsibilities);
     }

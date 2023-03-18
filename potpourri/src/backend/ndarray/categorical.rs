@@ -7,7 +7,7 @@ use crate::Mixables;
 
 pub trait Latent<T> where T: Mixables{
 
-    fn join(likelihood_a: &T::Likelihood, likelihood_b: &T::Likelihood) -> T::Likelihood;
+    fn join(likelihood_a: &T::LogLikelihood, likelihood_b: &T::LogLikelihood) -> T::LogLikelihood;
 
 }
 
@@ -28,13 +28,13 @@ impl Categorical {
 impl Mixables for Categorical {
     type SufficientStatistics = Array1<f64>;
 
-    type Likelihood = Array2<f64>;
+    type LogLikelihood = Array2<f64>;
 
     type DataIn<'a> = ArrayView2<'a, f64>;
 
     type DataOut = Array2<f64>;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64) {
         (self.pmf.clone().into_shape((1,2)).expect("Could not reshape"), f64::NAN)
     }
 
@@ -79,7 +79,7 @@ impl Mixables for Categorical {
 
     fn compute(
         &self,
-        responsibilities: &Self::Likelihood,
+        responsibilities: &Self::LogLikelihood,
     ) -> Self::SufficientStatistics {
         responsibilities.sum_axis(Axis(0))
 
@@ -88,7 +88,7 @@ impl Mixables for Categorical {
 }
 
 impl Latent<Categorical> for Categorical {
-    fn join(likelihood_a: &<Categorical as Mixables>::Likelihood, likelihood_b: &<Categorical as Mixables>::Likelihood) -> <Categorical as Mixables>::Likelihood {
+    fn join(likelihood_a: &<Categorical as Mixables>::LogLikelihood, likelihood_b: &<Categorical as Mixables>::LogLikelihood) -> <Categorical as Mixables>::LogLikelihood {
         todo!()
     }
 }

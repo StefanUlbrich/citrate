@@ -48,16 +48,16 @@ impl Mixables for Gaussian {
         todo!()
     }
 
-    type Likelihood = Array2<f64>;
+    type LogLikelihood = Array2<f64>;
 
     fn compute(
         &self,
-        responsibilities: &Self::Likelihood,
+        responsibilities: &Self::LogLikelihood,
     ) -> Self::SufficientStatistics {
         todo!()
     }
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
+    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64) {
         todo!()
     }
 }
