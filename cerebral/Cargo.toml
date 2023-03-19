@@ -1,5 +1,5 @@
 [package]
-name = "som-rs"
+name = "cerebral"
 version = "0.1.1"
 edition = "2021"
 

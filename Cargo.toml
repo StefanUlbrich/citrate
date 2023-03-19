@@ -2,7 +2,7 @@
 resolver = "2" # Important! wgpu/Bevy needs this!
 
 members = [
-    "som-rs",
+    "cerebral",
     "pysom",
     # "testbed",
     "potpourri",
