@@ -1,7 +1,13 @@
 [package]
 name = "cerebral"
-version = "0.1.1"
+version = "0.0.1"
 edition = "2021"
+description = "A package for composable algorithms for self-organizing neural networks for research purposes."
+readme = "Readme.md"
+repository = "https://github.com/StefanUlbrich/citrate/"
+license = "MIT OR Apache-2.0"
+homepage = "https://stefanulbrich.github.io/citrate/"
+documentation = "https://stefanulbrich.github.io/citrate/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # [features]
