@@ -4,8 +4,8 @@ use ndarray_rand::rand_distr::Uniform;
 use ndarray_rand::RandomExt;
 use rand_isaac::isaac64::Isaac64Rng;
 
-use som_rs::{default::*, BoxedSelforganizing, BoxedTrainable};
-use som_rs::{SelforganizingNetwork, NeuralLayer, Selforganizing};
+use cerebral::{default::*, BoxedSelforganizing, BoxedTrainable};
+use cerebral::{SelforganizingNetwork, NeuralLayer, Selforganizing};
 
 #[test]
 fn test_kohonen() {
