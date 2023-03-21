@@ -1,3 +1,4 @@
+#[cfg(feature = "ndarray")]
 pub mod ndarray;
-
-use ::ndarray;
+#[cfg(feature = "ractor")]
+pub mod ractor;

@@ -1,25 +1,29 @@
 [package]
 authors = ["Stefan Ulbrich"]
 name = "potpourri"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
 # Required for Generic Associated Types
 rust-version = "1.65"
 description = "A package for learning mixture modelswith the expectation maximization algorithm."
-readme = "Readme.de"
+readme = "Readme.md"
 repository = "https://github.com/StefanUlbrich/citrate/"
 license = "MIT OR Apache-2.0"
+homepage = "https://stefanulbrich.github.io/citrate/"
+documentation = "https://stefanulbrich.github.io/citrate/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ndarray = { version = "0.15", features = ["serde"] }
-ndarray-rand = "0.14"
+ndarray = { version = "0.15", features = ["serde"], optional = true}
+ndarray-rand = { version="0.14", optional = true}
 ractor = {version = "0.7", optional = true}
+thiserror = "1.0.40"
 
 # https://www.reddit.com/r/rust/comments/a39er8/comment/eb4f7jd/?utm_source=share&utm_medium=web2x&context=3
-som-rs = {version = "0.1", path="../som-rs", optional = true}
+# som-rs = {version = "0.1", path="../som-rs", optional = true}
 
 [features]
-parallel = ["ractor"]
-som = ["som-rs"]
+ndarray = ["dep:ndarray", "dep:ndarray-rand"]
+ractor = ["dep:ractor"]
+# som = ["som-rs"]`
