@@ -19,7 +19,7 @@ pub mod probabilistic;
 use std::option;
 
 pub use mixture::MixtureModel;
-pub use probabilistic::{Density, Latent};
+pub use probabilistic::{Density, Latent, Probabilistic};
 
 #[cfg(feature = "ractor")]
 pub use backend::ractor::mixture::mixture;
@@ -36,7 +36,7 @@ pub trait Mixables {
     // weights: Self::DataIn<'_>,
 
     /// The E-Step. Computes the likelihood for each component in the mixture
-    fn expect(&self, data: &Self::DataIn<'_>) -> (Self::LogLikelihood, f64);
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error>;
 
     // Consider combining `compute` and `maximize` – no that is a bad idea
     // &mut self,
@@ -49,32 +49,30 @@ pub trait Mixables {
     fn compute(
         &self,
         responsibilities: &Self::LogLikelihood,
-    ) -> Self::SufficientStatistics;
+    ) -> Result<Self::SufficientStatistics, Error>;
 
     /// Maximize the model parameters from
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics);
+    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) -> Result<(), Error>;
 
     fn predict(
         &self,
         // responsibilities: &Self::DataIn<'_>,
         data: &Self::DataIn<'_>,
-    ) -> Self::DataOut;
+    ) -> Result<Self::DataOut, Error>;
 
     /// Update the stored sufficient statistics (for incremental learning)
     /// Weights is a tuple (a float should suffice, if summing to one)
-    fn update(&mut self, sufficient_statistics: &Self::SufficientStatistics, weight: (f64, f64));
+    fn update(&mut self, sufficient_statistics: &Self::SufficientStatistics, weight: (f64, f64)) -> Result<(), Error>;
 
     /// merge multiple sufficient statistics into one.
     fn merge(
         sufficient_statistics: &[&Self::SufficientStatistics],
         weights: &[f64],
-    ) -> Self::SufficientStatistics;
-
+    ) -> Result<Self::SufficientStatistics, Error>;
 
 }
 
 /// Probabilistic mixables should implement this trait
-pub trait Probabilistic {}
 
 
 /// A mixture model has a discrete and unobservable variable (i.e., latent) variable
@@ -88,7 +86,7 @@ pub trait ExpectationMaximizing
     type DataOut;
 
     fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> ;
-    fn predict(&self, data: &Self::DataIn<'_>) -> Self::DataOut ;
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result< Self::DataOut, Error>  ;
 
 }
 

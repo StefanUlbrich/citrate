@@ -1,4 +1,4 @@
-use crate::{errors, ExpectationMaximizing, Mixables, Initializable};
+use crate::{Error, ExpectationMaximizing, Mixables, Initializable};
 
 
 /// The basis struct to use for models
@@ -30,7 +30,7 @@ impl<T> MixtureModel<T>
 where
     T: Mixables,
 {
-    fn new(
+    pub fn new(
         mixable: T,
         n_components: usize,
         max_iterations: usize,
@@ -57,7 +57,7 @@ where
         }
     }
 
-    fn initialize_manually(&mut self, responsibilities: T::LogLikelihood) {
+    pub fn initialize_manually(&mut self, responsibilities: T::LogLikelihood) {
         self.info.initialized = true;
         self.initialization = Some(responsibilities);
     }
@@ -70,10 +70,10 @@ where
     type DataIn<'a> = T::DataIn<'a>;
     type DataOut = T::DataOut;
 
-    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), errors::Error> {
+    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> {
         if !self.info.fitted || !self.incremental {
             if (self.n_init > 0 || self.info.fitted) && self.info.initialized {
-                return Err(errors::Error::InvalidTrainingConfiguration {
+                return Err(Error::InvalidTrainingConfiguration {
                     n_init: self.n_init,
                     incremental: self.incremental,
                     initialized: self.incremental,
@@ -81,8 +81,8 @@ where
             }
 
             // multiple initializations can be parallelized when using iterator funtions
-            let best = (0..self.n_init)
-                .map(|_| {
+            let results = (0..self.n_init)
+                .map(|_| -> Result<_, Error> {
                     if !self.info.initialized && !self.info.fitted {
                         self.initialize(None);
                     }
@@ -93,14 +93,14 @@ where
                     let mut last_likelihood = f64::NEG_INFINITY;
 
                     let mut sufficient_statistics =
-                        self.mixable.compute(self.initialization.as_ref().unwrap());
-                    self.mixable.maximize(&sufficient_statistics);
+                        self.mixable.compute(self.initialization.as_ref().unwrap())?;
+                    self.mixable.maximize(&sufficient_statistics)?;
 
                     // the inner loop cannot be parallelized
                     for i in 0..self.max_iterations {
-                        let (responsibilities, likelihood) = self.mixable.expect(&data);
-                        sufficient_statistics = self.mixable.compute(&responsibilities);
-                        self.mixable.maximize(&sufficient_statistics);
+                        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
+                        sufficient_statistics = self.mixable.compute(&responsibilities)?;
+                        self.mixable.maximize(&sufficient_statistics)?;
                         if f64::abs(likelihood - last_likelihood) > self.tol {
                             converged = true;
                             n_iterations = i;
@@ -110,21 +110,29 @@ where
                     }
 
                     if converged {
-                        (sufficient_statistics, true, n_iterations, last_likelihood)
+                        Ok((sufficient_statistics, true, n_iterations, last_likelihood))
                     } else {
-                        (
+                        Ok((
                             sufficient_statistics,
                             false,
                             n_iterations,
                             f64::NEG_INFINITY,
-                        )
+                        ))
                     }
-                })
+                }).collect::<Result<Vec<_>, _>>()?;
+
+            // tripwire restults must be `max_by` returns a reference. Therefore the dedicated `result`
+            // variable is necessary for lifetime resolution
+            let best = results
+                .iter()
                 .max_by(|a, b| a.3.total_cmp(&b.3))
                 .unwrap();
 
+                // https://stackoverflow.com/a/36370251
+
+
             // from the sufficient statistics we can restore the winning model by simply maximizing
-            self.mixable.maximize(&best.0);
+            self.mixable.maximize(&best.0)?;
             self.info.converged = best.1;
             self.info.n_iterations = best.2;
             self.info.likelihood = best.3;
@@ -132,8 +140,8 @@ where
             // incremental learning
 
             // Guess I will have to read the paper
-            let (responsibilities, _) = self.mixable.expect(&data);
-            let mut sufficient_statistics = self.mixable.compute(&responsibilities);
+            let (responsibilities, _) = self.mixable.expect(&data)?;
+            let mut sufficient_statistics = self.mixable.compute(&responsibilities)?;
             sufficient_statistics = T::merge(
                 &[
                     &self
@@ -143,15 +151,15 @@ where
                     &sufficient_statistics,
                 ],
                 &[1.0 - self.incremental_weight, self.incremental_weight],
-            );
+            )?;
             // todo!
             // self.batch()
         }
         Ok(())
     }
 
-    fn predict(&self, data: &Self::DataIn<'_>) -> T::DataOut {
-        let (responsibilities, likelihood) = self.mixable.expect(&data);
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result< Self::DataOut, Error> {
+        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
         // self.mixable.predict(&responsibilities, data)
         todo!()
     }
