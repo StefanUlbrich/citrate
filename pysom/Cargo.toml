@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.16.1", features = ["extension-module"] }
-som-rs = { path = "../som-rs"}
+cerebral = { path = "../cerebral"}
 numpy = "0.16"
 ndarray-rand = "0.14"
 rand_isaac = "0.3"

@@ -14,11 +14,11 @@ use rand_isaac::isaac64::Isaac64Rng;
 // use som_rs::som::cartesian::CartesianGrid;
 // use som_rs::som::SelfOrganizingMap;
 
-use som_rs::{default::*, BoxedSelforganizing};
-use som_rs::{BoxedAdaptable, BoxedResponsive, BoxedTopological, BoxedTrainable};
+use cerebral::{default::*, BoxedSelforganizing};
+use cerebral::{BoxedAdaptable, BoxedResponsive, BoxedTopological, BoxedTrainable};
 
-// use som_rs::neurons;
-use som_rs::{SelforganizingNetwork, NeuralLayer};
+// use cerebral::neurons;
+use cerebral::{SelforganizingNetwork, NeuralLayer};
 
 #[pyclass]
 #[derive(Clone)]
