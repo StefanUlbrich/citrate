@@ -11,6 +11,8 @@ pub enum Error {
     },
     #[error("Invalid argument: {0}")]
     InvalidArgument(String),
+    #[error("Medthod not implemented")]
+    NotImplemented
 
 }
 
