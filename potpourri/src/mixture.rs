@@ -1,5 +1,7 @@
-use crate::{Error, ExpectationMaximizing, Mixables, Initializable};
+use crate::{Error, ExpectationMaximizing, Mixables};
+use rayon::prelude::*;
 
+use tracing::{debug, info};
 
 /// The basis struct to use for models
 pub struct MixtureModel<T>
@@ -14,7 +16,7 @@ where
     pub incremental_weight: f64,
     pub tol: f64,
     last_sufficient_statistics: Option<T::SufficientStatistics>,
-    pub initialization: Option<T::LogLikelihood>,
+    // pub initialization: Option<T::LogLikelihood>,
     pub info: MixtureInfo,
 }
 
@@ -23,12 +25,12 @@ pub struct MixtureInfo {
     pub converged: bool,
     pub n_iterations: usize,
     pub likelihood: f64,
-    pub initialized: bool,
+    // pub initialized: bool,
 }
 
 impl<T> MixtureModel<T>
 where
-    T: Mixables,
+    T: Mixables + Sync,
 {
     pub fn new(
         mixable: T,
@@ -46,102 +48,136 @@ where
             incremental_weight: 0.8,
             tol: 1e-6,
             last_sufficient_statistics: None,
-            initialization: None,
+            // initialization: None,
             info: MixtureInfo {
                 fitted: false,
                 converged: false,
                 n_iterations: 0,
                 likelihood: f64::NAN,
-                initialized: false,
+                // initialized: false,
             },
         }
     }
+}
 
-    pub fn initialize_manually(&mut self, responsibilities: T::LogLikelihood) {
-        self.info.initialized = true;
-        self.initialization = Some(responsibilities);
+/// Intermediate result from a single EM training (better than just using tuples)
+#[derive(Debug)]
+struct Intermediate<T: Mixables> {
+    sufficient_statistics: T::SufficientStatistics,
+    converged: bool,
+    n_iterations: usize,
+    likelihood: f64,
+}
+
+impl<T: Mixables> Intermediate<T> {
+    fn new(
+        sufficient_statistics: T::SufficientStatistics,
+        converged: bool,
+        n_iterations: usize,
+        likelihood: f64,
+    ) -> Self {
+        Intermediate {
+            sufficient_statistics,
+            converged,
+            n_iterations,
+            likelihood,
+        }
+    }
+}
+
+impl<T> MixtureModel<T>
+where
+    T: Mixables + Sync,
+{
+    fn single_fit(&self, mut mixable: T, data: &T::DataIn<'_>) -> Result<Intermediate<T>, Error> {
+        // If the model has not been fitted yet, do a random initialization
+
+        // use random sufficient statistics for variable initialization
+        let mut sufficient_statistics = self
+            .mixable
+            .compute(&data, &mixable.expect_rand(&data, self.n_components)?)?;
+
+        // .. and optional model initialization
+        if !self.info.fitted {
+            mixable.maximize(&sufficient_statistics)?;
+        }
+
+        let mut n_iterations = 0;
+        let mut converged = false;
+        let mut last_likelihood = f64::NEG_INFINITY;
+
+        for i in 0..self.max_iterations {
+            info!(%i);
+            let (responsibilities, likelihood) = mixable.expect(&data)?;
+            sufficient_statistics = mixable.compute(&data, &responsibilities)?;
+            mixable.maximize(&sufficient_statistics)?;
+            if f64::abs(likelihood - last_likelihood) > self.tol {
+                converged = true;
+                n_iterations = i;
+                break;
+            }
+            last_likelihood = likelihood;
+        }
+
+        Ok(Intermediate::new(
+            sufficient_statistics,
+            converged,
+            n_iterations,
+            f64::NEG_INFINITY,
+        ))
     }
 }
 
 impl<T> ExpectationMaximizing for MixtureModel<T>
 where
-    T: Mixables,
+    T: Mixables + Sync + Clone + Send,
 {
     type DataIn<'a> = T::DataIn<'a>;
     type DataOut = T::DataOut;
 
     fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> {
-        if !self.info.fitted || !self.incremental {
-            if (self.n_init > 0 || self.info.fitted) && self.info.initialized {
-                return Err(Error::InvalidTrainingConfiguration {
+        if !self.incremental {
+            if self.n_init > 0 && self.info.fitted {
+                return Err(Error::ParameterError {
                     n_init: self.n_init,
-                    incremental: self.incremental,
-                    initialized: self.incremental,
+                    fitted: self.info.fitted,
                 });
             }
 
-            // multiple initializations can be parallelized when using iterator funtions
-            let results = (0..self.n_init)
-                .map(|_| -> Result<_, Error> {
-                    if !self.info.initialized && !self.info.fitted {
-                        self.initialize(None);
-                    }
+            // https://stackoverflow.com/a/36371890
+            let results: Result<Vec<_>, _> = (0..self.n_init)
+                .into_par_iter()
+                .map(|_| self.mixable.clone())
+                .map(|x| self.single_fit(x, &data))
+                .collect();
+            // results variable required to determine the lifetime of references returned by `max_by`
+            let results = results?;
 
-                    let mut converged = true;
-                    let mut n_iterations = 0;
-
-                    let mut last_likelihood = f64::NEG_INFINITY;
-
-                    let mut sufficient_statistics =
-                        self.mixable.compute(self.initialization.as_ref().unwrap())?;
-                    self.mixable.maximize(&sufficient_statistics)?;
-
-                    // the inner loop cannot be parallelized
-                    for i in 0..self.max_iterations {
-                        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
-                        sufficient_statistics = self.mixable.compute(&responsibilities)?;
-                        self.mixable.maximize(&sufficient_statistics)?;
-                        if f64::abs(likelihood - last_likelihood) > self.tol {
-                            converged = true;
-                            n_iterations = i;
-                            break;
-                        }
-                        last_likelihood = likelihood;
-                    }
-
-                    if converged {
-                        Ok((sufficient_statistics, true, n_iterations, last_likelihood))
-                    } else {
-                        Ok((
-                            sufficient_statistics,
-                            false,
-                            n_iterations,
-                            f64::NEG_INFINITY,
-                        ))
-                    }
-                }).collect::<Result<Vec<_>, _>>()?;
-
-            // tripwire restults must be `max_by` returns a reference. Therefore the dedicated `result`
-            // variable is necessary for lifetime resolution
             let best = results
                 .iter()
-                .max_by(|a, b| a.3.total_cmp(&b.3))
+                .max_by(|a, b| a.likelihood.total_cmp(&b.likelihood))
                 .unwrap();
 
-                // https://stackoverflow.com/a/36370251
-
-
-            // from the sufficient statistics we can restore the winning model by simply maximizing
-            self.mixable.maximize(&best.0)?;
-            self.info.converged = best.1;
-            self.info.n_iterations = best.2;
-            self.info.likelihood = best.3;
+            // restore winning model from the sufficient statistics
+            self.mixable.maximize(&best.sufficient_statistics)?;
+            self.info.converged = best.converged;
+            self.info.n_iterations = best.n_iterations;
+            self.info.likelihood = best.likelihood;
         } else {
             // incremental learning
 
+            if !self.info.fitted {
+                let sufficient_statistics = self
+                    .mixable
+                    .compute(&data, &self.mixable.expect_rand(&data, self.n_components)?)?;
+                self.mixable.maximize(&sufficient_statistics)?;
+                self.info.fitted = true
+            }
+
+            panic!();
             // Guess I will have to read the paper
             let (responsibilities, _) = self.mixable.expect(&data)?;
-            let mut sufficient_statistics = self.mixable.compute(&responsibilities)?;
+            let mut sufficient_statistics = self.mixable.compute(&data, &responsibilities)?;
             sufficient_statistics = T::merge(
                 &[
                     &self
@@ -158,24 +194,45 @@ where
         Ok(())
     }
 
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result< Self::DataOut, Error> {
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
         let (responsibilities, likelihood) = self.mixable.expect(&data)?;
         // self.mixable.predict(&responsibilities, data)
         todo!()
     }
-
-
 }
 
-
-
-#[cfg(test)]
+// TODO: Move to integration tests
+#[cfg(all(test, feature = "ndarray"))]
 mod tests {
     use super::*;
+    use crate::backend::ndarray::utils::generate_samples;
+    use crate::backend::ndarray::{categorical::Categorical, gaussian::Gaussian};
+    use crate::mixture::MixtureModel;
+    use crate::probabilistic::Density;
+    use tracing_test::traced_test;
 
     #[test]
-    fn it_works() {
-        // let result = add(2, 2);
-        // assert_eq!(result, 4);
+    #[traced_test]
+    fn single_gmm_em() {
+        let (data, _, covariances) = generate_samples(30000, 3, 2);
+
+        let gaussian = Gaussian::new();
+        let categorial = Categorical::new(3, None);
+        let density = Density {
+            mixables: gaussian,
+            latent: categorial,
+        };
+        // let density = Density::new(gaussian, categorial);
+
+        let gaussian = Gaussian::new();
+        let categorial = Categorical::new(3, None);
+
+        let density = Density::new(gaussian, categorial);
+
+        let gmm = MixtureModel::new(density, 3, 200, 1, false);
+
+        let result = gmm.single_fit(gmm.mixable.clone(), &data.view()).unwrap();
+
+        println!("{:?}", result)
     }
 }

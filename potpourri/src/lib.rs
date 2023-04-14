@@ -10,7 +10,6 @@
  * * Structs: Capital letters and CamelCase, nouns describing things and concepts
  * * methods/functions: snake_case and imperatives or short, discriptive imperative clauses
  */
-
 pub mod backend;
 pub mod errors;
 pub mod mixture;
@@ -21,16 +20,12 @@ use std::option;
 pub use mixture::MixtureModel;
 pub use probabilistic::{Density, Latent, Probabilistic};
 
-#[cfg(feature = "ractor")]
-pub use backend::ractor::mixture::mixture;
-
 use errors::Error;
 
-
 pub trait Mixables {
-    type SufficientStatistics;
+    type SufficientStatistics: Send + Sync;
     type LogLikelihood;
-    type DataIn<'a>;
+    type DataIn<'a>: Sync;
     type DataOut;
 
     // weights: Self::DataIn<'_>,
@@ -48,11 +43,13 @@ pub trait Mixables {
     /// can be disabled for performance (defaults to `True`)
     fn compute(
         &self,
+        data: &Self::DataIn<'_>,
         responsibilities: &Self::LogLikelihood,
     ) -> Result<Self::SufficientStatistics, Error>;
 
     /// Maximize the model parameters from
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) -> Result<(), Error>;
+    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics)
+        -> Result<(), Error>;
 
     fn predict(
         &self,
@@ -62,7 +59,11 @@ pub trait Mixables {
 
     /// Update the stored sufficient statistics (for incremental learning)
     /// Weights is a tuple (a float should suffice, if summing to one)
-    fn update(&mut self, sufficient_statistics: &Self::SufficientStatistics, weight: (f64, f64)) -> Result<(), Error>;
+    fn update(
+        &mut self,
+        sufficient_statistics: &Self::SufficientStatistics,
+        weight: f64,
+    ) -> Result<(), Error>;
 
     /// merge multiple sufficient statistics into one.
     fn merge(
@@ -70,39 +71,27 @@ pub trait Mixables {
         weights: &[f64],
     ) -> Result<Self::SufficientStatistics, Error>;
 
+    /// Generate a random expectation. Used as an initalization. It is recommended
+    /// to draw the expectations from a univorm Dirichlet distribution.
+    /// Note: This works better than an initialization method, because the layers
+    /// such as the `Probabilistic` trait don't need to implement backend-specific
+    /// random samplers.
+    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::LogLikelihood, Error> {
+        todo!()
+    }
 }
 
 /// Probabilistic mixables should implement this trait
-
 
 /// A mixture model has a discrete and unobservable variable (i.e., latent) variable
 /// associated with each data point. It can be interpreted as a pointer to the component
 /// of a mixture generated the sample. This component computes weights the components
 /// in the mixture, that is, the probability for each component that the next sample will
 /// be drawn from it. In case of non-probabilistic models (k-mm and SOM) this is irrelevant.
-pub trait ExpectationMaximizing
-{
+pub trait ExpectationMaximizing {
     type DataIn<'a>;
     type DataOut;
 
-    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> ;
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result< Self::DataOut, Error>  ;
-
-}
-
-/// To be implemented in the backend modules
-pub trait Initializable<T> {
-    /// Random initialization by creating a random responsibility matrix
-    fn initialize(&mut self, responsibilities: Option<T>);
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = 4;
-        assert_eq!(result, 4);
-    }
+    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error>;
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error>;
 }

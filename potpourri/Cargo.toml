@@ -15,10 +15,27 @@ documentation = "https://stefanulbrich.github.io/citrate/"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ndarray = { version = "0.15", features = ["serde"], optional = true}
-ndarray-rand = { version="0.14", optional = true}
-ractor = {version = "0.7", optional = true}
+ndarray = { version = "0.15", features = [
+    "serde",
+    "rayon",
+    "approx", # better only in dev dependency
+], optional = true }
+ndarray-rand = { version = "0.14", optional = true }
+ndarray-linalg = { version = "0.16.0" }
+ractor = { version = "0.7", optional = true }
 thiserror = "1.0.40"
+tracing = "0.1.37"
+# openblas-src = {version = "0.10", features = ["cblas", "system"]}
+
+# Make this features ...
+criterion = { version = "0.4.0", features = ["html_reports"] }
+rand = "0.8.5"
+rand_distr = "0.4.3"
+# Move to
+statrs = "0.16.0"
+
+itertools = "0.10.5"
+rayon = "1.7.0"
 
 # https://www.reddit.com/r/rust/comments/a39er8/comment/eb4f7jd/?utm_source=share&utm_medium=web2x&context=3
 # som-rs = {version = "0.1", path="../som-rs", optional = true}
@@ -26,4 +43,15 @@ thiserror = "1.0.40"
 [features]
 ndarray = ["dep:ndarray", "dep:ndarray-rand"]
 ractor = ["dep:ractor"]
+
+[dev-dependencies]
+ndarray-linalg = { version = "0.16.0", features = ["openblas-system"] }
+
+plotters = "0.3.4"
+tracing-subscriber = "0.3.16"
+tracing-test = "0.2.4"
 # som = ["som-rs"]`
+
+[[bench]]
+harness = false
+name = "mle_benchmark"

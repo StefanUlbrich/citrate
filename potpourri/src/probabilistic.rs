@@ -1,26 +1,31 @@
 // Todo: move outside of the backend!
 
-use crate::{Mixables, Error};
+use crate::{Error, Mixables};
 
 /// An additional interface for `Mixables` that can be used as latent states.
 /// These can be categorical distributions, with or without finite Dirichlet
 /// or infinite Dirichlet process priors. The `Mixables` are here used not
 /// multiple components but only as one distribution of the latent states.
 
-
-
 pub trait Latent<T>
 where
     T: Mixables,
 {
-    fn join(likelihood_a: &T::LogLikelihood, likelihood_b: &T::LogLikelihood) -> Result<T::LogLikelihood, Error>;
+    fn join(
+        likelihood_a: &T::LogLikelihood,
+        likelihood_b: &T::LogLikelihood,
+    ) -> Result<(T::LogLikelihood, f64), Error>;
 }
 
 pub trait Probabilistic<T>
 where
     T: Mixables,
 {
-    fn probabilistic_predict(&self, latent_likelihood: T::LogLikelihood, data: &T::DataIn<'_>) -> Result<T::DataOut, Error>;
+    fn probabilistic_predict(
+        &self,
+        latent_likelihood: T::LogLikelihood,
+        data: &T::DataIn<'_>,
+    ) -> Result<T::DataOut, Error>;
 }
 
 /// This trait represents the traditional mixture models with an underlying
@@ -28,31 +33,49 @@ where
 /// assignment, that is, for each sample and each component the likelihood
 /// is computed that the sample belongs to the component. The alternative
 /// is that a sample can only belong to one of the compent alone.
+///
+/// Warning: we don't enforce trait bounds here due to a possible
+/// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
+///
+#[derive(Clone, Debug)]
 pub struct Density<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
-    T: for<'a> Mixables<
-        LogLikelihood = L::LogLikelihood,
-        DataIn<'a> = L::DataIn<'a>,
-    > + Probabilistic<T>,
-    L: Mixables + Latent<T>,
+    // T: for<'a, 'b> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    //     + Probabilistic<T>,
+    T: Mixables<LogLikelihood = L::LogLikelihood>,
+    // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
+    L: Mixables + Latent<L>,
 {
-    mixables: T,
-    latent: L,
+    pub mixables: T,
+    pub latent: L,
+}
+
+impl<T, L> Density<T, L>
+where
+    // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
+    // T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    //     + Probabilistic<T>,
+    T: Mixables<LogLikelihood = L::LogLikelihood>,
+    // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
+    L: Mixables + Latent<L>,
+{
+    pub fn new(mixables: T, latent: L) -> Self {
+        Density {
+            latent: latent,
+            mixables: mixables,
+        }
+    }
 }
 
 impl<T, L> Mixables for Density<T, L>
 where
-    T: for<'a> Mixables<
-        LogLikelihood = L::LogLikelihood,
-        DataIn<'a> = L::DataIn<'a>,
-    > + Probabilistic<T>,
-    L: Mixables + Latent<T>,
+    T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+        + Probabilistic<T>,
+    // T: Mixables<LogLikelihood = L::LogLikelihood>,
+    L: Mixables + Latent<L>,
 {
-    type SufficientStatistics = (
-        L::SufficientStatistics,
-        T::SufficientStatistics,
-    );
+    type SufficientStatistics = (L::SufficientStatistics, T::SufficientStatistics);
 
     type LogLikelihood = T::LogLikelihood;
 
@@ -60,35 +83,45 @@ where
 
     type DataOut = T::DataOut;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error >{
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
         // Todo compute the second parameter
+        Ok(L::join(
+            &self.latent.expect(data.into())?.0,
+            &self.mixables.expect(data)?.0,
+        )?)
+    }
+
+    fn compute(
+        &self,
+        data: &Self::DataIn<'_>,
+        responsibilities: &Self::LogLikelihood,
+    ) -> Result<Self::SufficientStatistics, Error> {
         Ok((
-            L::join(&self.latent.expect(data)?.0, &self.mixables.expect(data)?.0)?,
-            self.mixables.expect(data)?.1,
+            self.latent.compute(&data, responsibilities)?,
+            self.mixables.compute(&data, responsibilities)?,
         ))
     }
 
-    fn compute(&self, responsibilities: &Self::LogLikelihood) -> Result<Self::SufficientStatistics, Error> {
-        Ok((
-            self.latent.compute(responsibilities)?,
-            self.mixables.compute(responsibilities)?,
-        ))
-    }
-
-    fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) ->  Result<(), Error> {
-        self.latent.maximize(&sufficient_statistics.0);
-        self.mixables.maximize(&sufficient_statistics.1);
+    fn maximize(
+        &mut self,
+        sufficient_statistics: &Self::SufficientStatistics,
+    ) -> Result<(), Error> {
+        self.latent.maximize(&sufficient_statistics.0)?;
+        self.mixables.maximize(&sufficient_statistics.1)?;
         Ok(())
     }
 
     /// Prediction can be classification or regression depending on the implementation.
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error>{
-
-        let likelihood =self.latent.expect(data)?.0;
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
+        let likelihood = self.latent.expect(data)?.0;
         self.mixables.probabilistic_predict(likelihood, data)
     }
 
-    fn update(&mut self, sufficient_statistics: &Self::SufficientStatistics, weight: (f64, f64)) -> Result<(), Error> {
+    fn update(
+        &mut self,
+        sufficient_statistics: &Self::SufficientStatistics,
+        weight: f64,
+    ) -> Result<(), Error> {
         self.latent.update(&sufficient_statistics.0, weight)?;
         self.mixables.update(&sufficient_statistics.1, weight)?;
         Ok(())
@@ -98,17 +131,25 @@ where
         sufficient_statistics: &[&Self::SufficientStatistics],
         weights: &[f64],
     ) -> Result<Self::SufficientStatistics, Error> {
-        todo!()
+        // boah.
+        let a: Vec<_> = sufficient_statistics.iter().map(|x| &x.0).collect();
+        let b: Vec<_> = sufficient_statistics.iter().map(|x| &x.1).collect();
+
+        Ok((L::merge(&a[..], weights)?, T::merge(&b[..], weights)?))
+    }
+
+    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::LogLikelihood, Error> {
+        self.latent.expect_rand(data, k)
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "ndarray"))]
 mod tests {
     use super::*;
+    use crate::backend::ndarray::utils::{filter_data, generate_samples};
 
     #[test]
-    fn it_works() {
-        // let result = add(2, 2);
-        // assert_eq!(result, 4);
+    fn em_step() {
+        let (data, responsibilities, covariances) = generate_samples(300000, 3, 2);
     }
 }
