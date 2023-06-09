@@ -2,9 +2,9 @@
 resolver = "2" # Important! wgpu/Bevy needs this!
 
 members = [
-    "cerebral",
+    "cerebral-rs",
     "pysom",
     # "testbed",
-    "potpourri",
+    "potpourri-rs",
     # "visualization"
 ]
