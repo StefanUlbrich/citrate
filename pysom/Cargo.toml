@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.16.1", features = ["extension-module"] }
-cerebral = { path = "../cerebral"}
+cerebral = { path = "../cerebral-rs"}
 numpy = "0.16"
 ndarray-rand = "0.14"
 rand_isaac = "0.3"
