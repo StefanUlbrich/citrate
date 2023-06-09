@@ -22,14 +22,14 @@ use errors::Error;
 
 pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
-    type LogLikelihood;
+    type Likelihood;
     type DataIn<'a>: Sync;
     type DataOut;
 
     // weights: Self::DataIn<'_>,
 
     /// The E-Step. Computes the likelihood for each component in the mixture
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error>;
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, f64), Error>;
 
     // Consider combining `compute` and `maximize` – no that is a bad idea
     // &mut self,
@@ -42,7 +42,7 @@ pub trait Parametrizable {
     fn compute(
         &self,
         data: &Self::DataIn<'_>,
-        responsibilities: &Self::LogLikelihood,
+        responsibilities: &Self::Likelihood,
     ) -> Result<Self::SufficientStatistics, Error>;
 
     /// Maximize the model parameters from
@@ -78,7 +78,7 @@ pub trait Parametrizable {
         &self,
         _data: &Self::DataIn<'_>,
         _k: usize,
-    ) -> Result<Self::LogLikelihood, Error> {
+    ) -> Result<Self::Likelihood, Error> {
         todo!()
     }
 }

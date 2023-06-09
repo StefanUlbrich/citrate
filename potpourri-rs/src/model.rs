@@ -16,7 +16,7 @@ where
     pub incremental_weight: f64,
     pub tol: f64,
     // last_sufficient_statistics: Option<T::SufficientStatistics>,
-    // pub initialization: Option<T::LogLikelihood>,
+    // pub initialization: Option<T::Likelihood>,
     pub info: ModelInfo,
 }
 
