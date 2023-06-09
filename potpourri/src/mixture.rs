@@ -1,181 +1,201 @@
-use crate::{Error, ExpectationMaximizing, Mixables, Initializable};
+// Todo: move outside of the backend!
 
+use crate::{Error, Parametrizable};
 
-/// The basis struct to use for models
-pub struct MixtureModel<T>
+/// An additional interface for `Mixables` that can be used as latent states.
+/// These can be categorical distributions, with or without finite Dirichlet
+/// or infinite Dirichlet process priors. The `Mixables` are here used not
+/// multiple components but only as one distribution of the latent states.
+
+pub trait Latent<T>
 where
-    T: Mixables,
+    T: Parametrizable,
 {
-    pub mixable: T,
-    pub n_components: usize,
-    pub max_iterations: usize,
-    pub n_init: usize,
-    pub incremental: bool,
-    pub incremental_weight: f64,
-    pub tol: f64,
-    last_sufficient_statistics: Option<T::SufficientStatistics>,
-    pub initialization: Option<T::LogLikelihood>,
-    pub info: MixtureInfo,
+    // fn join(
+    //     likelihood_a: &T::LogLikelihood,
+    //     likelihood_b: &T::LogLikelihood,
+    // ) -> Result<(T::LogLikelihood, f64), Error>;
+
+    fn expect(
+        &self,
+        data: &T::DataIn<'_>,
+        likelihood: &T::LogLikelihood,
+    ) -> Result<(T::LogLikelihood, f64), Error>;
 }
 
-pub struct MixtureInfo {
-    pub fitted: bool,
-    pub converged: bool,
-    pub n_iterations: usize,
-    pub likelihood: f64,
-    pub initialized: bool,
+pub trait Mixable<T>
+where
+    T: Parametrizable,
+{
+    fn predict(
+        &self,
+        latent_likelihood: T::LogLikelihood,
+        data: &T::DataIn<'_>,
+    ) -> Result<T::DataOut, Error>;
 }
 
-impl<T> MixtureModel<T>
+/// This trait represents the traditional mixture models with an underlying
+/// probability density (as opposed to k-means or SOM). They have a soft
+/// assignment, that is, for each sample and each component the likelihood
+/// is computed that the sample belongs to the component. The alternative
+/// is that a sample can only belong to one of the compent alone.
+///
+/// Warning: we don't enforce trait bounds here due to a possible
+/// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
+///
+#[derive(Clone, Debug)]
+pub struct Mixture<T, L>
 where
-    T: Mixables,
+    // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
+    // T: for<'a, 'b> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    //     + Probabilistic<T>,
+    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
+    // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
+    L: Parametrizable + Latent<L>,
 {
-    pub fn new(
-        mixable: T,
-        n_components: usize,
-        max_iterations: usize,
-        n_init: usize,
-        incremental: bool,
-    ) -> MixtureModel<T> {
-        MixtureModel {
-            mixable,
-            n_components,
-            max_iterations,
-            n_init,
-            incremental,
-            incremental_weight: 0.8,
-            tol: 1e-6,
-            last_sufficient_statistics: None,
-            initialization: None,
-            info: MixtureInfo {
-                fitted: false,
-                converged: false,
-                n_iterations: 0,
-                likelihood: f64::NAN,
-                initialized: false,
-            },
+    pub mixables: T,
+    pub latent: L,
+}
+
+impl<T, L> Mixture<T, L>
+where
+    // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
+    // T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    //     + Probabilistic<T>,
+    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
+    // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
+    L: Parametrizable + Latent<L>,
+{
+    pub fn new(mixables: T, latent: L) -> Self {
+        Mixture {
+            latent: latent,
+            mixables: mixables,
         }
     }
-
-    pub fn initialize_manually(&mut self, responsibilities: T::LogLikelihood) {
-        self.info.initialized = true;
-        self.initialization = Some(responsibilities);
-    }
 }
 
-impl<T> ExpectationMaximizing for MixtureModel<T>
+impl<T, L> Parametrizable for Mixture<T, L>
 where
-    T: Mixables,
+    T: for<'a> Parametrizable<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+        + Mixable<T>,
+    // T: Mixables<LogLikelihood = L::LogLikelihood>,
+    L: Parametrizable + Latent<L>,
 {
+    type SufficientStatistics = (L::SufficientStatistics, T::SufficientStatistics);
+
+    type LogLikelihood = T::LogLikelihood;
+
     type DataIn<'a> = T::DataIn<'a>;
+
     type DataOut = T::DataOut;
 
-    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error> {
-        if !self.info.fitted || !self.incremental {
-            if (self.n_init > 0 || self.info.fitted) && self.info.initialized {
-                return Err(Error::InvalidTrainingConfiguration {
-                    n_init: self.n_init,
-                    incremental: self.incremental,
-                    initialized: self.incremental,
-                });
-            }
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
+        // Todo compute the second parameter
+        Latent::expect(&self.latent, data, &self.mixables.expect(data)?.0)
 
-            // multiple initializations can be parallelized when using iterator funtions
-            let results = (0..self.n_init)
-                .map(|_| -> Result<_, Error> {
-                    if !self.info.initialized && !self.info.fitted {
-                        self.initialize(None);
-                    }
+        // Ok(L::join(
+        //     &self.latent.expect(data.into())?.0,
+        //     ,
+        // )?)
+    }
 
-                    let mut converged = true;
-                    let mut n_iterations = 0;
+    fn compute(
+        &self,
+        data: &Self::DataIn<'_>,
+        responsibilities: &Self::LogLikelihood,
+    ) -> Result<Self::SufficientStatistics, Error> {
+        Ok((
+            self.latent.compute(&data, responsibilities)?,
+            self.mixables.compute(&data, responsibilities)?,
+        ))
+    }
 
-                    let mut last_likelihood = f64::NEG_INFINITY;
-
-                    let mut sufficient_statistics =
-                        self.mixable.compute(self.initialization.as_ref().unwrap())?;
-                    self.mixable.maximize(&sufficient_statistics)?;
-
-                    // the inner loop cannot be parallelized
-                    for i in 0..self.max_iterations {
-                        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
-                        sufficient_statistics = self.mixable.compute(&responsibilities)?;
-                        self.mixable.maximize(&sufficient_statistics)?;
-                        if f64::abs(likelihood - last_likelihood) > self.tol {
-                            converged = true;
-                            n_iterations = i;
-                            break;
-                        }
-                        last_likelihood = likelihood;
-                    }
-
-                    if converged {
-                        Ok((sufficient_statistics, true, n_iterations, last_likelihood))
-                    } else {
-                        Ok((
-                            sufficient_statistics,
-                            false,
-                            n_iterations,
-                            f64::NEG_INFINITY,
-                        ))
-                    }
-                }).collect::<Result<Vec<_>, _>>()?;
-
-            // tripwire restults must be `max_by` returns a reference. Therefore the dedicated `result`
-            // variable is necessary for lifetime resolution
-            let best = results
-                .iter()
-                .max_by(|a, b| a.3.total_cmp(&b.3))
-                .unwrap();
-
-                // https://stackoverflow.com/a/36370251
-
-
-            // from the sufficient statistics we can restore the winning model by simply maximizing
-            self.mixable.maximize(&best.0)?;
-            self.info.converged = best.1;
-            self.info.n_iterations = best.2;
-            self.info.likelihood = best.3;
-        } else {
-            // incremental learning
-
-            // Guess I will have to read the paper
-            let (responsibilities, _) = self.mixable.expect(&data)?;
-            let mut sufficient_statistics = self.mixable.compute(&responsibilities)?;
-            sufficient_statistics = T::merge(
-                &[
-                    &self
-                        .last_sufficient_statistics
-                        .as_ref()
-                        .expect("Model has not been trained before"),
-                    &sufficient_statistics,
-                ],
-                &[1.0 - self.incremental_weight, self.incremental_weight],
-            )?;
-            // todo!
-            // self.batch()
-        }
+    fn maximize(
+        &mut self,
+        sufficient_statistics: &Self::SufficientStatistics,
+    ) -> Result<(), Error> {
+        self.latent.maximize(&sufficient_statistics.0)?;
+        self.mixables.maximize(&sufficient_statistics.1)?;
         Ok(())
     }
 
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result< Self::DataOut, Error> {
-        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
-        // self.mixable.predict(&responsibilities, data)
-        todo!()
+    /// Prediction can be classification or regression depending on the implementation.
+    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
+        // TODO not tested
+        let likelihood = Parametrizable::expect(&self.latent, data)?.0;
+        Mixable::predict(&self.mixables, likelihood, data)
     }
 
+    fn update(
+        &mut self,
+        sufficient_statistics: &Self::SufficientStatistics,
+        weight: f64,
+    ) -> Result<(), Error> {
+        self.latent.update(&sufficient_statistics.0, weight)?;
+        self.mixables.update(&sufficient_statistics.1, weight)?;
+        Ok(())
+    }
 
+    fn merge(
+        sufficient_statistics: &[&Self::SufficientStatistics],
+        weights: &[f64],
+    ) -> Result<Self::SufficientStatistics, Error> {
+        // boah.
+        let a: Vec<_> = sufficient_statistics.iter().map(|x| &x.0).collect();
+        let b: Vec<_> = sufficient_statistics.iter().map(|x| &x.1).collect();
+
+        Ok((L::merge(&a[..], weights)?, T::merge(&b[..], weights)?))
+    }
+
+    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::LogLikelihood, Error> {
+        self.latent.expect_rand(data, k)
+    }
 }
 
-
-
-#[cfg(test)]
+#[cfg(all(test, feature = "ndarray"))]
 mod tests {
     use super::*;
+    use crate::backend::ndarray::{
+        finite::Finite,
+        gaussian::Gaussian,
+        utils::{generate_random_expections, generate_samples},
+    };
+    use tracing::info;
+    use tracing_test::traced_test;
 
+    #[traced_test]
     #[test]
-    fn it_works() {
-        // let result = add(2, 2);
-        // assert_eq!(result, 4);
+    fn em_step() {
+        let k = 3;
+        // let (data, responsibilities, _means, _covariancess) = generate_samples(30, k, 2);
+        // info!(%data);
+        // info!(%responsibilities);
+        let (data, _, means, _covariances) = generate_samples(30000, k, 2);
+
+        info!(%means);
+
+        let gaussian = Gaussian::new();
+        let categorial = Finite::new(None);
+        let mut mixture = Mixture {
+            mixables: gaussian,
+            latent: categorial,
+        };
+
+        let mut likelihood: f64;
+        let mut responsibilities = generate_random_expections(&data.view(), k).unwrap();
+        for _ in 1..20 {
+            let stat = mixture.compute(&data.view(), &responsibilities).unwrap();
+            mixture.maximize(&stat).unwrap();
+            // info!("maximized");
+            info!(%mixture.mixables.means);
+            info!(%mixture.latent.pmf);
+
+            (responsibilities, likelihood) = mixture.expect(&data.view()).unwrap();
+            info!(%likelihood);
+        }
+
+        info!(%means);
+
+        // println!("{:?}", result)
     }
 }

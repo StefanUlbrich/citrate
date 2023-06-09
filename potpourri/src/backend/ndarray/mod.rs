@@ -1,29 +1,23 @@
-pub mod categorical;
+pub mod finite;
 pub mod gaussian;
 pub mod kmeans;
 pub mod linear;
 pub mod som;
+pub mod utils;
 
-use crate::{Initializable, Mixables, MixtureModel};
+// Add errors specific to ndarray
 
-use ndarray_rand::{rand, rand::prelude::*, rand_distr::Dirichlet};
+use crate::errors::Error;
+use ndarray::ShapeError;
+use ndarray_linalg::error::LinalgError;
 
-// Todo: move outside of the backend! .. that is put the standard implementation of fit to the EM trait
-// Problem is the initialized, this is a matrix.
-// We can make an fn initialize_responsibility<T>
-
-impl<T> Initializable<T::LogLikelihood> for MixtureModel<T>
-where
-    T: Mixables,
-{
-    fn initialize(&mut self, responsibilities: Option<T::LogLikelihood>) {
-        if let Some(r) = responsibilities {
-            self.initialization = Some(r);
-        } else {
-            let dirichlet = Dirichlet::new(&vec![1.0; self.n_components]).unwrap();
-
-            let responsibilities = dirichlet.sample(&mut rand::thread_rng());
-            // Standard.sample_iter(&mut rng).take(16).collect();
-        }
+impl std::convert::From<LinalgError> for Error {
+    fn from(_: LinalgError) -> Self {
+        Error::LinalgError
+    }
+}
+impl std::convert::From<ShapeError> for Error {
+    fn from(_: ShapeError) -> Self {
+        Error::ShapeError
     }
 }

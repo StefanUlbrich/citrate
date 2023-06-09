@@ -1,6 +1,3 @@
-use super::{Mixables};
+// use crate::Parametrizable;
 
-
-pub struct Linear {
-
-}
+pub struct Linear {}

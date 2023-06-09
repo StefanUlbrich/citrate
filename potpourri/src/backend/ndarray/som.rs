@@ -1,5 +1,3 @@
-use super::{Mixables};
+// use crate::Parametrizable;
 
-pub struct SOM {
-
-}
+pub struct SOM {}

@@ -1,17 +1,19 @@
-// #[cfg(feature = "ndarray")]
-// use ndarray::ErrorKind;
-
 #[derive(thiserror::Error, Debug, Clone)]
 pub enum Error {
-    #[error("The combination of training parameters is invalid: {n_init:?}, {incremental:?}, {initialized:?}")]
-    InvalidTrainingConfiguration {
-        n_init: usize,
-        incremental: bool,
-        initialized: bool
-    },
+    #[error("Multiple iterations overwrite a fitted model: {n_init:?}, {fitted:?}")]
+    ParameterError { n_init: usize, fitted: bool },
     #[error("Invalid argument: {0}")]
     InvalidArgument(String),
-
+    #[error("Medthod not implemented")]
+    NotImplemented,
+    #[error("Dimension mismatch")] // TODO make parameterizable
+    DimensionMismatch,
+    #[error("Error in ndarray_linalg")]
+    LinalgError,
+    #[error("Wrong shapes")]
+    ShapeError,
+    #[error("Should never be executed")]
+    ForbiddenCode,
 }
 
 impl std::convert::From<std::num::ParseIntError> for Error {
