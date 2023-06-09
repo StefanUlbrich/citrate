@@ -208,7 +208,7 @@ where
 mod tests {
     use super::*;
     use crate::backend::ndarray::utils::generate_samples;
-    use crate::backend::ndarray::{categorical::Finite, gaussian::Gaussian};
+    use crate::backend::ndarray::{finite::Finite, gaussian::Gaussian};
     use crate::mixture::Mixture;
     use crate::model::Model;
     use tracing_test::traced_test;

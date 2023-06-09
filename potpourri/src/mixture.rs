@@ -11,9 +11,15 @@ pub trait Latent<T>
 where
     T: Parametrizable,
 {
-    fn join(
-        likelihood_a: &T::LogLikelihood,
-        likelihood_b: &T::LogLikelihood,
+    // fn join(
+    //     likelihood_a: &T::LogLikelihood,
+    //     likelihood_b: &T::LogLikelihood,
+    // ) -> Result<(T::LogLikelihood, f64), Error>;
+
+    fn expect(
+        &self,
+        data: &T::DataIn<'_>,
+        likelihood: &T::LogLikelihood,
     ) -> Result<(T::LogLikelihood, f64), Error>;
 }
 
@@ -21,7 +27,7 @@ pub trait Mixable<T>
 where
     T: Parametrizable,
 {
-    fn probabilistic_predict(
+    fn predict(
         &self,
         latent_likelihood: T::LogLikelihood,
         data: &T::DataIn<'_>,
@@ -85,10 +91,12 @@ where
 
     fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
         // Todo compute the second parameter
-        Ok(L::join(
-            &self.latent.expect(data.into())?.0,
-            &self.mixables.expect(data)?.0,
-        )?)
+        Latent::expect(&self.latent, data, &self.mixables.expect(data)?.0)
+
+        // Ok(L::join(
+        //     &self.latent.expect(data.into())?.0,
+        //     ,
+        // )?)
     }
 
     fn compute(
@@ -113,8 +121,9 @@ where
 
     /// Prediction can be classification or regression depending on the implementation.
     fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
-        let likelihood = self.latent.expect(data)?.0;
-        self.mixables.probabilistic_predict(likelihood, data)
+        // TODO not tested
+        let likelihood = Parametrizable::expect(&self.latent, data)?.0;
+        Mixable::predict(&self.mixables, likelihood, data)
     }
 
     fn update(
@@ -147,9 +156,9 @@ where
 mod tests {
     use super::*;
     use crate::backend::ndarray::{
-        categorical::Finite,
+        finite::Finite,
         gaussian::Gaussian,
-        utils::{filter_data, generate_random_expections, generate_samples},
+        utils::{generate_random_expections, generate_samples},
     };
     use tracing::info;
     use tracing_test::traced_test;
@@ -158,10 +167,10 @@ mod tests {
     #[test]
     fn em_step() {
         let k = 3;
-        let (data, mut responsibilities, means, covariances) = generate_samples(30, k, 2);
-        info!(%data);
-        info!(%responsibilities);
-        let (data, mut responsibilities, means, covariances) = generate_samples(30000, k, 2);
+        // let (data, responsibilities, _means, _covariancess) = generate_samples(30, k, 2);
+        // info!(%data);
+        // info!(%responsibilities);
+        let (data, _, means, _covariances) = generate_samples(30000, k, 2);
 
         info!(%means);
 

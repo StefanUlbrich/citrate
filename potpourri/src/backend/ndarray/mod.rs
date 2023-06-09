@@ -1,25 +1,15 @@
-pub mod categorical;
+pub mod finite;
 pub mod gaussian;
 pub mod kmeans;
 pub mod linear;
 pub mod som;
 pub mod utils;
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use crate::backend::ndarray::utils::{filter_data, generate_samples};
-//     use ndarray::prelude::*;
-
-//     #[test]
-//     fn em_step() {
-//     }
-// }
-
-use ndarray::ShapeError;
-use ndarray_linalg::error::LinalgError;
+// Add errors specific to ndarray
 
 use crate::errors::Error;
+use ndarray::ShapeError;
+use ndarray_linalg::error::LinalgError;
 
 impl std::convert::From<LinalgError> for Error {
     fn from(_: LinalgError) -> Self {

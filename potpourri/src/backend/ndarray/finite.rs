@@ -97,13 +97,21 @@ use tracing::info;
 
 /// FIXME compute the likelihood.. is it just the sum of all?
 impl Latent<Finite> for Finite {
-    fn join(
-        likelihood_a: &<Finite as Parametrizable>::LogLikelihood,
+    // fn join(
+    //     likelihood_a: &<Finite as Parametrizable>::LogLikelihood,
+    //     likelihood_b: &<Finite as Parametrizable>::LogLikelihood,
+    // ) -> Result<(<Finite as Parametrizable>::LogLikelihood, f64), Error> {
+    // }
+
+    fn expect(
+        &self,
+        data: &<Finite as Parametrizable>::DataIn<'_>,
         likelihood_b: &<Finite as Parametrizable>::LogLikelihood,
     ) -> Result<(<Finite as Parametrizable>::LogLikelihood, f64), Error> {
+        let likelihood_a = Parametrizable::expect(self, data)?.0;
+        info!(%likelihood_a);
         let log_weighted = likelihood_a + likelihood_b; // n x k
         info!(%likelihood_b);
-        info!(%likelihood_a);
         let weighted = log_weighted.mapv(|x| x.exp()); // sum?
         let s = weighted.shape();
         info!("{}x{}", s[0], s[1]);
