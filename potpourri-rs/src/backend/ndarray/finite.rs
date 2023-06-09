@@ -1,6 +1,6 @@
 use ndarray::prelude::*;
 
-use crate::{Error, Latent, Parametrizable};
+use crate::{AvgLLH, Error, Latent, Parametrizable};
 
 use super::utils::generate_random_expections;
 
@@ -34,10 +34,10 @@ impl Parametrizable for Finite {
 
     type DataOut = Array2<f64>;
 
-    fn expect(&self, _data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, f64), Error> {
+    fn expect(&self, _data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error> {
         Ok((
             self.pmf.slice(s![NewAxis, ..]).mapv(|x| x.ln()), //.to_owned()
-            f64::NAN,
+            AvgLLH(f64::NAN),
         ))
     }
 
@@ -107,7 +107,7 @@ impl Latent<Finite> for Finite {
         &self,
         data: &<Finite as Parametrizable>::DataIn<'_>,
         likelihood_b: &<Finite as Parametrizable>::Likelihood,
-    ) -> Result<(<Finite as Parametrizable>::Likelihood, f64), Error> {
+    ) -> Result<(<Finite as Parametrizable>::Likelihood, AvgLLH), Error> {
         let likelihood_a = Parametrizable::expect(self, data)?.0;
         info!(%likelihood_a);
         let log_weighted = likelihood_a + likelihood_b; // n x k
@@ -123,7 +123,7 @@ impl Latent<Finite> for Finite {
 
         Ok((
             log_responsibilities.mapv(|x| x.exp()),
-            log_weighted_norm.mean().unwrap(),
+            AvgLLH(log_weighted_norm.mean().unwrap()),
         ))
     }
 }

@@ -20,6 +20,10 @@ pub use model::Model;
 
 use errors::Error;
 
+/// Average log-likelihood. Used to meature convergence
+pub struct AvgLLH(f64);
+
+
 pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
     type Likelihood;
@@ -29,7 +33,8 @@ pub trait Parametrizable {
     // weights: Self::DataIn<'_>,
 
     /// The E-Step. Computes the likelihood for each component in the mixture
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, f64), Error>;
+    /// Note that for `Mixables`, this is the log-likelihood
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error>;
 
     // Consider combining `compute` and `maximize` – no that is a bad idea
     // &mut self,

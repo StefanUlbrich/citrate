@@ -1,6 +1,6 @@
 use std::f64::consts::PI;
 
-use crate::{Error, Mixable, Parametrizable};
+use crate::{Error, Mixable, Parametrizable, AvgLLH};
 use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
@@ -45,7 +45,7 @@ impl Parametrizable for Gaussian {
 
     type DataOut = Array2<f64>;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, f64), Error> {
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error> {
         let [k, _d, _] = get_shape3(&self.covariances)?;
 
         // n x k x d
@@ -72,7 +72,7 @@ impl Parametrizable for Gaussian {
                     })
             });
 
-        Ok((responsibilities, f64::NAN))
+        Ok((responsibilities, AvgLLH(f64::NAN)))
     }
 
     fn compute(

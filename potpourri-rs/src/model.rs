@@ -1,4 +1,4 @@
-use crate::{Error, Learning, Parametrizable};
+use crate::{Error, Learning, Parametrizable, AvgLLH};
 use rayon::prelude::*;
 
 use tracing::info;
@@ -105,14 +105,14 @@ where
 
         let mut n_iterations = 0;
         let mut converged = false;
-        let mut last_likelihood = f64::NEG_INFINITY;
+        let mut last_likelihood: AvgLLH = AvgLLH(f64::NEG_INFINITY);
 
         for i in 0..self.max_iterations {
             info!(%i);
             let (responsibilities, likelihood) = mixable.expect(&data)?;
             sufficient_statistics = mixable.compute(&data, &responsibilities)?;
             mixable.maximize(&sufficient_statistics)?;
-            if f64::abs(likelihood - last_likelihood) > self.tol {
+            if f64::abs(likelihood.0 - last_likelihood.0) > self.tol {
                 converged = true;
                 n_iterations = i;
                 break;

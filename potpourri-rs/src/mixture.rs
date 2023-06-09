@@ -1,6 +1,6 @@
 // Todo: move outside of the backend!
 
-use crate::{Error, Parametrizable};
+use crate::{Error, Parametrizable, AvgLLH};
 
 /// An additional interface for `Mixables` that can be used as latent states.
 /// These can be categorical distributions, with or without finite Dirichlet
@@ -16,8 +16,9 @@ where
         &self,
         data: &T::DataIn<'_>,
         likelihood: &T::Likelihood,
-    ) -> Result<(T::Likelihood, f64), Error>;
+    ) -> Result<(T::Likelihood, AvgLLH), Error>;
 }
+
 
 pub trait Mixable<T>
 where
@@ -38,6 +39,8 @@ where
 ///
 /// Warning: we don't enforce trait bounds here due to a possible
 /// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
+/// 
+/// Warning: `Mixables` have to compute the log-likelihood in the expectation step!
 ///
 #[derive(Clone, Debug)]
 pub struct Mixture<T, L>
@@ -84,7 +87,7 @@ where
 
     type DataOut = T::DataOut;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, f64), Error> {
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error> {
         // Todo compute the second parameter
         Latent::expect(&self.latent, data, &self.mixables.expect(data)?.0)
 
@@ -176,7 +179,7 @@ mod tests {
             latent: categorial,
         };
 
-        let mut likelihood: f64;
+        let mut likelihood: AvgLLH;
         let mut responsibilities = generate_random_expections(&data.view(), k).unwrap();
         for _ in 1..20 {
             let stat = mixture.compute(&data.view(), &responsibilities).unwrap();
@@ -186,7 +189,7 @@ mod tests {
             info!(%mixture.latent.pmf);
 
             (responsibilities, likelihood) = mixture.expect(&data.view()).unwrap();
-            info!(%likelihood);
+            info!("lieklihood {}", likelihood.0);
         }
 
         info!(%means);
