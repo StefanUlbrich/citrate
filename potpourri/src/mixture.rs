@@ -1,12 +1,12 @@
-use crate::{Error, ExpectationMaximizing, Mixables};
+use crate::{Error, Learning, Parametrizable};
 use rayon::prelude::*;
 
 use tracing::{debug, info};
 
 /// The basis struct to use for models
-pub struct MixtureModel<T>
+pub struct Model<T>
 where
-    T: Mixables,
+    T: Parametrizable,
 {
     pub mixable: T,
     pub n_components: usize,
@@ -17,10 +17,10 @@ where
     pub tol: f64,
     last_sufficient_statistics: Option<T::SufficientStatistics>,
     // pub initialization: Option<T::LogLikelihood>,
-    pub info: MixtureInfo,
+    pub info: ModelInfo,
 }
 
-pub struct MixtureInfo {
+pub struct ModelInfo {
     pub fitted: bool,
     pub converged: bool,
     pub n_iterations: usize,
@@ -28,9 +28,9 @@ pub struct MixtureInfo {
     // pub initialized: bool,
 }
 
-impl<T> MixtureModel<T>
+impl<T> Model<T>
 where
-    T: Mixables + Sync,
+    T: Parametrizable + Sync,
 {
     pub fn new(
         mixable: T,
@@ -38,8 +38,8 @@ where
         max_iterations: usize,
         n_init: usize,
         incremental: bool,
-    ) -> MixtureModel<T> {
-        MixtureModel {
+    ) -> Model<T> {
+        Model {
             mixable,
             n_components,
             max_iterations,
@@ -49,7 +49,7 @@ where
             tol: 1e-6,
             last_sufficient_statistics: None,
             // initialization: None,
-            info: MixtureInfo {
+            info: ModelInfo {
                 fitted: false,
                 converged: false,
                 n_iterations: 0,
@@ -62,14 +62,14 @@ where
 
 /// Intermediate result from a single EM training (better than just using tuples)
 #[derive(Debug)]
-struct Intermediate<T: Mixables> {
+struct Intermediate<T: Parametrizable> {
     sufficient_statistics: T::SufficientStatistics,
     converged: bool,
     n_iterations: usize,
     likelihood: f64,
 }
 
-impl<T: Mixables> Intermediate<T> {
+impl<T: Parametrizable> Intermediate<T> {
     fn new(
         sufficient_statistics: T::SufficientStatistics,
         converged: bool,
@@ -85,10 +85,11 @@ impl<T: Mixables> Intermediate<T> {
     }
 }
 
-impl<T> MixtureModel<T>
+impl<T> Model<T>
 where
-    T: Mixables + Sync,
+    T: Parametrizable + Sync,
 {
+    /// Single EM iteration.
     fn single_fit(&self, mut mixable: T, data: &T::DataIn<'_>) -> Result<Intermediate<T>, Error> {
         // If the model has not been fitted yet, do a random initialization
 
@@ -128,9 +129,9 @@ where
     }
 }
 
-impl<T> ExpectationMaximizing for MixtureModel<T>
+impl<T> Learning for Model<T>
 where
-    T: Mixables + Sync + Clone + Send,
+    T: Parametrizable + Sync + Clone + Send,
 {
     type DataIn<'a> = T::DataIn<'a>;
     type DataOut = T::DataOut;
@@ -159,6 +160,7 @@ where
                 .unwrap();
 
             // restore winning model from the sufficient statistics
+            // Additional step,  maybe a bit more expensive but elegant
             self.mixable.maximize(&best.sufficient_statistics)?;
             self.info.converged = best.converged;
             self.info.n_iterations = best.n_iterations;
@@ -206,30 +208,30 @@ where
 mod tests {
     use super::*;
     use crate::backend::ndarray::utils::generate_samples;
-    use crate::backend::ndarray::{categorical::Categorical, gaussian::Gaussian};
-    use crate::mixture::MixtureModel;
-    use crate::probabilistic::Density;
+    use crate::backend::ndarray::{categorical::Finite, gaussian::Gaussian};
+    use crate::mixture::Model;
+    use crate::probabilistic::Mixture;
     use tracing_test::traced_test;
 
     #[test]
     #[traced_test]
     fn single_gmm_em() {
-        let (data, _, covariances) = generate_samples(30000, 3, 2);
+        let (data, _, _, covariances) = generate_samples(30000, 3, 2);
 
         let gaussian = Gaussian::new();
-        let categorial = Categorical::new(3, None);
-        let density = Density {
+        let categorial = Finite::new(None);
+        let mixture = Mixture {
             mixables: gaussian,
             latent: categorial,
         };
         // let density = Density::new(gaussian, categorial);
 
         let gaussian = Gaussian::new();
-        let categorial = Categorical::new(3, None);
+        let categorial = Finite::new(None);
 
-        let density = Density::new(gaussian, categorial);
+        let density = Mixture::new(gaussian, categorial);
 
-        let gmm = MixtureModel::new(density, 3, 200, 1, false);
+        let gmm = Model::new(density, 3, 200, 1, false);
 
         let result = gmm.single_fit(gmm.mixable.clone(), &data.view()).unwrap();
 

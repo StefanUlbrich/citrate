@@ -1,23 +1,23 @@
 use ndarray::prelude::*;
 
-use crate::{Error, Latent, Mixables};
+use crate::{Error, Latent, Parametrizable};
 
 use super::utils::generate_random_expections;
 
 #[derive(Clone, Debug)]
 
-pub struct Categorical {
-    pub dimension: i32,
+pub struct Finite {
+    // pub dimension: i32,
     pub prior: Option<f64>,
     pub pmf: Array1<f64>,
     sufficient_statistics: Array2<f64>,
 }
 
-impl Categorical {
-    pub fn new(dimension: i32, prior: Option<f64>) -> Categorical {
+impl Finite {
+    pub fn new(prior: Option<f64>) -> Finite {
         // let prior = prior.unwrap_or(1.0);
-        Categorical {
-            dimension,
+        Finite {
+            // dimension,
             prior,
             pmf: Array1::<f64>::zeros(0),
             sufficient_statistics: Array2::<f64>::zeros((0, 0)),
@@ -25,7 +25,7 @@ impl Categorical {
     }
 }
 
-impl Mixables for Categorical {
+impl Parametrizable for Finite {
     type SufficientStatistics = Array1<f64>;
 
     type LogLikelihood = Array2<f64>;
@@ -35,7 +35,10 @@ impl Mixables for Categorical {
     type DataOut = Array2<f64>;
 
     fn expect(&self, _data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
-        Ok((self.pmf.slice(s![NewAxis, ..]).to_owned(), f64::NAN))
+        Ok((
+            self.pmf.slice(s![NewAxis, ..]).mapv(|x| x.ln()), //.to_owned()
+            f64::NAN,
+        ))
     }
 
     fn compute(
@@ -90,21 +93,29 @@ impl Mixables for Categorical {
         generate_random_expections(data, k)
     }
 }
+use tracing::info;
 
 /// FIXME compute the likelihood.. is it just the sum of all?
-impl Latent<Categorical> for Categorical {
+impl Latent<Finite> for Finite {
     fn join(
-        likelihood_a: &<Categorical as Mixables>::LogLikelihood,
-        likelihood_b: &<Categorical as Mixables>::LogLikelihood,
-    ) -> Result<(<Categorical as Mixables>::LogLikelihood, f64), Error> {
-        let log_weighted = likelihood_a + likelihood_b;
-        let weighted = log_weighted.mapv(|x| x.exp());
-        let responsibilities = (&log_weighted - &weighted).mapv(|x| x.ln());
-        weighted.sum_axis(Axis(1)).mapv(|x| x.ln()).mean();
+        likelihood_a: &<Finite as Parametrizable>::LogLikelihood,
+        likelihood_b: &<Finite as Parametrizable>::LogLikelihood,
+    ) -> Result<(<Finite as Parametrizable>::LogLikelihood, f64), Error> {
+        let log_weighted = likelihood_a + likelihood_b; // n x k
+        info!(%likelihood_b);
+        info!(%likelihood_a);
+        let weighted = log_weighted.mapv(|x| x.exp()); // sum?
+        let s = weighted.shape();
+        info!("{}x{}", s[0], s[1]);
+        let log_weighted_norm = weighted.sum_axis(Axis(1)).mapv(|x| x.ln());
+        let s = log_weighted_norm.shape();
+        info!("{}", s[0]);
+
+        let log_responsibilities = log_weighted - &log_weighted_norm.slice(s![.., NewAxis]);
 
         Ok((
-            likelihood_a + likelihood_b,
-            weighted.sum_axis(Axis(1)).mapv(|x| x.ln()).mean().unwrap(),
+            log_responsibilities.mapv(|x| x.exp()),
+            log_weighted_norm.mean().unwrap(),
         ))
     }
 }

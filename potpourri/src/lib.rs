@@ -17,12 +17,12 @@ pub mod probabilistic;
 
 use std::option;
 
-pub use mixture::MixtureModel;
-pub use probabilistic::{Density, Latent, Probabilistic};
+pub use mixture::Model;
+pub use probabilistic::{Latent, Mixable, Mixture};
 
 use errors::Error;
 
-pub trait Mixables {
+pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
     type LogLikelihood;
     type DataIn<'a>: Sync;
@@ -88,7 +88,7 @@ pub trait Mixables {
 /// of a mixture generated the sample. This component computes weights the components
 /// in the mixture, that is, the probability for each component that the next sample will
 /// be drawn from it. In case of non-probabilistic models (k-mm and SOM) this is irrelevant.
-pub trait ExpectationMaximizing {
+pub trait Learning {
     type DataIn<'a>;
     type DataOut;
 

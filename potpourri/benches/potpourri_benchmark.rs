@@ -4,10 +4,140 @@ use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
 use ndarray_rand::rand_distr::Standard;
 use ndarray_rand::RandomExt;
-use potpourri::backend::ndarray::utils::get_shape2;
+use potpourri::backend::ndarray::categorical::Finite;
+use potpourri::backend::ndarray::gaussian::Gaussian;
+use potpourri::backend::ndarray::utils::{generate_samples, get_shape2, get_shape3};
+use potpourri::{Latent, Parametrizable};
 use rand_distr::num_traits::zero;
 use rand_distr::Distribution;
 use statrs::distribution::MultivariateNormal;
+
+// Newer benches
+
+fn manual_expect_bench(
+    gaussian: &Gaussian,
+    data: &Array2<f64>,
+    precisions: &Array3<f64>,
+    means: &Array2<f64>,
+    summands: &Array1<f64>,
+) {
+    let [k, d, _] = get_shape3(precisions).unwrap();
+    let [n, _d] = get_shape2(&data.view()).unwrap();
+
+    let adjusted = &data.slice(s![.., NewAxis, ..]) - &means.slice(s![NewAxis, .., ..]); // n x k x d
+
+    let mut responsibilities = Array2::<f64>::zeros((n, k)); // n x k
+
+    (
+        adjusted.axis_iter(Axis(1)),
+        responsibilities.axis_iter_mut(Axis(1)),
+        precisions.axis_iter(Axis(0)),
+        summands.axis_iter(Axis(0)),
+    ) // iterate k
+        .into_par_iter()
+        .for_each(|(samples, mut rsp, precision, summand)| {
+            izip!(samples.axis_iter(Axis(0)), rsp.axis_iter_mut(Axis(0))) // iterate n
+                .for_each(|(x, mut r)| {
+                    let x = x.slice(s![.., NewAxis]);
+                    let x = &x.t().dot(&precision).dot(&x).into_shape(()).unwrap();
+                    let x = &summand - x;
+                    r.assign(&x);
+                })
+        })
+}
+
+fn maximize_bench(samples: &Array2<f64>, responsibilities: &Array2<f64>) {
+    let mut gaussian = Gaussian::new();
+    let stat = gaussian
+        .compute(&samples.view(), &responsibilities)
+        .unwrap();
+    gaussian.maximize(&stat).unwrap();
+}
+
+fn expect_bench(gaussian: &Gaussian, data: &Array2<f64>) {
+    gaussian.expect(&data.view()).unwrap();
+}
+
+fn join_bench() {}
+
+fn data2(n: usize) -> (Array2<f64>, Array2<f64>, Array3<f64>) {
+    generate_samples(30000, 3, 2)
+}
+
+fn join_benchmark(c: &mut Criterion) {
+    let (samples, responsibilities, _) = data2(30000);
+    let mut gaussian = Gaussian::new();
+    let stat = gaussian
+        .compute(&samples.view(), &responsibilities)
+        .unwrap();
+    gaussian.maximize(&stat).unwrap();
+    let mut categorical = Finite::new(None);
+    let stat = categorical
+        .compute(&samples.view(), &responsibilities)
+        .unwrap();
+    categorical.maximize(&stat).unwrap();
+
+    let (l1, _) = gaussian.expect(&samples.view()).unwrap();
+    let (l2, _) = categorical.expect(&samples.view()).unwrap();
+
+    c.bench_function("maximize_bench", |b| b.iter(|| Finite::join(&l1, &l2)));
+}
+
+fn categorical_benchmark(c: &mut Criterion) {
+    let (samples, responsibilities, _) = data2(30000);
+
+    c.bench_function("categorical_bench", |b| {
+        b.iter(|| {
+            let mut categorical = Finite::new(None);
+            let stat = categorical
+                .compute(&samples.view(), &responsibilities)
+                .unwrap();
+            categorical.maximize(&stat).unwrap();
+            categorical.expect(&samples.view()).unwrap();
+        })
+    });
+}
+
+fn maximize_benchmark(c: &mut Criterion) {
+    let (samples, responsibilities, _) = data2(30000);
+    c.bench_function("maximize_bench", |b| {
+        b.iter(|| maximize_bench(&samples, &responsibilities))
+    });
+}
+
+fn manual_expect_benchmark(c: &mut Criterion) {
+    let (samples, responsibilities, covariances) = data2(1000000);
+    let mut gaussian = Gaussian::new();
+    let stat = gaussian
+        .compute(&samples.view(), &responsibilities)
+        .unwrap();
+    gaussian.maximize(&stat).unwrap();
+
+    c.bench_function("man_expect_bench", |b| {
+        b.iter(|| {
+            manual_expect_bench(
+                &gaussian,
+                &samples,
+                &gaussian.precisions,
+                &gaussian.means,
+                &gaussian.summands,
+            )
+        })
+    });
+}
+
+fn expect_benchmark(c: &mut Criterion) {
+    let (samples, responsibilities, _) = data2(30000);
+    let mut gaussian = Gaussian::new();
+    let stat = gaussian
+        .compute(&samples.view(), &responsibilities)
+        .unwrap();
+    gaussian.maximize(&stat).unwrap();
+
+    c.bench_function("expect_bench", |b| {
+        b.iter(|| expect_bench(&gaussian, &samples))
+    });
+}
 
 // extern crate blas_src;
 
@@ -256,13 +386,18 @@ fn sufficient_statistics_benchmark(c: &mut Criterion) {
 
 criterion_group!(
     benches,
-    loops_benchmark,
-    iterators_benchmark,
-    iterators_benchmark2,
-    izip_benchmark,
-    parallel_benchmark,
-    iterators_benchmark_no_reduce,
-    parallel_benchmark_no_reduce,
-    sufficient_statistics_benchmark
+    // loops_benchmark,
+    // iterators_benchmark,
+    // iterators_benchmark2,
+    // izip_benchmark,
+    // parallel_benchmark,
+    // iterators_benchmark_no_reduce,
+    // parallel_benchmark_no_reduce,
+    // sufficient_statistics_benchmark,
+    // maximize_benchmark,
+    manual_expect_benchmark,
+    // expect_benchmark,
+    categorical_benchmark,
+    join_benchmark,
 );
 criterion_main!(benches);

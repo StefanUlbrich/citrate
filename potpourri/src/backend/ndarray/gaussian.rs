@@ -1,6 +1,6 @@
 use std::f64::consts::PI;
 
-use crate::{Error, Mixables, Probabilistic};
+use crate::{Error, Mixable, Parametrizable};
 use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
@@ -15,7 +15,7 @@ pub struct Gaussian {
     pub covariances: Array3<f64>,
     pub precisions: Array3<f64>,
     pub summands: Array1<f64>,
-    sufficient_statistics: <Gaussian as Mixables>::SufficientStatistics,
+    sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
 }
 
 impl Gaussian {
@@ -26,7 +26,7 @@ impl Gaussian {
     }
 }
 
-impl Mixables for Gaussian {
+impl Parametrizable for Gaussian {
     /// The sufficient statistics that can be extracted from
     /// the data to maximize the parameters. It is a triple of
     /// arrays (names as in Kimura et al.):
@@ -55,27 +55,22 @@ impl Mixables for Gaussian {
 
         let mut responsibilities = Array2::<f64>::default((n, k));
 
-        // TODO analyse whether it's faster to parallelize in the outer loop
-        // Then we would have to work with enumerates
-        izip!(
-            adjusted.axis_iter(Axis(0)),
-            responsibilities.axis_iter_mut(Axis(0)),
-        ) // iterate n
-        .for_each(|(sample, mut responsibility)| {
-            (
-                sample.axis_iter(Axis(0)),
-                responsibility.axis_iter_mut(Axis(0)),
-                self.precisions.axis_iter(Axis(0)),
-                self.summands.axis_iter(Axis(0)),
-            ) //iterate k
-                .into_par_iter()
-                .for_each(|(x, mut r, precision, summand)| {
-                    let x = x.slice(s![.., NewAxis]);
-                    let x = &x.t().dot(&precision).dot(&x).into_shape(()).unwrap();
-                    let x = &summand - x;
-                    r.assign(&x);
-                })
-        });
+        (
+            adjusted.axis_iter(Axis(1)),
+            responsibilities.axis_iter_mut(Axis(1)),
+            self.precisions.axis_iter(Axis(0)),
+            self.summands.axis_iter(Axis(0)),
+        ) // iterate k
+            .into_par_iter()
+            .for_each(|(samples, mut rsp, precision, summand)| {
+                izip!(samples.axis_iter(Axis(0)), rsp.axis_iter_mut(Axis(0))) // iterate n
+                    .for_each(|(x, mut r)| {
+                        let x = x.slice(s![.., NewAxis]);
+                        let x = &x.t().dot(&precision).dot(&x).into_shape(()).unwrap();
+                        let x = &summand - x;
+                        r.assign(&x);
+                    })
+            });
 
         Ok((responsibilities, f64::NAN))
     }
@@ -192,12 +187,12 @@ impl Mixables for Gaussian {
     }
 }
 
-impl Probabilistic<Gaussian> for Gaussian {
+impl Mixable<Gaussian> for Gaussian {
     fn probabilistic_predict(
         &self,
-        _latent_likelihood: <Gaussian as Mixables>::LogLikelihood,
-        _data: &<Gaussian as Mixables>::DataIn<'_>,
-    ) -> Result<<Gaussian as Mixables>::DataOut, Error> {
+        _latent_likelihood: <Gaussian as Parametrizable>::LogLikelihood,
+        _data: &<Gaussian as Parametrizable>::DataIn<'_>,
+    ) -> Result<<Gaussian as Parametrizable>::DataOut, Error> {
         Err(Error::NotImplemented)
     }
 }
@@ -212,7 +207,7 @@ mod tests {
     #[traced_test]
     #[test]
     fn check_maximization() {
-        let (data, responsibilities, covariances) = generate_samples(300000, 3, 2);
+        let (data, responsibilities, _, covariances) = generate_samples(300000, 3, 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -228,7 +223,7 @@ mod tests {
     fn check_expectation() {
         // Simulate an expectation maximization step:
         // 1. generate data with responsibility, 2. maximize, 3. expect, 3. maximize again, 4. compare to ground trouth
-        let (data, responsibilities, covariances) = generate_samples(60000, 3, 2);
+        let (data, responsibilities, _, covariances) = generate_samples(600000, 3, 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -245,13 +240,16 @@ mod tests {
 
         info!(%covariances);
         info!(%gaussian.covariances);
+        let diff = &covariances - &gaussian.covariances;
+        info!(%diff);
         assert!(covariances.abs_diff_eq(&gaussian.covariances, 2e-1));
     }
 
+    /// Checks whether we can learn on partitioned data! Important for federated learning.
     // #[traced_test]
     #[test]
     fn check_merge() {
-        let (data, responsibilities, covariances) = generate_samples(30000, 3, 2);
+        let (data, responsibilities, _, covariances) = generate_samples(30000, 3, 2);
         let (data_1, responsibilities_1) =
             filter_data(&data.view(), &responsibilities.view(), |x, _y| x[1] > 0.5).unwrap();
         let (data_2, responsibilities_2) =

@@ -54,4 +54,4 @@ tracing-test = "0.2.4"
 
 [[bench]]
 harness = false
-name = "mle_benchmark"
+name = "potpourri_benchmark"

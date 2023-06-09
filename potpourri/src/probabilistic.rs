@@ -1,6 +1,6 @@
 // Todo: move outside of the backend!
 
-use crate::{Error, Mixables};
+use crate::{Error, Parametrizable};
 
 /// An additional interface for `Mixables` that can be used as latent states.
 /// These can be categorical distributions, with or without finite Dirichlet
@@ -9,7 +9,7 @@ use crate::{Error, Mixables};
 
 pub trait Latent<T>
 where
-    T: Mixables,
+    T: Parametrizable,
 {
     fn join(
         likelihood_a: &T::LogLikelihood,
@@ -17,9 +17,9 @@ where
     ) -> Result<(T::LogLikelihood, f64), Error>;
 }
 
-pub trait Probabilistic<T>
+pub trait Mixable<T>
 where
-    T: Mixables,
+    T: Parametrizable,
 {
     fn probabilistic_predict(
         &self,
@@ -38,42 +38,42 @@ where
 /// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
 ///
 #[derive(Clone, Debug)]
-pub struct Density<T, L>
+pub struct Mixture<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
     // T: for<'a, 'b> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
     //     + Probabilistic<T>,
-    T: Mixables<LogLikelihood = L::LogLikelihood>,
+    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
     // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
-    L: Mixables + Latent<L>,
+    L: Parametrizable + Latent<L>,
 {
     pub mixables: T,
     pub latent: L,
 }
 
-impl<T, L> Density<T, L>
+impl<T, L> Mixture<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
     // T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
     //     + Probabilistic<T>,
-    T: Mixables<LogLikelihood = L::LogLikelihood>,
+    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
     // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
-    L: Mixables + Latent<L>,
+    L: Parametrizable + Latent<L>,
 {
     pub fn new(mixables: T, latent: L) -> Self {
-        Density {
+        Mixture {
             latent: latent,
             mixables: mixables,
         }
     }
 }
 
-impl<T, L> Mixables for Density<T, L>
+impl<T, L> Parametrizable for Mixture<T, L>
 where
-    T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
-        + Probabilistic<T>,
+    T: for<'a> Parametrizable<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+        + Mixable<T>,
     // T: Mixables<LogLikelihood = L::LogLikelihood>,
-    L: Mixables + Latent<L>,
+    L: Parametrizable + Latent<L>,
 {
     type SufficientStatistics = (L::SufficientStatistics, T::SufficientStatistics);
 
@@ -146,10 +146,45 @@ where
 #[cfg(all(test, feature = "ndarray"))]
 mod tests {
     use super::*;
-    use crate::backend::ndarray::utils::{filter_data, generate_samples};
+    use crate::backend::ndarray::{
+        categorical::Finite,
+        gaussian::Gaussian,
+        utils::{filter_data, generate_random_expections, generate_samples},
+    };
+    use tracing::info;
+    use tracing_test::traced_test;
 
+    #[traced_test]
     #[test]
     fn em_step() {
-        let (data, responsibilities, covariances) = generate_samples(300000, 3, 2);
+        let k = 3;
+        let (data, mut responsibilities, means, covariances) = generate_samples(30, k, 2);
+        info!(%data);
+        info!(%responsibilities);
+        let (data, mut responsibilities, means, covariances) = generate_samples(30000, k, 2);
+
+        info!(%means);
+
+        let gaussian = Gaussian::new();
+        let categorial = Finite::new(None);
+        let mut mixture = Mixture {
+            mixables: gaussian,
+            latent: categorial,
+        };
+
+        let mut likelihood: f64;
+        let mut responsibilities = generate_random_expections(&data.view(), k).unwrap();
+        for _ in 1..20 {
+            let stat = mixture.compute(&data.view(), &responsibilities).unwrap();
+            mixture.maximize(&stat).unwrap();
+            // info!("maximized");
+            info!(%mixture.mixables.means);
+            info!(%mixture.latent.pmf);
+
+            (responsibilities, likelihood) = mixture.expect(&data.view()).unwrap();
+            info!(%likelihood);
+        }
+
+        // println!("{:?}", result)
     }
 }

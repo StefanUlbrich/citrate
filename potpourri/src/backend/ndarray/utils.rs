@@ -59,23 +59,30 @@ pub fn get_det_spd(matrix: &ArrayView2<f64>) -> Result<f64, Error> {
 /// in a $d$-dimensional feature space. It also returns the $n \times x k$
 /// "true" responisiblity matrix (i.e., only ones and zeros in its elements).
 /// For testing, it returns also the generated covariances
-pub fn generate_samples(n: usize, k: usize, d: usize) -> (Array2<f64>, Array2<f64>, Array3<f64>) {
+pub fn generate_samples(
+    n: usize,
+    k: usize,
+    d: usize,
+) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
     // TODO simplify!
 
-    let mut covariances = Array3::<f64>::default((k, d, d)); // vec![Array2::<f64>::zeros((d, d)); k];
+    let mut covariances = Array3::<f64>::default((k, d, d));
     covariances.axis_iter_mut(Axis(0)).for_each(|mut x| {
-        let y = Array2::<f64>::random((d, d), Standard);
+        let y = Array2::<f64>::random((d, d), Standard) / 5.0;
         x.assign(&y.t().dot(&y));
     });
 
-    let mut means = vec![Array1::<f64>::zeros(d); k];
-    means
-        .iter_mut()
-        .for_each(|x| x.assign(&Array1::<f64>::random(d, Standard)));
+    let mut means = Array2::<f64>::default((k, d));
+    means.axis_iter_mut(Axis(0)).for_each(|mut x| {
+        x.assign(&Array1::<f64>::random(d, Standard));
+    });
 
-    let mvn: Vec<_> = covariances
-        .axis_iter(Axis(0))
-        .map(|x| MultivariateNormal::new(vec![1.0, 2.0], x.into_owned().into_raw_vec()).unwrap())
+    let mvn: Vec<_> = (means.axis_iter(Axis(0)), covariances.axis_iter(Axis(0)))
+        .into_par_iter()
+        .map(|(m, x)| {
+            MultivariateNormal::new(m.into_owned().into_raw_vec(), x.into_owned().into_raw_vec())
+                .unwrap()
+        })
         .collect();
 
     let mut samples = Array2::<f64>::default((n, d));
@@ -95,7 +102,7 @@ pub fn generate_samples(n: usize, k: usize, d: usize) -> (Array2<f64>, Array2<f6
             s_row.assign(&Array::from_shape_vec((2,), sample.data.into()).unwrap());
         });
 
-    (samples, responsibilities, covariances)
+    (samples, responsibilities, means, covariances)
 }
 
 /// Splits a dataset consiting of two arrays according to a row-wise criteria
@@ -138,6 +145,7 @@ where
  *                      Shared functionality for models
  * ****************************************************************************/
 
+/// Generate random initializations from a dirichlet distribution.
 #[inline(always)]
 pub fn generate_random_expections(data: &ArrayView2<f64>, k: usize) -> Result<Array2<f64>, Error> {
     let [n, _d] = get_shape2(data)?;

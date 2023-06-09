@@ -15,3 +15,19 @@ pub mod utils;
 //     fn em_step() {
 //     }
 // }
+
+use ndarray::ShapeError;
+use ndarray_linalg::error::LinalgError;
+
+use crate::errors::Error;
+
+impl std::convert::From<LinalgError> for Error {
+    fn from(_: LinalgError) -> Self {
+        Error::LinalgError
+    }
+}
+impl std::convert::From<ShapeError> for Error {
+    fn from(_: ShapeError) -> Self {
+        Error::ShapeError
+    }
+}

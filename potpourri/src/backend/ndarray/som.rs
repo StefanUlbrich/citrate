@@ -1,3 +1,3 @@
-use crate::Mixables;
+use crate::Parametrizable;
 
 pub struct SOM {}
