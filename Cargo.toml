@@ -3,8 +3,9 @@ resolver = "2" # Important! wgpu/Bevy needs this!
 
 members = [
     "cerebral-rs",
-    "pysom",
-    # "testbed",
+    "cerebral",
     "potpourri-rs",
-    # "visualization"
 ]
+
+[build]
+rustdocflags = ["--html-in-header", "./src/docs-header.html"]
