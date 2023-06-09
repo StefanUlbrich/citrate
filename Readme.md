@@ -1,8 +1,41 @@
-# Welcome to the self-organization workspace
+# Welcome to the Citrate workspace
 
-> :warning: **NOTE:** Under construction. Just started this project
+This workspace includes the crates that I developed to learn Rust and
+to support my research. It is named after the salts of the citric acid
+and the design and development process and experience will be documented on
+my [personal blog at lemonfold.io](https://lemonfold.io).
 
-A testbed for self-organizing neural networks written in Rust.
+## The Potpourri Crate
+
+A crate for models that can be trained by
+[Expectation Maximization](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm)
+with a focus on [Mixture Models](https://en.wikipedia.org/wiki/Mixture_model).
+Its  generic, flexible design that extensively uses the composition patterns is agnostic
+of external dependencies (i.e., the numerical library chosen) and users only need
+to implement a trait with few methods.
+
+The crate is still heavily work in progress and currently, only clustering with [Gaussian Mixture
+Models](https://scikit-learn.org/stable/modules/mixture.html) is in a rudimentary working state.
+Future development, may include classification and regression with Mixture models, support for
+more densities (Poisson, negative Binomial, van Mises, ..),
+[SOM](https://en.wikipedia.org/wiki/Self-organizing_map),
+[$k$-means](https://en.wikipedia.org/wiki/K-means_clustering),
+[HMM](https://en.wikipedia.org/wiki/Hidden_Markov_model), or
+[Kalman filter](https://en.wikipedia.org/wiki/Kalman_filter).
+
+To run the algorithm itself, you currently need to call a unit test:
+
+```sh
+RUST_BACKTRACE=full cargo test -F ndarray --package potpourri --lib -- mixture::tests::em_step --exact --nocapture
+```
+
+Currently, there are only models implemented for the [NDArrary](https://docs.rs/ndarray/latest/ndarray/) backend
+but clusters and GPGPU is planned.
+
+## The Cerebral Crate
+
+A crate for self-organizing neural networks written in Rust. The crate is still work in progress
+and not suited for use in other projects yet.
 
 This is an experiment on writing a Python extension for numerical computation /
 machine learning in Rust with Python bindings. The aim of this project is to
@@ -13,14 +46,11 @@ efficiency and simplicity (both in terms of implementation and
 comprehensibility). Plus, it's my favorite and I'm doing active research with
 it.
 
-These are also my very first steps learning Rust and aims at eventually being a
-blueprint template for quickly getting started with
-
 * Numerical python extensions written in Rust
 * Seamless integration via [PyO3](https://pyo3.rs/v0.16.1/) and [rust-numpy](https://docs.rs/numpy/0.7.0/numpy/)
 * High-performance via [ndarray](https://github.com/rust-ndarray/ndarray)/[rayon](https://docs.rs/ndarray/0.13.1/ndarray/parallel/index.html), [tch-rs](https://github.com/LaurentMazare/tch-rs) ([PyTorch](https://pytorch.org/) bindings)
 * Dependency management / publishing with [Poetry](https://python-poetry.org/docs/) and [Maturin](https://github.com/PyO3/maturin)
-* [Monorepo](https://en.wikipedia.org/wiki/Monorepo) with [Cargo workspaces][(](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html))
+* [Monorepo](https://en.wikipedia.org/wiki/Monorepo) with [Cargo workspaces][(](<https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html>))
 * Technical documentation / GitHub page with [Sphinx](https://www.sphinx-doc.org/en/master/) and [MyST](https://myst-parser.readthedocs.io/en/latest/sphinx/intro.html)
 * Eventually, distributed computation (e.g., [actor model](https://en.wikipedia.org/wiki/Actor_model) or [timely
   dataflow](https://timelydataflow.github.io/timely-dataflow/))
