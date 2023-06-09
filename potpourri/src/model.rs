@@ -1,7 +1,7 @@
 use crate::{Error, Learning, Parametrizable};
 use rayon::prelude::*;
 
-use tracing::{debug, info};
+use tracing::info;
 
 /// The basis struct to use for models
 pub struct Model<T>
@@ -15,7 +15,7 @@ where
     pub incremental: bool,
     pub incremental_weight: f64,
     pub tol: f64,
-    last_sufficient_statistics: Option<T::SufficientStatistics>,
+    // last_sufficient_statistics: Option<T::SufficientStatistics>,
     // pub initialization: Option<T::LogLikelihood>,
     pub info: ModelInfo,
 }
@@ -47,7 +47,7 @@ where
             incremental,
             incremental_weight: 0.8,
             tol: 1e-6,
-            last_sufficient_statistics: None,
+            // last_sufficient_statistics: None,
             // initialization: None,
             info: ModelInfo {
                 fitted: false,
@@ -168,36 +168,38 @@ where
         } else {
             // incremental learning
 
-            if !self.info.fitted {
-                let sufficient_statistics = self
-                    .mixable
-                    .compute(&data, &self.mixable.expect_rand(&data, self.n_components)?)?;
-                self.mixable.maximize(&sufficient_statistics)?;
-                self.info.fitted = true
-            }
+            return Err(Error::NotImplemented);
 
-            panic!();
-            // Guess I will have to read the paper
-            let (responsibilities, _) = self.mixable.expect(&data)?;
-            let mut sufficient_statistics = self.mixable.compute(&data, &responsibilities)?;
-            sufficient_statistics = T::merge(
-                &[
-                    &self
-                        .last_sufficient_statistics
-                        .as_ref()
-                        .expect("Model has not been trained before"),
-                    &sufficient_statistics,
-                ],
-                &[1.0 - self.incremental_weight, self.incremental_weight],
-            )?;
-            // todo!
-            // self.batch()
+            // Todo: only a draft yet
+            // if !self.info.fitted {
+            //     let sufficient_statistics = self
+            //         .mixable
+            //         .compute(&data, &self.mixable.expect_rand(&data, self.n_components)?)?;
+            //     self.mixable.maximize(&sufficient_statistics)?;
+            //     self.info.fitted = true
+            // }
+
+            // panic!();
+            // // Guess I will have to read the paper
+            // let (responsibilities, _) = self.mixable.expect(&data)?;
+            // let mut sufficient_statistics = self.mixable.compute(&data, &responsibilities)?;
+            // sufficient_statistics = T::merge(
+            //     &[
+            //         &self
+            //             .last_sufficient_statistics
+            //             .as_ref()
+            //             .expect("Model has not been trained before"),
+            //         &sufficient_statistics,
+            //     ],
+            //     &[1.0 - self.incremental_weight, self.incremental_weight],
+            // )?;
+            // // self.batch()
         }
         Ok(())
     }
 
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
-        let (responsibilities, likelihood) = self.mixable.expect(&data)?;
+    fn predict(&self, _data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
+        // let (responsibilities, likelihood) = self.mixable.expect(&data)?;
         // self.mixable.predict(&responsibilities, data)
         todo!()
     }
@@ -206,7 +208,6 @@ where
 // TODO: Move to integration tests
 #[cfg(all(test, feature = "ndarray"))]
 mod tests {
-    use super::*;
     use crate::backend::ndarray::utils::generate_samples;
     use crate::backend::ndarray::{finite::Finite, gaussian::Gaussian};
     use crate::mixture::Mixture;
@@ -216,11 +217,11 @@ mod tests {
     #[test]
     #[traced_test]
     fn single_gmm_em() {
-        let (data, _, _, covariances) = generate_samples(30000, 3, 2);
+        let (data, _, _, _covariances) = generate_samples(30000, 3, 2);
 
         let gaussian = Gaussian::new();
         let categorial = Finite::new(None);
-        let mixture = Mixture {
+        let _mixture = Mixture {
             mixables: gaussian,
             latent: categorial,
         };

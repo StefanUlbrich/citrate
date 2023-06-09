@@ -1,13 +1,13 @@
 //! Additional support functions
 
-use itertools::Itertools;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
 
 use crate::Error;
+// use ndarray_rand::rand::prelude::*;
 use ndarray_rand::rand_distr::Standard;
 use ndarray_rand::RandomExt;
-use ndarray_rand::{rand, rand::prelude::*, rand_distr::Dirichlet};
+use ndarray_rand::{rand, rand_distr::Dirichlet};
 use rand_distr::Distribution;
 
 use statrs::distribution::MultivariateNormal;
@@ -187,16 +187,16 @@ pub(crate) fn get_weighted_sum(
 /// ($n \times k$). Useful for multiple distributions. Returns a $n \times k \times d$
 /// array.
 /// Obsolete with the use of sufficient statistics
-pub(crate) fn adjust_weighted_means(
-    samples: &ArrayView2<f64>,
-    responsibilities: &Array2<f64>,
-    means: &Array2<f64>,
-) -> Array3<f64> {
-    let adjusted = (&samples.slice(s![.., NewAxis, ..]) - &means.slice(s![NewAxis, .., ..]))
-        * responsibilities.slice(s![.., .., NewAxis]);
+// pub(crate) fn adjust_weighted_means(
+//     samples: &ArrayView2<f64>,
+//     responsibilities: &Array2<f64>,
+//     means: &Array2<f64>,
+// ) -> Array3<f64> {
+//     let adjusted = (&samples.slice(s![.., NewAxis, ..]) - &means.slice(s![NewAxis, .., ..]))
+//         * responsibilities.slice(s![.., .., NewAxis]);
 
-    adjusted
-}
+//     adjusted
+// }
 
 #[cfg(test)]
 mod tests {

@@ -15,8 +15,6 @@ pub mod errors;
 pub mod mixture;
 pub mod model;
 
-use std::option;
-
 pub use mixture::{Latent, Mixable, Mixture};
 pub use model::Model;
 
@@ -76,7 +74,11 @@ pub trait Parametrizable {
     /// Note: This works better than an initialization method, because the layers
     /// such as the `Probabilistic` trait don't need to implement backend-specific
     /// random samplers.
-    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::LogLikelihood, Error> {
+    fn expect_rand(
+        &self,
+        _data: &Self::DataIn<'_>,
+        _k: usize,
+    ) -> Result<Self::LogLikelihood, Error> {
         todo!()
     }
 }

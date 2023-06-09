@@ -182,7 +182,7 @@ impl Parametrizable for Gaussian {
             .unwrap())
     }
 
-    fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
+    fn predict(&self, _data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error> {
         Err(Error::NotImplemented)
     }
 }
@@ -190,8 +190,8 @@ impl Parametrizable for Gaussian {
 impl Mixable<Gaussian> for Gaussian {
     fn predict(
         &self,
-        latent_likelihood: <Gaussian as Parametrizable>::LogLikelihood,
-        data: &<Gaussian as Parametrizable>::DataIn<'_>,
+        _latent_likelihood: <Gaussian as Parametrizable>::LogLikelihood,
+        _data: &<Gaussian as Parametrizable>::DataIn<'_>,
     ) -> Result<<Gaussian as Parametrizable>::DataOut, Error> {
         Err(Error::NotImplemented)
     }
