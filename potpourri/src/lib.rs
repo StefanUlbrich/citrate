@@ -12,12 +12,12 @@
  */
 pub mod backend;
 pub mod errors;
-pub mod mixture;
+pub mod model;
 pub mod probabilistic;
 
 use std::option;
 
-pub use mixture::Model;
+pub use model::Model;
 pub use probabilistic::{Latent, Mixable, Mixture};
 
 use errors::Error;

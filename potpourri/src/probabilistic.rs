@@ -185,6 +185,8 @@ mod tests {
             info!(%likelihood);
         }
 
+        info!(%means);
+
         // println!("{:?}", result)
     }
 }
