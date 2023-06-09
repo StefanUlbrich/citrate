@@ -209,8 +209,8 @@ mod tests {
     use super::*;
     use crate::backend::ndarray::utils::generate_samples;
     use crate::backend::ndarray::{categorical::Finite, gaussian::Gaussian};
+    use crate::mixture::Mixture;
     use crate::model::Model;
-    use crate::probabilistic::Mixture;
     use tracing_test::traced_test;
 
     #[test]

@@ -60,12 +60,12 @@ fn expect_bench(gaussian: &Gaussian, data: &Array2<f64>) {
 
 fn join_bench() {}
 
-fn data2(n: usize) -> (Array2<f64>, Array2<f64>, Array3<f64>) {
+fn data2(n: usize) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
     generate_samples(30000, 3, 2)
 }
 
 fn join_benchmark(c: &mut Criterion) {
-    let (samples, responsibilities, _) = data2(30000);
+    let (samples, responsibilities, _, _) = data2(30000);
     let mut gaussian = Gaussian::new();
     let stat = gaussian
         .compute(&samples.view(), &responsibilities)
@@ -84,7 +84,7 @@ fn join_benchmark(c: &mut Criterion) {
 }
 
 fn categorical_benchmark(c: &mut Criterion) {
-    let (samples, responsibilities, _) = data2(30000);
+    let (samples, responsibilities, _, _) = data2(30000);
 
     c.bench_function("categorical_bench", |b| {
         b.iter(|| {
@@ -99,14 +99,14 @@ fn categorical_benchmark(c: &mut Criterion) {
 }
 
 fn maximize_benchmark(c: &mut Criterion) {
-    let (samples, responsibilities, _) = data2(30000);
+    let (samples, responsibilities, _, _) = data2(30000);
     c.bench_function("maximize_bench", |b| {
         b.iter(|| maximize_bench(&samples, &responsibilities))
     });
 }
 
 fn manual_expect_benchmark(c: &mut Criterion) {
-    let (samples, responsibilities, covariances) = data2(1000000);
+    let (samples, responsibilities, covariances, _) = data2(1000000);
     let mut gaussian = Gaussian::new();
     let stat = gaussian
         .compute(&samples.view(), &responsibilities)
@@ -127,7 +127,7 @@ fn manual_expect_benchmark(c: &mut Criterion) {
 }
 
 fn expect_benchmark(c: &mut Criterion) {
-    let (samples, responsibilities, _) = data2(30000);
+    let (samples, responsibilities, _, _) = data2(30000);
     let mut gaussian = Gaussian::new();
     let stat = gaussian
         .compute(&samples.view(), &responsibilities)
