@@ -24,9 +24,6 @@ pub use model::Model;
 /// Average log-likelihood. Used to meature convergence
 pub struct AvgLLH(f64);
 
-/// Average log-likelihood. Used to meature convergence
-pub struct AvgLLH(f64);
-
 pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
     type Likelihood;
