@@ -1,4 +1,4 @@
-use crate::{Error, Learning, Parametrizable, AvgLLH};
+use crate::{AvgLLH, Error, Learning, Parametrizable};
 use rayon::prelude::*;
 
 use tracing::info;

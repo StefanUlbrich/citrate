@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1458.3333px" preserveAspectRatio="none" style="width:3448px;height:1458px;background:#00000000;" version="1.1" viewBox="0 0 3448 1458" width="3448.9583px" zoomAndPan="magnify"><defs/><g><!--MD5=[3e7181024c7b5a4a06ffbef1c61b0b5e]
+cluster som-rs.neural--><g id="cluster_som-rs.neural"><path d="M978.125,16.6667 L1151.0417,16.6667 A6.25,6.25 0 0 1 1155.2083,20.8333 L1162.5,57.5846 L1169.7917,57.5846 A4.1667,4.1667 0 0 1 1173.9583,61.7513 L1173.9583,555.7292 A4.1667,4.1667 0 0 1 1169.7917,559.8958 L978.125,559.8958 A4.1667,4.1667 0 0 1 973.9583,555.7292 L973.9583,20.8333 A4.1667,4.1667 0 0 1 978.125,16.6667 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="973.9583" x2="1162.5" y1="57.5846" y2="57.5846"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="164.5833" x="983.3333" y="43.2963">som-rs.neural</text></g><!--MD5=[690824769680be1963477aecd6a3ea93]
+cluster som-rs.selforganizing--><g id="cluster_som-rs.selforganizing"><path d="M1203.125,28.6458 L1468.75,28.6458 A6.25,6.25 0 0 1 1472.9167,32.8125 L1480.2083,69.5638 L1660.4167,69.5638 A4.1667,4.1667 0 0 1 1664.5833,73.7305 L1664.5833,591.6667 A4.1667,4.1667 0 0 1 1660.4167,595.8333 L1203.125,595.8333 A4.1667,4.1667 0 0 1 1198.9583,591.6667 L1198.9583,32.8125 A4.1667,4.1667 0 0 1 1203.125,28.6458 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="1198.9583" x2="1480.2083" y1="69.5638" y2="69.5638"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="257.2917" x="1208.3333" y="55.2755">som-rs.selforganizing</text></g><!--MD5=[b05576dfedbca3fed326b3346bb24b4e]
+cluster som-rs.adaptable--><g id="cluster_som-rs.adaptable"><path d="M2361.4583,666.6667 L2578.125,666.6667 A6.25,6.25 0 0 1 2582.2917,670.8333 L2589.5833,707.5846 L2920.8333,707.5846 A4.1667,4.1667 0 0 1 2925,711.7513 L2925,1096.3542 A4.1667,4.1667 0 0 1 2920.8333,1100.5208 L2361.4583,1100.5208 A4.1667,4.1667 0 0 1 2357.2917,1096.3542 L2357.2917,670.8333 A4.1667,4.1667 0 0 1 2361.4583,666.6667 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="2357.2917" x2="2589.5833" y1="707.5846" y2="707.5846"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="208.3333" x="2366.6667" y="693.2963">som-rs.adaptable</text></g><!--MD5=[0e5c54f158ef0036f84d42aea4583746]
+cluster som-rs.adaptable.kohonen--><g id="cluster_som-rs.adaptable.kohonen"><path d="M2559.375,922.3958 L2885.4167,922.3958 A6.25,6.25 0 0 1 2889.5833,926.5625 L2896.875,963.3138 L2895.8333,963.3138 A4.1667,4.1667 0 0 1 2900,967.4805 L2900,1071.3542 A4.1667,4.1667 0 0 1 2895.8333,1075.5208 L2559.375,1075.5208 A4.1667,4.1667 0 0 1 2555.2083,1071.3542 L2555.2083,926.5625 A4.1667,4.1667 0 0 1 2559.375,922.3958 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="2555.2083" x2="2896.875" y1="963.3138" y2="963.3138"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="317.7083" x="2564.5833" y="949.0255">som-rs.adaptable.kohonen</text></g><!--MD5=[9bb73659a3142a84fd0989424360d4a6]
+cluster som-rs.responsive--><g id="cluster_som-rs.responsive"><path d="M2954.1667,666.6667 L3180.2083,666.6667 A6.25,6.25 0 0 1 3184.375,670.8333 L3191.6667,707.5846 L3386.4583,707.5846 A4.1667,4.1667 0 0 1 3390.625,711.7513 L3390.625,1071.3542 A4.1667,4.1667 0 0 1 3386.4583,1075.5208 L2954.1667,1075.5208 A4.1667,4.1667 0 0 1 2950,1071.3542 L2950,670.8333 A4.1667,4.1667 0 0 1 2954.1667,666.6667 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="2950" x2="3191.6667" y1="707.5846" y2="707.5846"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="217.7083" x="2959.375" y="693.2963">som-rs.responsive</text></g><!--MD5=[7d1ad1cf2912a139d4b2fd2a18497a60]
+cluster som-rs.topological--><g id="cluster_som-rs.topological"><path d="M76.0417,655.2083 L305.2083,655.2083 A6.25,6.25 0 0 1 309.375,659.375 L316.6667,696.1263 L463.5417,696.1263 A4.1667,4.1667 0 0 1 467.7083,700.293 L467.7083,1103.125 A4.1667,4.1667 0 0 1 463.5417,1107.2917 L76.0417,1107.2917 A4.1667,4.1667 0 0 1 71.875,1103.125 L71.875,659.375 A4.1667,4.1667 0 0 1 76.0417,655.2083 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="71.875" x2="316.6667" y1="696.1263" y2="696.1263"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="220.8333" x="81.25" y="681.838">som-rs.topological</text></g><!--MD5=[e54f773fdf7aca75fd282264011e3da0]
+cluster som-rs.trainable--><g id="cluster_som-rs.trainable"><path d="M496.875,666.6667 L702.0833,666.6667 A6.25,6.25 0 0 1 706.25,670.8333 L713.5417,707.5846 L883.3333,707.5846 A4.1667,4.1667 0 0 1 887.5,711.7513 L887.5,1110.9375 A4.1667,4.1667 0 0 1 883.3333,1115.1042 L496.875,1115.1042 A4.1667,4.1667 0 0 1 492.7083,1110.9375 L492.7083,670.8333 A4.1667,4.1667 0 0 1 496.875,666.6667 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="492.7083" x2="713.5417" y1="707.5846" y2="707.5846"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="196.875" x="502.0833" y="693.2963">som-rs.trainable</text></g><!--MD5=[a10d9f81019f3d59a56a68c869095af8]
+cluster pysom--><g id="cluster_pysom"><path d="M916.6667,895.8333 L1002.0833,895.8333 A6.25,6.25 0 0 1 1006.25,900 L1013.5417,936.7513 L2328.125,936.7513 A4.1667,4.1667 0 0 1 2332.2917,940.918 L2332.2917,1442.1875 A4.1667,4.1667 0 0 1 2328.125,1446.3542 L916.6667,1446.3542 A4.1667,4.1667 0 0 1 912.5,1442.1875 L912.5,900 A4.1667,4.1667 0 0 1 916.6667,895.8333 " fill="#FFFFFF" style="stroke:#78C2AD;stroke-width:2.0833333333333335;"/><line style="stroke:#78C2AD;stroke-width:2.0833333333333335;" x1="912.5" x2="1013.5417" y1="936.7513" y2="936.7513"/><text fill="#6CAF9C" font-family="&quot;Verdana&quot;" font-size="20.8333" font-weight="bold" lengthAdjust="spacing" textLength="77.0833" x="921.875" y="922.463">pysom</text></g><!--MD5=[5407b713171e5a8448c233a2dd3921cf]
+class Neural--><g id="elem_Neural"><rect codeLine="4" fill="#86C8B5" height="195.4508" id="Neural" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="166.6667" x="990.625" y="108.3333"/><ellipse cx="1045.3125" cy="130.6274" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1044.4987,135.8358 L1044.4987,128.479 L1042.041,128.479 L1042.041,126.9165 L1048.7956,126.9165 L1048.7956,128.479 L1046.3216,128.479 L1046.3216,135.8358 L1044.4987,135.8358 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="38.5417" x="1070.3125" y="139.8026">Neural</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="991.6667" x2="1156.25" y1="152.9215" y2="152.9215"/><ellipse cx="1002.0833" cy="170.5282" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="70.8333" x="1015.625" y="172.9324">get_lateral()</text><ellipse cx="1002.0833" cy="194.283" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="100" x="1015.625" y="196.6873">get_lateral_mut()</text><ellipse cx="1002.0833" cy="218.0379" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="107.2917" x="1015.625" y="220.4422">set_lateral(lateral)</text><ellipse cx="1002.0833" cy="241.7928" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="82.2917" x="1015.625" y="244.1971">get_patterns()</text><ellipse cx="1002.0833" cy="265.5477" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="111.4583" x="1015.625" y="267.952">get_patterns_mut()</text><ellipse cx="1002.0833" cy="289.3026" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="130.2083" x="1015.625" y="291.7068">set_patterns(patterns)</text></g><!--MD5=[c080a4355662853c202d8a770ac5a879]
+class NeuralLayer--><g id="elem_NeuralLayer"><rect codeLine="13" fill="#86C8B5" height="100.4313" id="NeuralLayer" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="129.1667" x="1028.125" y="443.2292"/><ellipse cx="1050.2083" cy="465.5233" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1049.9967,470.341 Q1049.3294,470.341 1048.6621,470.2108 Q1048.0111,470.0806 1047.4414,469.8039 L1047.4414,468.1437 Q1048.1413,468.5018 1048.7923,468.6808 Q1049.4434,468.8436 1050.0456,468.8436 Q1050.6966,468.8436 1051.1035,468.632 Q1051.5267,468.4041 1051.5267,467.8182 Q1051.5267,467.4276 1051.2988,467.1997 Q1051.0872,466.9718 1050.6641,466.7765 Q1050.2572,466.5649 1049.6875,466.2557 Q1049.1178,465.9465 1048.6296,465.5884 Q1048.1576,465.2303 1047.8809,464.742 Q1047.6204,464.2375 1047.6204,463.5376 Q1047.6204,462.3332 1048.418,461.7472 Q1049.2318,461.1613 1050.5339,461.1613 Q1051.0547,461.1613 1051.7871,461.2915 Q1052.5195,461.4054 1053.2194,461.731 L1052.6335,463.147 Q1052.0313,462.8866 1051.5267,462.7726 Q1051.0221,462.6587 1050.6315,462.6587 Q1050.0293,462.6587 1049.7363,462.9191 Q1049.4596,463.1632 1049.4596,463.619 Q1049.4596,463.9933 1049.6387,464.2212 Q1049.8177,464.4328 1050.1595,464.6118 Q1050.5176,464.7909 1051.0547,465.0675 Q1051.7871,465.4419 1052.3079,465.7837 Q1052.8288,466.1255 1053.1055,466.5812 Q1053.3822,467.0207 1053.3822,467.7205 Q1053.3822,468.5832 1052.959,469.1691 Q1052.5358,469.755 1051.7708,470.048 Q1051.0059,470.341 1049.9967,470.341 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="70.8333" x="1070.625" y="474.6984">NeuralLayer</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1029.1667" x2="1156.25" y1="487.8174" y2="487.8174"/><ellipse cx="1039.5833" cy="505.424" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="80.2083" x="1053.125" y="507.8283">Array2 lateral</text><ellipse cx="1039.5833" cy="529.1789" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="92.7083" x="1053.125" y="531.5832">Array2 patterns</text></g><!--MD5=[909cd46e39dd114a9728ea1f10dff84c]
+class SelfOrganizing--><g id="elem_SelfOrganizing"><rect codeLine="36" fill="#86C8B5" height="171.696" id="SelfOrganizing" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="214.5833" x="1319.7917" y="120.3125"/><ellipse cx="1375" cy="142.6066" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1374.1862,147.8149 L1374.1862,140.4582 L1371.7285,140.4582 L1371.7285,138.8957 L1378.4831,138.8957 L1378.4831,140.4582 L1376.0091,140.4582 L1376.0091,147.8149 L1374.1862,147.8149 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="85.4167" x="1400" y="151.7817">SelfOrganizing</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1320.8333" x2="1533.3333" y1="164.9007" y2="164.9007"/><ellipse cx="1331.25" cy="182.5073" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="69.7917" x="1344.7917" y="184.9116">init_lateral()</text><ellipse cx="1331.25" cy="206.2622" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="158.3333" x="1344.7917" y="208.6665">get_lateral_distance(index)</text><ellipse cx="1331.25" cy="230.0171" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="161.4583" x="1344.7917" y="232.4214">get_best_matching(pattern)</text><ellipse cx="1331.25" cy="253.772" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="178.125" x="1344.7917" y="256.1762">adapt(pattern, influence, rate)</text><ellipse cx="1331.25" cy="277.5269" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="84.375" x="1344.7917" y="279.9311">train(patterns)</text></g><!--MD5=[9ac76553d9fe0a71f16f7b65205db57a]
+class SelforganizingNetwork--><g id="elem_SelforganizingNetwork"><rect codeLine="53" fill="#86C8B5" height="171.696" id="SelforganizingNetwork" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="231.25" x="1416.6667" y="407.2917"/><ellipse cx="1431.25" cy="429.5858" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1431.0384,434.4035 Q1430.3711,434.4035 1429.7038,434.2733 Q1429.0527,434.1431 1428.4831,433.8664 L1428.4831,432.2062 Q1429.1829,432.5643 1429.834,432.7433 Q1430.485,432.9061 1431.0872,432.9061 Q1431.7383,432.9061 1432.1452,432.6945 Q1432.5684,432.4666 1432.5684,431.8807 Q1432.5684,431.4901 1432.3405,431.2622 Q1432.1289,431.0343 1431.7057,430.839 Q1431.2988,430.6274 1430.7292,430.3182 Q1430.1595,430.009 1429.6712,429.6509 Q1429.1992,429.2928 1428.9225,428.8045 Q1428.6621,428.3 1428.6621,427.6001 Q1428.6621,426.3957 1429.4596,425.8097 Q1430.2734,425.2238 1431.5755,425.2238 Q1432.0964,425.2238 1432.8288,425.354 Q1433.5612,425.4679 1434.2611,425.7935 L1433.6751,427.2095 Q1433.0729,426.9491 1432.5684,426.8351 Q1432.0638,426.7212 1431.6732,426.7212 Q1431.071,426.7212 1430.778,426.9816 Q1430.5013,427.2257 1430.5013,427.6815 Q1430.5013,428.0558 1430.6803,428.2837 Q1430.8594,428.4953 1431.2012,428.6743 Q1431.5592,428.8534 1432.0964,429.13 Q1432.8288,429.5044 1433.3496,429.8462 Q1433.8704,430.188 1434.1471,430.6437 Q1434.4238,431.0832 1434.4238,431.783 Q1434.4238,432.6457 1434.0007,433.2316 Q1433.5775,433.8175 1432.8125,434.1105 Q1432.0475,434.4035 1431.0384,434.4035 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="131.25" x="1450" y="438.7609">SelforganizingNetwork</text><rect fill="none" height="27.0508" style="stroke:#78C2AD;stroke-width:1.0416666666666667;stroke-dasharray:2.0,2.0;" width="56.25" x="1594.7917" y="404.1667"/><text fill="#343A40" font-family="Verdana" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="43.75" x="1601.0417" y="422.0194">A,T,R,L</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1417.7083" x2="1646.875" y1="451.8799" y2="451.8799"/><ellipse cx="1428.125" cy="469.4865" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="123.9583" x="1441.6667" y="471.8908">NeuralLayer neurons</text><ellipse cx="1428.125" cy="493.2414" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="130.2083" x="1441.6667" y="495.6457">A:Adaptable adaptivity</text><ellipse cx="1428.125" cy="516.9963" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="132.2917" x="1441.6667" y="519.4005">T:Topological topology</text><ellipse cx="1428.125" cy="540.7511" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="178.125" x="1441.6667" y="543.1554">R:Responsive responsiveness</text><ellipse cx="1428.125" cy="564.506" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="114.5833" x="1441.6667" y="566.9103">L:Trainable training</text></g><!--MD5=[6e4fa4b36e9ff66d289bfe960f4d8d68]
+class SelfOrganizingNeural--><g id="elem_SelfOrganizingNeural"><rect codeLine="56" fill="#86C8B5" height="34.1715" id="SelfOrganizingNeural" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="165.625" x="1215.1042" y="476.0417"/><ellipse cx="1229.6875" cy="493.1274" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1227.1647,497.8149 L1227.1647,496.5617 L1228.9063,496.3664 L1228.9063,490.3442 L1227.1647,490.1326 L1227.1647,488.8957 L1232.4219,488.8957 L1232.4219,490.1326 L1230.6478,490.3442 L1230.6478,496.3664 L1232.4219,496.5617 L1232.4219,497.8149 L1227.1647,497.8149 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="123.9583" x="1248.4375" y="497.0942">SelfOrganizingNeural</text></g><!--MD5=[935cc1e1f3c0fdae0cbdbad55f6c03a7]
+class Adaptable--><g id="elem_Adaptable"><rect codeLine="68" fill="#86C8B5" height="76.6764" id="Adaptable" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="370.8333" x="2373.9583" y="758.3333"/><ellipse cx="2502.0833" cy="780.6274" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2501.2695,785.8358 L2501.2695,778.479 L2498.8118,778.479 L2498.8118,776.9165 L2505.5664,776.9165 L2505.5664,778.479 L2503.0924,778.479 L2503.0924,785.8358 L2501.2695,785.8358 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="59.375" x="2527.0833" y="789.8026">Adaptable</text><rect fill="none" height="27.0508" style="stroke:#78C2AD;stroke-width:1.0416666666666667;stroke-dasharray:2.0,2.0;" width="34.375" x="2713.5417" y="755.2083"/><text fill="#343A40" font-family="Verdana" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="21.875" x="2719.7917" y="773.0611">N,R</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="2375" x2="2743.75" y1="802.9215" y2="802.9215"/><ellipse cx="2385.4167" cy="820.5282" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="334.375" x="2398.9583" y="822.9324">adapt(neurons, responsiveness, pattern, influence, rate)</text></g><!--MD5=[6f2f51e4d7c1ea4b89e00e1dd1d01389]
+class Box<dyn Adaptable>--><g id="elem_Box&lt;dyn Adaptable&gt;"><rect codeLine="76" fill="#86C8B5" height="34.1715" id="Box&lt;dyn Adaptable&gt;" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="165.625" x="2373.4375" y="1019.2708"/><ellipse cx="2388.0208" cy="1036.3566" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2387.7279,1041.1743 Q2386.4258,1041.1743 2385.5957,1040.6372 Q2384.7656,1040.0838 2384.3587,1039.091 Q2383.9518,1038.0981 2383.9518,1036.7635 Q2383.9518,1035.2824 2384.4401,1034.2244 Q2384.9284,1033.1502 2385.8724,1032.5806 Q2386.8164,1031.9946 2388.1836,1031.9946 Q2388.8346,1031.9946 2389.3229,1032.1248 Q2389.8275,1032.255 2390.332,1032.4992 L2389.7298,1033.9966 Q2389.2741,1033.7524 2388.8672,1033.6711 Q2388.4766,1033.5897 2388.1185,1033.5897 Q2387.2559,1033.5897 2386.735,1033.9803 Q2386.2305,1034.3547 2386.0026,1035.0545 Q2385.791,1035.7544 2385.791,1036.6984 Q2385.791,1038.1632 2386.3118,1038.8794 Q2386.849,1039.5793 2388.0208,1039.5793 Q2388.4603,1039.5793 2388.916,1039.4653 Q2389.3717,1039.3514 2389.9902,1039.0747 L2389.9902,1040.7023 Q2389.4531,1040.9465 2388.8672,1041.0604 Q2388.2813,1041.1743 2387.7279,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="123.9583" x="2406.7708" y="1040.3234">Box&lt;dyn Adaptable&gt;</text></g><!--MD5=[0d1395162fad809b44db76f14a284942]
+class KohonenAdaptivity--><g id="elem_KohonenAdaptivity"><rect codeLine="72" fill="#86C8B5" height="44.5882" id="KohonenAdaptivity" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="148.9583" x="2575.5208" y="1014.0625"/><ellipse cx="2590.1042" cy="1036.3566" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2589.8926,1041.1743 Q2589.2253,1041.1743 2588.5579,1041.0441 Q2587.9069,1040.9139 2587.3372,1040.6372 L2587.3372,1038.9771 Q2588.0371,1039.3351 2588.6882,1039.5142 Q2589.3392,1039.6769 2589.9414,1039.6769 Q2590.5924,1039.6769 2590.9993,1039.4653 Q2591.4225,1039.2375 2591.4225,1038.6515 Q2591.4225,1038.2609 2591.1947,1038.033 Q2590.9831,1037.8052 2590.5599,1037.6099 Q2590.153,1037.3983 2589.5833,1037.089 Q2589.0137,1036.7798 2588.5254,1036.4217 Q2588.0534,1036.0636 2587.7767,1035.5754 Q2587.5163,1035.0708 2587.5163,1034.3709 Q2587.5163,1033.1665 2588.3138,1032.5806 Q2589.1276,1031.9946 2590.4297,1031.9946 Q2590.9505,1031.9946 2591.6829,1032.1248 Q2592.4154,1032.2388 2593.1152,1032.5643 L2592.5293,1033.9803 Q2591.9271,1033.7199 2591.4225,1033.606 Q2590.918,1033.492 2590.5273,1033.492 Q2589.9251,1033.492 2589.6322,1033.7524 Q2589.3555,1033.9966 2589.3555,1034.4523 Q2589.3555,1034.8267 2589.5345,1035.0545 Q2589.7135,1035.2661 2590.0553,1035.4451 Q2590.4134,1035.6242 2590.9505,1035.9009 Q2591.6829,1036.2752 2592.2038,1036.617 Q2592.7246,1036.9588 2593.0013,1037.4146 Q2593.278,1037.854 2593.278,1038.5539 Q2593.278,1039.4165 2592.8548,1040.0024 Q2592.4316,1040.5884 2591.6667,1040.8813 Q2590.9017,1041.1743 2589.8926,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="107.2917" x="2608.8542" y="1045.5317">KohonenAdaptivity</text></g><!--MD5=[51589d3b3fd3288501f94d5a3afb947b]
+class Responsive--><g id="elem_Responsive"><rect codeLine="89" fill="#86C8B5" height="76.6764" id="Responsive" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="254.1667" x="2966.6667" y="758.3333"/><ellipse cx="3038.5417" cy="780.6274" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M3037.7279,785.8358 L3037.7279,778.479 L3035.2702,778.479 L3035.2702,776.9165 L3042.0247,776.9165 L3042.0247,778.479 L3039.5508,778.479 L3039.5508,785.8358 L3037.7279,785.8358 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="67.7083" x="3063.5417" y="789.8026">Responsive</text><rect fill="none" height="27.0508" style="stroke:#78C2AD;stroke-width:1.0416666666666667;stroke-dasharray:2.0,2.0;" width="21.875" x="3202.0833" y="755.2083"/><text fill="#343A40" font-family="Verdana" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="9.375" x="3208.3333" y="773.0611">N</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="2967.7083" x2="3219.7917" y1="802.9215" y2="802.9215"/><ellipse cx="2978.125" cy="820.5282" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="217.7083" x="2991.6667" y="822.9324">get_best_matching(neurons, pattern)</text></g><!--MD5=[0b165c355a642b203463611587083ab7]
+class CartesianResponsiveness--><g id="elem_CartesianResponsiveness"><rect codeLine="92" fill="#86C8B5" height="44.5882" id="CartesianResponsiveness" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="195.8333" x="3178.125" y="1014.0625"/><ellipse cx="3192.7083" cy="1036.3566" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M3192.4967,1041.1743 Q3191.8294,1041.1743 3191.1621,1041.0441 Q3190.5111,1040.9139 3189.9414,1040.6372 L3189.9414,1038.9771 Q3190.6413,1039.3351 3191.2923,1039.5142 Q3191.9434,1039.6769 3192.5456,1039.6769 Q3193.1966,1039.6769 3193.6035,1039.4653 Q3194.0267,1039.2375 3194.0267,1038.6515 Q3194.0267,1038.2609 3193.7988,1038.033 Q3193.5872,1037.8052 3193.1641,1037.6099 Q3192.7572,1037.3983 3192.1875,1037.089 Q3191.6178,1036.7798 3191.1296,1036.4217 Q3190.6576,1036.0636 3190.3809,1035.5754 Q3190.1204,1035.0708 3190.1204,1034.3709 Q3190.1204,1033.1665 3190.918,1032.5806 Q3191.7318,1031.9946 3193.0339,1031.9946 Q3193.5547,1031.9946 3194.2871,1032.1248 Q3195.0195,1032.2388 3195.7194,1032.5643 L3195.1335,1033.9803 Q3194.5313,1033.7199 3194.0267,1033.606 Q3193.5221,1033.492 3193.1315,1033.492 Q3192.5293,1033.492 3192.2363,1033.7524 Q3191.9596,1033.9966 3191.9596,1034.4523 Q3191.9596,1034.8267 3192.1387,1035.0545 Q3192.3177,1035.2661 3192.6595,1035.4451 Q3193.0176,1035.6242 3193.5547,1035.9009 Q3194.2871,1036.2752 3194.8079,1036.617 Q3195.3288,1036.9588 3195.6055,1037.4146 Q3195.8822,1037.854 3195.8822,1038.5539 Q3195.8822,1039.4165 3195.459,1040.0024 Q3195.0358,1040.5884 3194.2708,1040.8813 Q3193.5059,1041.1743 3192.4967,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="154.1667" x="3211.4583" y="1045.5317">CartesianResponsiveness</text></g><!--MD5=[1c2dd1394d6a0f0e84710719628e6e9a]
+class Box<dyn Responsive>--><g id="elem_Box&lt;dyn Responsive&gt;"><rect codeLine="96" fill="#86C8B5" height="34.1715" id="Box&lt;dyn Responsive&gt;" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="175" x="2966.6667" y="1019.2708"/><ellipse cx="2981.25" cy="1036.3566" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2980.957,1041.1743 Q2979.6549,1041.1743 2978.8249,1040.6372 Q2977.9948,1040.0838 2977.5879,1039.091 Q2977.181,1038.0981 2977.181,1036.7635 Q2977.181,1035.2824 2977.6693,1034.2244 Q2978.1576,1033.1502 2979.1016,1032.5806 Q2980.0456,1031.9946 2981.4128,1031.9946 Q2982.0638,1031.9946 2982.5521,1032.1248 Q2983.0566,1032.255 2983.5612,1032.4992 L2982.959,1033.9966 Q2982.5033,1033.7524 2982.0964,1033.6711 Q2981.7057,1033.5897 2981.3477,1033.5897 Q2980.485,1033.5897 2979.9642,1033.9803 Q2979.4596,1034.3547 2979.2318,1035.0545 Q2979.0202,1035.7544 2979.0202,1036.6984 Q2979.0202,1038.1632 2979.541,1038.8794 Q2980.0781,1039.5793 2981.25,1039.5793 Q2981.6895,1039.5793 2982.1452,1039.4653 Q2982.6009,1039.3514 2983.2194,1039.0747 L2983.2194,1040.7023 Q2982.6823,1040.9465 2982.0964,1041.0604 Q2981.5104,1041.1743 2980.957,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="133.3333" x="3000" y="1040.3234">Box&lt;dyn Responsive&gt;</text></g><!--MD5=[02e61fb1d370f75a2caae22b086f2880]
+class Topological--><g id="elem_Topological"><rect codeLine="111" fill="#86C8B5" height="100.4313" id="Topological" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="209.375" x="241.1458" y="746.875"/><ellipse cx="291.1458" cy="769.1691" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M290.332,774.3774 L290.332,767.0207 L287.8743,767.0207 L287.8743,765.4582 L294.6289,765.4582 L294.6289,767.0207 L292.1549,767.0207 L292.1549,774.3774 L290.332,774.3774 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="66.6667" x="316.1458" y="778.3442">Topological</text><rect fill="none" height="27.0508" style="stroke:#78C2AD;stroke-width:1.0416666666666667;stroke-dasharray:2.0,2.0;" width="21.875" x="431.7708" y="743.75"/><text fill="#343A40" font-family="Verdana" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="9.375" x="438.0208" y="761.6028">N</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="242.1875" x2="449.4792" y1="791.4632" y2="791.4632"/><ellipse cx="252.6042" cy="809.0698" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="172.9167" x="266.1458" y="811.4741">get_lateral_connections(data)</text><ellipse cx="252.6042" cy="832.8247" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="117.7083" x="266.1458" y="835.229">init_lateral(neurons)</text></g><!--MD5=[02b55ae9e80f666b2d6527c53dbdd238]
+class CartesianTopology--><g id="elem_CartesianTopology"><rect codeLine="115" fill="#86C8B5" height="108.7646" id="CartesianTopology" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="152.0833" x="88.5417" y="982.2917"/><ellipse cx="103.125" cy="1004.5858" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M102.9134,1009.4035 Q102.2461,1009.4035 101.5788,1009.2733 Q100.9277,1009.1431 100.3581,1008.8664 L100.3581,1007.2062 Q101.0579,1007.5643 101.709,1007.7433 Q102.36,1007.9061 102.9622,1007.9061 Q103.6133,1007.9061 104.0202,1007.6945 Q104.4434,1007.4666 104.4434,1006.8807 Q104.4434,1006.4901 104.2155,1006.2622 Q104.0039,1006.0343 103.5807,1005.839 Q103.1738,1005.6274 102.6042,1005.3182 Q102.0345,1005.009 101.5462,1004.6509 Q101.0742,1004.2928 100.7975,1003.8045 Q100.5371,1003.3 100.5371,1002.6001 Q100.5371,1001.3957 101.3346,1000.8097 Q102.1484,1000.2238 103.4505,1000.2238 Q103.9714,1000.2238 104.7038,1000.354 Q105.4362,1000.4679 106.1361,1000.7935 L105.5501,1002.2095 Q104.9479,1001.9491 104.4434,1001.8351 Q103.9388,1001.7212 103.5482,1001.7212 Q102.946,1001.7212 102.653,1001.9816 Q102.3763,1002.2257 102.3763,1002.6815 Q102.3763,1003.0558 102.5553,1003.2837 Q102.7344,1003.4953 103.0762,1003.6743 Q103.4342,1003.8534 103.9714,1004.13 Q104.7038,1004.5044 105.2246,1004.8462 Q105.7454,1005.188 106.0221,1005.6437 Q106.2988,1006.0832 106.2988,1006.783 Q106.2988,1007.6457 105.8757,1008.2316 Q105.4525,1008.8175 104.6875,1009.1105 Q103.9225,1009.4035 102.9134,1009.4035 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="110.4167" x="121.875" y="1013.7609">CartesianTopology</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="89.5833" x2="239.5833" y1="1026.8799" y2="1026.8799"/><ellipse cx="100" cy="1044.4865" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="36.4583" x="113.5417" y="1046.8908">shape</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="89.5833" x2="239.5833" y1="1058.9681" y2="1058.9681"/><ellipse cx="100" cy="1076.5747" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="68.75" x="113.5417" y="1078.979">new(shape)</text></g><!--MD5=[19985c02028abaee09774942a8388df5]
+class Box<dyn Topological>--><g id="elem_Box&lt;dyn Topological&gt;"><rect codeLine="121" fill="#86C8B5" height="34.1715" id="Box&lt;dyn Topological&gt;" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="173.9583" x="277.6042" y="1019.2708"/><ellipse cx="292.1875" cy="1036.3566" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M291.8945,1041.1743 Q290.5924,1041.1743 289.7624,1040.6372 Q288.9323,1040.0838 288.5254,1039.091 Q288.1185,1038.0981 288.1185,1036.7635 Q288.1185,1035.2824 288.6068,1034.2244 Q289.0951,1033.1502 290.0391,1032.5806 Q290.9831,1031.9946 292.3503,1031.9946 Q293.0013,1031.9946 293.4896,1032.1248 Q293.9941,1032.255 294.4987,1032.4992 L293.8965,1033.9966 Q293.4408,1033.7524 293.0339,1033.6711 Q292.6432,1033.5897 292.2852,1033.5897 Q291.4225,1033.5897 290.9017,1033.9803 Q290.3971,1034.3547 290.1693,1035.0545 Q289.9577,1035.7544 289.9577,1036.6984 Q289.9577,1038.1632 290.4785,1038.8794 Q291.0156,1039.5793 292.1875,1039.5793 Q292.627,1039.5793 293.0827,1039.4653 Q293.5384,1039.3514 294.1569,1039.0747 L294.1569,1040.7023 Q293.6198,1040.9465 293.0339,1041.0604 Q292.4479,1041.1743 291.8945,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="132.2917" x="310.9375" y="1040.3234">Box&lt;dyn Topological&gt;</text></g><!--MD5=[43d5d3d77af255f4527dae50058a9f60]
+class Trainable--><g id="elem_Trainable"><rect codeLine="138" fill="#86C8B5" height="76.6764" id="Trainable" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="298.9583" x="571.3542" y="758.3333"/><ellipse cx="659.375" cy="780.6274" fill="#D8BFD8" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M658.5612,785.8358 L658.5612,778.479 L656.1035,778.479 L656.1035,776.9165 L662.8581,776.9165 L662.8581,778.479 L660.3841,778.479 L660.3841,785.8358 L658.5612,785.8358 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="55.2083" x="684.375" y="789.8026">Trainable</text><rect fill="none" height="27.0508" style="stroke:#78C2AD;stroke-width:1.0416666666666667;stroke-dasharray:2.0,2.0;" width="46.875" x="826.5625" y="755.2083"/><text fill="#343A40" font-family="Verdana" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="34.375" x="832.8125" y="773.0611">N,A,R</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="572.3958" x2="869.2708" y1="802.9215" y2="802.9215"/><ellipse cx="582.8125" cy="820.5282" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" font-style="italic" lengthAdjust="spacing" textLength="262.5" x="596.3542" y="822.9324">train(neurons, adaptation, feature, patterns)</text></g><!--MD5=[7ce3e20ea6b2c8c8f366c9998b3e696f]
+class IncrementalLearning--><g id="elem_IncrementalLearning"><rect codeLine="141" fill="#86C8B5" height="124.1862" id="IncrementalLearning" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="162.5" x="509.375" y="974.4792"/><ellipse cx="523.9583" cy="996.7733" fill="#B0C4DE" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M523.7467,1001.591 Q523.0794,1001.591 522.4121,1001.4608 Q521.7611,1001.3306 521.1914,1001.0539 L521.1914,999.3937 Q521.8913,999.7518 522.5423,999.9308 Q523.1934,1000.0936 523.7956,1000.0936 Q524.4466,1000.0936 524.8535,999.882 Q525.2767,999.6541 525.2767,999.0682 Q525.2767,998.6776 525.0488,998.4497 Q524.8372,998.2218 524.4141,998.0265 Q524.0072,997.8149 523.4375,997.5057 Q522.8678,997.1965 522.3796,996.8384 Q521.9076,996.4803 521.6309,995.992 Q521.3704,995.4875 521.3704,994.7876 Q521.3704,993.5832 522.168,992.9972 Q522.9818,992.4113 524.2839,992.4113 Q524.8047,992.4113 525.5371,992.5415 Q526.2695,992.6554 526.9694,992.981 L526.3835,994.397 Q525.7813,994.1366 525.2767,994.0226 Q524.7721,993.9087 524.3815,993.9087 Q523.7793,993.9087 523.4863,994.1691 Q523.2096,994.4132 523.2096,994.869 Q523.2096,995.2433 523.3887,995.4712 Q523.5677,995.6828 523.9095,995.8618 Q524.2676,996.0409 524.8047,996.3175 Q525.5371,996.6919 526.0579,997.0337 Q526.5788,997.3755 526.8555,997.8312 Q527.1322,998.2707 527.1322,998.9705 Q527.1322,999.8332 526.709,1000.4191 Q526.2858,1001.005 525.5208,1001.298 Q524.7559,1001.591 523.7467,1001.591 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="120.8333" x="542.7083" y="1005.9484">IncrementalLearning</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="510.4167" x2="670.8333" y1="1019.0674" y2="1019.0674"/><ellipse cx="520.8333" cy="1036.674" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="26.0417" x="534.375" y="1039.0783">radii</text><ellipse cx="520.8333" cy="1060.4289" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="31.25" x="534.375" y="1062.8332">rates</text><ellipse cx="520.8333" cy="1084.1838" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="42.7083" x="534.375" y="1086.588">epochs</text></g><!--MD5=[e98627aca5e20f5d6cf13ad6e8e2ed32]
+class Box<dyn Trainable>--><g id="elem_Box&lt;dyn Trainable&gt;"><rect codeLine="147" fill="#86C8B5" height="34.1715" id="Box&lt;dyn Trainable&gt;" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="162.5" x="708.3333" y="1019.2708"/><ellipse cx="722.9167" cy="1036.3566" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M722.6237,1041.1743 Q721.3216,1041.1743 720.4915,1040.6372 Q719.6615,1040.0838 719.2546,1039.091 Q718.8477,1038.0981 718.8477,1036.7635 Q718.8477,1035.2824 719.3359,1034.2244 Q719.8242,1033.1502 720.7682,1032.5806 Q721.7122,1031.9946 723.0794,1031.9946 Q723.7305,1031.9946 724.2188,1032.1248 Q724.7233,1032.255 725.2279,1032.4992 L724.6257,1033.9966 Q724.1699,1033.7524 723.763,1033.6711 Q723.3724,1033.5897 723.0143,1033.5897 Q722.1517,1033.5897 721.6309,1033.9803 Q721.1263,1034.3547 720.8984,1035.0545 Q720.6868,1035.7544 720.6868,1036.6984 Q720.6868,1038.1632 721.2077,1038.8794 Q721.7448,1039.5793 722.9167,1039.5793 Q723.3561,1039.5793 723.8118,1039.4653 Q724.2676,1039.3514 724.8861,1039.0747 L724.8861,1040.7023 Q724.349,1040.9465 723.763,1041.0604 Q723.1771,1041.1743 722.6237,1041.1743 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="120.8333" x="741.6667" y="1040.3234">Box&lt;dyn Trainable&gt;</text></g><!--MD5=[04494d188a66121ae584d8956dae4e62]
+class PyAdaptivity--><g id="elem_PyAdaptivity"><rect codeLine="165" fill="#86C8B5" height="98.348" id="PyAdaptivity" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="271.875" x="1682.8125" y="1191.1458"/><ellipse cx="1774.4792" cy="1208.2316" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1774.1862,1213.0493 Q1772.8841,1213.0493 1772.054,1212.5122 Q1771.224,1211.9588 1770.8171,1210.966 Q1770.4102,1209.9731 1770.4102,1208.6385 Q1770.4102,1207.1574 1770.8984,1206.0994 Q1771.3867,1205.0252 1772.3307,1204.4556 Q1773.2747,1203.8696 1774.6419,1203.8696 Q1775.293,1203.8696 1775.7813,1203.9998 Q1776.2858,1204.13 1776.7904,1204.3742 L1776.1882,1205.8716 Q1775.7324,1205.6274 1775.3255,1205.5461 Q1774.9349,1205.4647 1774.5768,1205.4647 Q1773.7142,1205.4647 1773.1934,1205.8553 Q1772.6888,1206.2297 1772.4609,1206.9295 Q1772.2493,1207.6294 1772.2493,1208.5734 Q1772.2493,1210.0382 1772.7702,1210.7544 Q1773.3073,1211.4543 1774.4792,1211.4543 Q1774.9186,1211.4543 1775.3743,1211.3403 Q1775.8301,1211.2264 1776.4486,1210.9497 L1776.4486,1212.5773 Q1775.9115,1212.8215 1775.3255,1212.9354 Q1774.7396,1213.0493 1774.1862,1213.0493 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="69.7917" x="1799.4792" y="1212.1984">PyAdaptivity</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1683.8542" x2="1953.6458" y1="1225.3174" y2="1225.3174"/><rect fill="none" height="6.25" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;" width="6.25" x="1691.1458" y="1239.799"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="216.6667" x="1707.8125" y="1245.3283">"Box&lt;dyn Adaptable&gt;" __component</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1683.8542" x2="1953.6458" y1="1257.4056" y2="1257.4056"/><ellipse cx="1694.2708" cy="1275.0122" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" text-decoration="underline" textLength="235.4167" x="1707.8125" y="1277.4165">Box&lt;dyn KohonenAdaptivity&gt; kohonen()</text></g><g id="elem_GMN64"><path d="M1670.8333,1383.8542 L1670.8333,1425.4557 A4.1667,4.1667 0 0 0 1675,1429.6224 L1962.5,1429.6224 A4.1667,4.1667 0 0 0 1966.6667,1425.4557 L1966.6667,1390.1042 L1956.25,1379.6875 L1822.9167,1379.6875 L1818.75,1289.4583 L1814.5833,1379.6875 L1675,1379.6875 A4.1667,4.1667 0 0 0 1670.8333,1383.8542 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1956.25,1379.6875 L1956.25,1388.0208 A2.0833,2.0833 0 0 0 1958.3333,1390.1042 L1966.6667,1390.1042 L1956.25,1379.6875 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="263.5417" x="1682.2917" y="1401.7069">Python bindings are optional. Therefore,</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="260.4167" x="1682.2917" y="1416.2577">we need this (these) wrapper class(es).</text></g><!--MD5=[a64dc894f016fe5a2221373d7506518f]
+class PyResponsiveness--><g id="elem_PyResponsiveness"><rect codeLine="175" fill="#86C8B5" height="98.348" id="PyResponsiveness" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="323.9583" x="1991.1458" y="1191.1458"/><ellipse cx="2088.5417" cy="1208.2316" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2088.2487,1213.0493 Q2086.9466,1213.0493 2086.1165,1212.5122 Q2085.2865,1211.9588 2084.8796,1210.966 Q2084.4727,1209.9731 2084.4727,1208.6385 Q2084.4727,1207.1574 2084.9609,1206.0994 Q2085.4492,1205.0252 2086.3932,1204.4556 Q2087.3372,1203.8696 2088.7044,1203.8696 Q2089.3555,1203.8696 2089.8438,1203.9998 Q2090.3483,1204.13 2090.8529,1204.3742 L2090.2507,1205.8716 Q2089.7949,1205.6274 2089.388,1205.5461 Q2088.9974,1205.4647 2088.6393,1205.4647 Q2087.7767,1205.4647 2087.2559,1205.8553 Q2086.7513,1206.2297 2086.5234,1206.9295 Q2086.3118,1207.6294 2086.3118,1208.5734 Q2086.3118,1210.0382 2086.8327,1210.7544 Q2087.3698,1211.4543 2088.5417,1211.4543 Q2088.9811,1211.4543 2089.4368,1211.3403 Q2089.8926,1211.2264 2090.5111,1210.9497 L2090.5111,1212.5773 Q2089.974,1212.8215 2089.388,1212.9354 Q2088.8021,1213.0493 2088.2487,1213.0493 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="110.4167" x="2113.5417" y="1212.1984">PyResponsiveness</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1992.1875" x2="2314.0625" y1="1225.3174" y2="1225.3174"/><rect fill="none" height="6.25" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;" width="6.25" x="1999.4792" y="1239.799"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="216.6667" x="2016.1458" y="1245.3283">"Box&lt;dyn Adaptable&gt;" __component</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1992.1875" x2="2314.0625" y1="1257.4056" y2="1257.4056"/><ellipse cx="2002.6042" cy="1275.0122" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" text-decoration="underline" textLength="287.5" x="2016.1458" y="1277.4165">Box&lt;dyn CartesianResponsiveness&gt; cartesian()</text></g><!--MD5=[e6a5ff4796b0d0fef6d28af53001bcf9]
+class PyTopology--><g id="elem_PyTopology"><rect codeLine="179" fill="#86C8B5" height="98.348" id="PyTopology" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="375" x="929.1667" y="1191.1458"/><ellipse cx="1073.9583" cy="1208.2316" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1073.6654,1213.0493 Q1072.3633,1213.0493 1071.5332,1212.5122 Q1070.7031,1211.9588 1070.2962,1210.966 Q1069.8893,1209.9731 1069.8893,1208.6385 Q1069.8893,1207.1574 1070.3776,1206.0994 Q1070.8659,1205.0252 1071.8099,1204.4556 Q1072.7539,1203.8696 1074.1211,1203.8696 Q1074.7721,1203.8696 1075.2604,1203.9998 Q1075.765,1204.13 1076.2695,1204.3742 L1075.6673,1205.8716 Q1075.2116,1205.6274 1074.8047,1205.5461 Q1074.4141,1205.4647 1074.056,1205.4647 Q1073.1934,1205.4647 1072.6725,1205.8553 Q1072.168,1206.2297 1071.9401,1206.9295 Q1071.7285,1207.6294 1071.7285,1208.5734 Q1071.7285,1210.0382 1072.2493,1210.7544 Q1072.7865,1211.4543 1073.9583,1211.4543 Q1074.3978,1211.4543 1074.8535,1211.3403 Q1075.3092,1211.2264 1075.9277,1210.9497 L1075.9277,1212.5773 Q1075.3906,1212.8215 1074.8047,1212.9354 Q1074.2188,1213.0493 1073.6654,1213.0493 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="66.6667" x="1098.9583" y="1212.1984">PyTopology</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="930.2083" x2="1303.125" y1="1225.3174" y2="1225.3174"/><rect fill="none" height="6.25" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;" width="6.25" x="937.5" y="1239.799"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="216.6667" x="954.1667" y="1245.3283">"Box&lt;dyn Adaptable&gt;" __component</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="930.2083" x2="1303.125" y1="1257.4056" y2="1257.4056"/><ellipse cx="940.625" cy="1275.0122" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" text-decoration="underline" textLength="338.5417" x="954.1667" y="1277.4165">Box&lt;dyn CartesianTopology&gt; cartesian(shape:  PyTuple)</text></g><!--MD5=[b30a48dc2f01f5a656499bd489ef2f16]
+class PyTraining--><g id="elem_PyTraining"><rect codeLine="183" fill="#86C8B5" height="98.348" id="PyTraining" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="305.2083" x="1341.1458" y="1191.1458"/><ellipse cx="1453.6458" cy="1208.2316" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1453.3529,1213.0493 Q1452.0508,1213.0493 1451.2207,1212.5122 Q1450.3906,1211.9588 1449.9837,1210.966 Q1449.5768,1209.9731 1449.5768,1208.6385 Q1449.5768,1207.1574 1450.0651,1206.0994 Q1450.5534,1205.0252 1451.4974,1204.4556 Q1452.4414,1203.8696 1453.8086,1203.8696 Q1454.4596,1203.8696 1454.9479,1203.9998 Q1455.4525,1204.13 1455.957,1204.3742 L1455.3548,1205.8716 Q1454.8991,1205.6274 1454.4922,1205.5461 Q1454.1016,1205.4647 1453.7435,1205.4647 Q1452.8809,1205.4647 1452.36,1205.8553 Q1451.8555,1206.2297 1451.6276,1206.9295 Q1451.416,1207.6294 1451.416,1208.5734 Q1451.416,1210.0382 1451.9368,1210.7544 Q1452.474,1211.4543 1453.6458,1211.4543 Q1454.0853,1211.4543 1454.541,1211.3403 Q1454.9967,1211.2264 1455.6152,1210.9497 L1455.6152,1212.5773 Q1455.0781,1212.8215 1454.4922,1212.9354 Q1453.9063,1213.0493 1453.3529,1213.0493 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="61.4583" x="1478.6458" y="1212.1984">PyTraining</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1342.1875" x2="1645.3125" y1="1225.3174" y2="1225.3174"/><rect fill="none" height="6.25" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;" width="6.25" x="1349.4792" y="1239.799"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="216.6667" x="1366.1458" y="1245.3283">"Box&lt;dyn Adaptable&gt;" __component</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1342.1875" x2="1645.3125" y1="1257.4056" y2="1257.4056"/><ellipse cx="1352.6042" cy="1275.0122" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" text-decoration="underline" textLength="268.75" x="1366.1458" y="1277.4165">Box&lt;dyn IncrementalLearning&gt; incremental()</text></g><!--MD5=[f2cb261f3960e6d826dbaa41ff9d005d]
+class PySOM--><g id="elem_PySOM"><rect codeLine="197" fill="#86C8B5" height="98.348" id="PySOM" rx="4.1667" ry="4.1667" style="stroke:#78C2AD;stroke-width:1.0416666666666667;" width="266.6667" x="1540.625" y="987.5"/><ellipse cx="1644.2708" cy="1004.5858" fill="none" rx="10.4167" ry="10.4167" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M1643.9779,1009.4035 Q1642.6758,1009.4035 1641.8457,1008.8664 Q1641.0156,1008.313 1640.6087,1007.3201 Q1640.2018,1006.3273 1640.2018,1004.9927 Q1640.2018,1003.5116 1640.6901,1002.4536 Q1641.1784,1001.3794 1642.1224,1000.8097 Q1643.0664,1000.2238 1644.4336,1000.2238 Q1645.0846,1000.2238 1645.5729,1000.354 Q1646.0775,1000.4842 1646.582,1000.7284 L1645.9798,1002.2257 Q1645.5241,1001.9816 1645.1172,1001.9002 Q1644.7266,1001.8188 1644.3685,1001.8188 Q1643.5059,1001.8188 1642.985,1002.2095 Q1642.4805,1002.5838 1642.2526,1003.2837 Q1642.041,1003.9836 1642.041,1004.9276 Q1642.041,1006.3924 1642.5618,1007.1086 Q1643.099,1007.8084 1644.2708,1007.8084 Q1644.7103,1007.8084 1645.166,1007.6945 Q1645.6217,1007.5806 1646.2402,1007.3039 L1646.2402,1008.9315 Q1645.7031,1009.1756 1645.1172,1009.2896 Q1644.5313,1009.4035 1643.9779,1009.4035 Z " fill="#FFFFFF"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="40.625" x="1669.2708" y="1008.5526">PySOM</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1541.6667" x2="1806.25" y1="1021.6715" y2="1021.6715"/><rect fill="none" height="6.25" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;" width="6.25" x="1548.9583" y="1036.1532"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="230.2083" x="1565.625" y="1041.6824">Box&lt;dyn SelforganizingNeural&gt; __som</text><line style="stroke:#78C2AD;stroke-width:1.0416666666666667;" x1="1541.6667" x2="1806.25" y1="1053.7598" y2="1053.7598"/><ellipse cx="1552.0833" cy="1071.3664" fill="none" rx="3.125" ry="3.125" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#343A40" font-family="&quot;Verdana&quot;" font-size="11.4583" lengthAdjust="spacing" textLength="44.7917" x="1565.625" y="1073.7707">new(...)</text></g><g id="elem_GMN6"><path d="M562.5,97.9167 L562.5,314.1276 A4.1667,4.1667 0 0 0 566.6667,318.2943 L950,318.2943 A4.1667,4.1667 0 0 0 954.1667,314.1276 L954.1667,210.4167 L990.3333,206.25 L954.1667,202.0833 L954.1667,104.1667 L943.75,93.75 L566.6667,93.75 A4.1667,4.1667 0 0 0 562.5,97.9167 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M943.75,93.75 L943.75,102.0833 A2.0833,2.0833 0 0 0 945.8333,104.1667 L954.1667,104.1667 L943.75,93.75 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="130.2083" x="573.9583" y="115.7694">Representation of a</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="32.2917" x="708.3333" y="115.7694">layer</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="73.9583" x="744.7917" y="115.7694">of neurons.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="277.0833" x="573.9583" y="130.3202">This emphasis destinguishs from a regular</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="230.2083" x="573.9583" y="144.871">neural network such that there are</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="270.8333" x="573.9583" y="159.4218">lateral connections between the neurons</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="232.2917" x="573.9583" y="173.9726">of the layer that creates a topology</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="238.5417" x="573.9583" y="188.5234">that define learning and adaptation.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="294.7917" x="573.9583" y="203.0741">The topology has to match a latent structure</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="182.2917" x="573.9583" y="217.6249">in the unlabeled input data.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="281.25" x="573.9583" y="232.1757">Consequently there are two fields: The first</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="41.6667" x="573.9583" y="246.7265">lateral</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="234.375" x="619.7917" y="246.7265">are the coordinates of each neuron</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="359.375" x="573.9583" y="261.2773">in the physical neural space (i.e., "where in the brain").</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="76.0417" x="573.9583" y="275.828">The second</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="55.2083" x="654.1667" y="275.828">patterns</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="152.0833" x="709.375" y="275.828">, is often referred to as</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="21.875" x="573.9583" y="290.3788">the</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="64.5833" x="600" y="290.3788">codebook</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="196.875" x="664.5833" y="290.3788">. These are the patterns each</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="207.2917" x="573.9583" y="304.9296">neuron reacts most strongly to.</text></g><g id="elem_GMN17"><path d="M1684.8958,465.1042 L1684.8958,521.2565 A4.1667,4.1667 0 0 0 1689.0625,525.4232 L2071.3542,525.4232 A4.1667,4.1667 0 0 0 2075.5208,521.2565 L2075.5208,471.3542 L2065.1042,460.9375 L1689.0625,460.9375 A4.1667,4.1667 0 0 0 1684.8958,465.1042 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2065.1042,460.9375 L2065.1042,469.2708 A2.0833,2.0833 0 0 0 2067.1875,471.3542 L2075.5208,471.3542 L2065.1042,460.9375 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="358.3333" x="1696.3542" y="482.9569">No need to implement Box&lt;dyn SelfOrganizingNeural&gt;.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="286.4583" x="1696.3542" y="497.5077">I guess that's because it does not have any</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="128.125" x="1696.3542" y="512.0585">generic arguments.</text></g><g id="elem_GMN27"><path d="M2494.2708,1197.3958 L2494.2708,1282.6497 A4.1667,4.1667 0 0 0 2498.4375,1286.8164 L2801.5625,1286.8164 A4.1667,4.1667 0 0 0 2805.7292,1282.6497 L2805.7292,1203.6458 L2795.3125,1193.2292 L2654.1667,1193.2292 L2650,1059.0729 L2645.8333,1193.2292 L2498.4375,1193.2292 A4.1667,4.1667 0 0 0 2494.2708,1197.3958 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M2795.3125,1193.2292 L2795.3125,1201.5625 A2.0833,2.0833 0 0 0 2797.3958,1203.6458 L2805.7292,1203.6458 L2795.3125,1193.2292 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="237.5" x="2505.7292" y="1215.2486">Represents neural plasticity and the</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="265.625" x="2505.7292" y="1229.7994">update rule for the codebook / patterns.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-weight="bold" lengthAdjust="spacing" textLength="46.875" x="2505.7292" y="1244.3502">TODO:</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="195.8333" x="2556.7708" y="1244.3502">Make `neurons` non-mutable.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="279.1667" x="2505.7292" y="1258.901">This rule should only compute the updates</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="211.4583" x="2505.7292" y="1273.4517">and learning decides what to do</text></g><g id="elem_GMN36"><path d="M3115.1042,1182.8125 L3115.1042,1297.168 A4.1667,4.1667 0 0 0 3119.2708,1301.3346 L3432.8125,1301.3346 A4.1667,4.1667 0 0 0 3436.9792,1297.168 L3436.9792,1189.0625 L3426.5625,1178.6458 L3280.2083,1178.6458 L3276.0417,1059.0729 L3271.875,1178.6458 L3119.2708,1178.6458 A4.1667,4.1667 0 0 0 3115.1042,1182.8125 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M3426.5625,1178.6458 L3426.5625,1186.9792 A2.0833,2.0833 0 0 0 3428.6458,1189.0625 L3436.9792,1189.0625 L3426.5625,1178.6458 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="250" x="3126.5625" y="1200.6653">Represents the responsiveness of the</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="253.125" x="3126.5625" y="1215.2161">neurons to feature patterns. The most</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="257.2917" x="3126.5625" y="1229.7668">simple case is finding the neuron which</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="289.5833" x="3126.5625" y="1244.3176">pattern has the smallest Euclidean distance</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="140.625" x="3126.5625" y="1258.8684">to the feature vector.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="65.625" x="3126.5625" y="1273.4192">Synonyms</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="162.5" x="3192.1875" y="1273.4192">: feature vector, pattern,</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="127.0833" x="3126.5625" y="1287.97">stimulus, codebook</text></g><g id="elem_GMN45"><path d="M16.6667,1168.2292 L16.6667,1311.6862 A4.1667,4.1667 0 0 0 20.8333,1315.8529 L308.3333,1315.8529 A4.1667,4.1667 0 0 0 312.5,1311.6862 L312.5,1174.4792 L302.0833,1164.0625 L168.75,1164.0625 L164.5833,1090.7188 L160.4167,1164.0625 L20.8333,1164.0625 A4.1667,4.1667 0 0 0 16.6667,1168.2292 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M302.0833,1164.0625 L302.0833,1172.3958 A2.0833,2.0833 0 0 0 304.1667,1174.4792 L312.5,1174.4792 L302.0833,1164.0625 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="238.5417" x="28.125" y="1186.0819">Defines the topology of the network,</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="198.9583" x="28.125" y="1200.6327">that is, the lateral structure of</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="128.125" x="28.125" y="1215.1835">the neural network.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-weight="bold" lengthAdjust="spacing" textLength="41.6667" x="28.125" y="1229.7343">TODO</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="221.875" x="69.7917" y="1229.7343">: remove `get_lateral`, Rename to</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="257.2917" x="28.125" y="1244.2851">Euclidean or uniform. Add 2D torus and</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="83.3333" x="28.125" y="1258.8359">2D Hexagon.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="65.625" x="28.125" y="1273.3866">Synonyms</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="98.9583" x="93.75" y="1273.3866">: Neural space,</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="200" x="28.125" y="1287.9374">lateral space, topology, neural</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="78.125" x="28.125" y="1302.4882">coordinates</text></g><g id="elem_GMN54"><path d="M440.1042,1197.3958 L440.1042,1282.6497 A4.1667,4.1667 0 0 0 444.2708,1286.8164 L736.9792,1286.8164 A4.1667,4.1667 0 0 0 741.1458,1282.6497 L741.1458,1203.6458 L730.7292,1193.2292 L594.7917,1193.2292 L590.625,1098.5208 L586.4583,1193.2292 L444.2708,1193.2292 A4.1667,4.1667 0 0 0 440.1042,1197.3958 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><path d="M730.7292,1193.2292 L730.7292,1201.5625 A2.0833,2.0833 0 0 0 732.8125,1203.6458 L741.1458,1203.6458 L730.7292,1193.2292 " fill="#6CC3D5" style="stroke:#6CAF9C;stroke-width:1.0416666666666667;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="210.4167" x="451.5625" y="1215.2486">Defines how the network learns.</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="267.7083" x="451.5625" y="1229.7994">Classic SOM can be trained incrementally</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="255.2083" x="451.5625" y="1244.3502">or in batch mode. Both use the update</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="268.75" x="451.5625" y="1258.901">rule defined in the Adaptable component</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" font-style="italic" lengthAdjust="spacing" textLength="65.625" x="451.5625" y="1273.4517">Synonyms</text><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="101.0417" x="517.1875" y="1273.4517">: learn, train, fit</text></g><!--MD5=[22be65d3fc60d4d957611bc3ac18f75f]
+reverse link Neural to NeuralLayer--><g id="link_Neural_NeuralLayer"><path d="M1081.7292,325.4063 C1084.4375,366.5417 1087.3333,410.4792 1089.4688,442.9167 " fill="none" id="Neural-backto-NeuralLayer" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1074.4479,325.8021,1080.3542,304.5417,1089,324.8542,1074.4479,325.8021" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[7c9e2eb6972dde3f777cb1c954310467]
+reverse link SelfOrganizing to SelforganizingNetwork--><g id="link_SelfOrganizing_SelforganizingNetwork"><path d="M1465.7396,311.9792 C1477.2917,343.2604 1489.8125,377.1667 1500.8438,407.0417 " fill="none" id="SelfOrganizing-backto-SelforganizingNetwork" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1458.8854,314.4583,1458.5104,292.3854,1472.5625,309.4063,1458.8854,314.4583" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[f6d329fbbafe5c50422df4e33c145aff]
+reverse link Neural to SelforganizingNetwork--><g id="link_Neural_SelforganizingNetwork"><path d="M1173.9167,301.4688 C1182.1458,307.6458 1190.5417,313.4896 1198.9583,318.75 C1229.9375,338.125 1241.5104,335.3854 1275,350 C1330.625,374.2708 1345.6979,378.1979 1398.9583,407.2917 C1404.7396,410.4479 1410.6042,413.7604 1416.5,417.1667 " fill="none" id="Neural-backto-SelforganizingNetwork" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1169.1875,307.0208,1157.3125,288.4167,1178.1979,295.5521,1169.1875,307.0208" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[3244a60a13bbc6fadc1ca17b37aa84a4]
+reverse link SelfOrganizing to SelfOrganizingNeural--><g id="link_SelfOrganizing_SelfOrganizingNeural"><path d="M1379.8646,311.4375 C1352.0729,372.7292 1319.6563,444.2396 1305.3438,475.8021 " fill="none" id="SelfOrganizing-backto-SelfOrganizingNeural" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="none" points="1373.2604,308.3438,1388.5,292.3854,1386.5417,314.3646,1373.2604,308.3438" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[ab2b705061f36ca200fa38379b1bcf84]
+reverse link Neural to SelfOrganizingNeural--><g id="link_Neural_SelfOrganizingNeural"><path d="M1173.3646,297.2813 C1181.9479,304.6354 1190.5521,311.875 1198.9583,318.75 C1216.875,333.4062 1226.5208,331.6458 1240.625,350 C1271.1146,389.6771 1287.7188,447.7604 1294.3854,475.8229 " fill="none" id="Neural-backto-SelfOrganizingNeural" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="none" points="1168.4688,302.6771,1157.5,283.5208,1178.0208,291.6563,1168.4688,302.6771" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[4b7013cecc1a74347273848f118f8e45]
+link SelfOrganizingNeural to GMN17--><g id="link_SelfOrganizingNeural_GMN17"><path d="M1307.25,475.9375 C1324.4167,446.2083 1364.1563,386.3646 1417.1875,363.0208 C1510.4063,321.9896 1547.7708,337.4271 1646.3542,363.0208 C1718.9896,381.875 1793.0521,428.7604 1837.8333,460.8125 " fill="none" id="SelfOrganizingNeural-GMN17" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/></g><!--MD5=[b5e95959521a9cfa10e331017d8b2035]
+reverse link Adaptable to KohonenAdaptivity--><g id="link_Adaptable_KohonenAdaptivity"><path d="M2581.2813,855.3333 C2600.7813,906.4375 2628.2604,978.4375 2641.8021,1013.9167 " fill="none" id="Adaptable-backto-KohonenAdaptivity" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2574.3542,857.6146,2573.7396,835.5521,2587.9792,852.4167,2574.3542,857.6146" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[4faf7ca566536106eae998d88c9e363c]
+reverse link Adaptable to Box<dyn Adaptable>--><g id="link_Adaptable_Box&lt;dyn Adaptable&gt;"><path d="M2534.6354,854.8958 C2511.2604,908.7396 2477.6771,986.0625 2463.2604,1019.2604 " fill="none" id="Adaptable-backto-Box&lt;dyn Adaptable&gt;" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2528.0521,851.75,2543.0313,835.5521,2541.4271,857.5625,2528.0521,851.75" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[e4b761b52751c996332807a3194e251e]
+reverse link Responsive to CartesianResponsiveness--><g id="link_Responsive_CartesianResponsiveness"><path d="M3135.4896,852.2917 C3174.8229,903.5417 3231.7604,977.7188 3259.5417,1013.9167 " fill="none" id="Responsive-backto-CartesianResponsiveness" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="3129.5313,856.5104,3122.6354,835.5521,3141.1042,847.6354,3129.5313,856.5104" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[87e13192dc02c8aaf7a07b3dcb4f1b25]
+reverse link Responsive to Box<dyn Responsive>--><g id="link_Responsive_Box&lt;dyn Responsive&gt;"><path d="M3084.0104,856.3229 C3075.0521,910.0938 3062.3438,986.3542 3056.8542,1019.2604 " fill="none" id="Responsive-backto-Box&lt;dyn Responsive&gt;" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="3076.8646,854.8958,3087.4792,835.5521,3091.25,857.3021,3076.8646,854.8958" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[6f97aabeb79b554eb74f10b1a2d47ef0]
+reverse link Topological to CartesianTopology--><g id="link_Topological_CartesianTopology"><path d="M280.7083,862.4271 C273.2708,870.6563 265.9896,879.125 259.375,887.5 C235.8333,917.2917 212.7708,953.0938 195.2813,982.0104 " fill="none" id="Topological-backto-CartesianTopology" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="275.5417,857.2813,295.0833,847.0104,286.2083,867.2188,275.5417,857.2813" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[7c647592b3114f5d159adc86f0fec6bb]
+reverse link Topological to Box<dyn Topological>--><g id="link_Topological_Box&lt;dyn Topological&gt;"><path d="M351.3854,868.1771 C355.5208,920.6771 360.875,988.4375 363.2917,1019.0833 " fill="none" id="Topological-backto-Box&lt;dyn Topological&gt;" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="344.0938,868.4688,349.7188,847.125,358.625,867.3229,344.0938,868.4688" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[be4bea74031db8b6cc47c445f3f8572e]
+reverse link Trainable to IncrementalLearning--><g id="link_Trainable_IncrementalLearning"><path d="M690.1458,853.8854 C670.3021,890.0833 644.4688,937.2083 624.0938,974.375 " fill="none" id="Trainable-backto-IncrementalLearning" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="683.7917,850.3125,700.1979,835.5521,696.5833,857.3229,683.7917,850.3125" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[d3a9f79326b7447ff26b4e6c6fbced88]
+reverse link Trainable to Box<dyn Trainable>--><g id="link_Trainable_Box&lt;dyn Trainable&gt;"><path d="M737.5313,855.6042 C753.1146,909.4167 775.3333,986.2083 784.9063,1019.2604 " fill="none" id="Trainable-backto-Box&lt;dyn Trainable&gt;" style="stroke:#78C2AD;stroke-width:3.125;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="730.5208,857.5833,731.7292,835.5521,744.5208,853.5313,730.5208,857.5833" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[14f132904af1c71b99736fe71e2af167]
+reverse link SelforganizingNetwork to Adaptable--><g id="link_SelforganizingNetwork_Adaptable"><path codeLine="158" d="M1636.4167,586.9583 C1646.2708,593.375 1656.4167,599.2396 1666.6667,604.1667 C1895.3854,714.2292 2187.2396,761.5938 2373.7708,781.6354 " fill="none" id="SelforganizingNetwork-backto-Adaptable" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1625,579.1875,1627.8276,586.1465,1635.3389,586.213,1632.5113,579.254,1625,579.1875" style="stroke:#78C2AD;stroke-width:3.125;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="33.3333" x="1739.5833" y="630.3528">owns</text></g><!--MD5=[da1d02baef6dd9c9ecd1f21aa90da026]
+reverse link SelforganizingNetwork to Responsive--><g id="link_SelforganizingNetwork_Responsive"><path codeLine="159" d="M1631.9271,586.7708 C1643.0729,593.6771 1654.7292,599.6771 1666.6667,604.1667 C1699.4063,616.4792 2892.5,633.9479 2925,646.875 C2982.9167,669.9063 3034.1667,722.0625 3064.5833,758.1146 " fill="none" id="SelforganizingNetwork-backto-Responsive" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1620.5,579.2813,1623.4418,586.1928,1630.9532,586.1356,1628.0113,579.224,1620.5,579.2813" style="stroke:#78C2AD;stroke-width:3.125;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="33.3333" x="2765.625" y="630.3528">owns</text></g><!--MD5=[a9bca2cf8ade014334fa7e5cc2837a63]
+reverse link SelforganizingNetwork to Topological--><g id="link_SelforganizingNetwork_Topological"><path codeLine="160" d="M1432.7917,587 C1421.9167,593.7708 1410.5729,599.6875 1398.9583,604.1667 C1375.4479,613.2396 515.7188,636.6042 492.7083,646.875 C445.2813,668.0417 405.0104,712.0417 378.6979,746.7604 " fill="none" id="SelforganizingNetwork-backto-Topological" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1444.3854,579.3542,1436.874,579.3153,1433.949,586.234,1441.4605,586.2729,1444.3854,579.3542" style="stroke:#78C2AD;stroke-width:3.125;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="33.3333" x="1266.6667" y="630.3528">owns</text></g><!--MD5=[2fd00795a4b8db4f04d0a72c75992b75]
+reverse link SelforganizingNetwork to Trainable--><g id="link_SelforganizingNetwork_Trainable"><path codeLine="161" d="M1427.5208,587.0208 C1418.1771,593.3021 1408.5938,599.125 1398.9583,604.1667 C1228.9375,693.1979 1012.6458,745.0938 870.6354,771.9271 " fill="none" id="SelforganizingNetwork-backto-Trainable" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1438.8021,579.1667,1431.292,579.3177,1428.543,586.3082,1436.0531,586.1571,1438.8021,579.1667" style="stroke:#78C2AD;stroke-width:3.125;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="33.3333" x="1387.5" y="630.3528">owns</text></g><!--MD5=[a2f73d88687f0fbad597f2b17985a769]
+reverse link SelforganizingNetwork to NeuralLayer--><g id="link_SelforganizingNetwork_NeuralLayer"><path codeLine="162" d="M1411,400.125 C1345.1667,361.4271 1263.0833,332.5833 1192.7083,366.6667 C1159.9479,382.5313 1134.6667,414.9271 1117.7292,442.9688 " fill="none" id="SelforganizingNetwork-backto-NeuralLayer" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1422.6771,407.1875,1419.4845,400.3881,1411.9803,400.72,1415.1729,407.5193,1422.6771,407.1875" style="stroke:#78C2AD;stroke-width:3.125;"/><text fill="#FFFFFF" font-family="&quot;Verdana&quot;" font-size="12.5" lengthAdjust="spacing" textLength="33.3333" x="1198.9583" y="367.8528">owns</text></g><!--MD5=[02e921abace55ba622501f0298d013d9]
+link Box<dyn Topological> to PyTopology--><g id="link_Box&lt;dyn Topological&gt;_PyTopology"><path codeLine="188" d="M383.0521,1053.7917 C406.6979,1073.6875 449.7708,1106.7396 492.7083,1123.4375 C604.4375,1166.9063 641.4063,1142.7083 759.375,1164.0625 C810.0417,1173.2292 864.5313,1184.1354 915.3229,1194.75 " fill="none" id="Box&lt;dyn Topological&gt;-to-PyTopology" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="928.8438,1197.5833,923.5829,1192.2217,916.6103,1195.0158,921.8712,1200.3774,928.8438,1197.5833" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[21de2ac0608ef12b39b3b116d3fa9052]
+link CartesianTopology to PyTopology--><g id="link_CartesianTopology_PyTopology"><path codeLine="189" d="M211.2813,1090.8125 C225.3958,1103.6563 241.8438,1115.8438 259.375,1123.4375 C361.6667,1167.75 649.0521,1148.0625 759.375,1164.0625 C814.7292,1172.0938 874.3854,1183.4896 928.7813,1194.9896 " fill="none" id="CartesianTopology-PyTopology" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[8bd3a17342a52155493e2b9c9698098e]
+link Box<dyn Responsive> to PyResponsiveness--><g id="link_Box&lt;dyn Responsive&gt;_PyResponsiveness"><path codeLine="190" d="M3002.6458,1053.6563 C2941.0729,1072.5104 2834.6667,1103.6042 2741.6667,1123.4375 C2624.8646,1148.3438 2593.3229,1141.5104 2476.0417,1164.0625 C2428,1173.3021 2376.25,1184.6771 2328.5625,1195.75 " fill="none" id="Box&lt;dyn Responsive&gt;-to-PyResponsiveness" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="2315.2292,1198.8542,2322.2632,1201.4896,2327.4014,1196.0103,2320.3673,1193.3748,2315.2292,1198.8542" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[68cd1c1a29cf4096d0fe66f35f92587d]
+link CartesianResponsiveness to PyResponsiveness--><g id="link_CartesianResponsiveness_PyResponsiveness"><path codeLine="191" d="M3255.3229,1058.9167 C3233.7813,1079.5938 3198.0208,1109.7396 3160.4167,1123.4375 C3017.2604,1175.5625 2626.8229,1142.2396 2476.0417,1164.0625 C2423.2083,1171.7083 2366.2708,1183.6563 2315.1458,1195.7917 " fill="none" id="CartesianResponsiveness-PyResponsiveness" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[2e88709e455b0dafc8dfec2d2977f566]
+link Box<dyn Trainable> to PyTraining--><g id="link_Box&lt;dyn Trainable&gt;_PyTraining"><path codeLine="192" d="M806.6458,1053.8125 C828.9688,1074.0521 870.25,1107.8021 912.5,1123.4375 C933.9896,1131.3854 1300.75,1158.2604 1322.9167,1164.0625 C1343.8021,1169.5313 1365.3958,1177.2396 1385.9167,1185.6458 " fill="none" id="Box&lt;dyn Trainable&gt;-to-PyTraining" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1398.5313,1190.9583,1394.3953,1184.688,1387.0165,1186.0941,1391.1525,1192.3645,1398.5313,1190.9583" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[de2f4ee68349b2199585993056eb1bb0]
+link IncrementalLearning to PyTraining--><g id="link_IncrementalLearning_PyTraining"><path codeLine="193" d="M649.3333,1098.5313 C661.9896,1108.4896 676,1117.4792 690.625,1123.4375 C821.0104,1176.5833 1186.1146,1130.7396 1322.9167,1164.0625 C1348.875,1170.3854 1375.8542,1180.4271 1400.4792,1191.125 " fill="none" id="IncrementalLearning-PyTraining" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[fffa5a708c8829108451e5b86e461cbb]
+link Box<dyn Adaptable> to PyAdaptivity--><g id="link_Box&lt;dyn Adaptable&gt;_PyAdaptivity"><path codeLine="194" d="M2438.9792,1053.7188 C2416.3958,1073.8646 2374.6979,1107.5 2332.2917,1123.4375 C2181.8229,1179.9688 2127.2813,1119.2292 1972.9167,1164.0625 C1954.2188,1169.4896 1935.0208,1177.0417 1916.7813,1185.2813 " fill="none" id="Box&lt;dyn Adaptable&gt;-to-PyAdaptivity" style="stroke:#78C2AD;stroke-width:3.125;"/><polygon fill="#78C2AD" points="1904.3333,1191.0729,1911.7579,1192.213,1915.6659,1185.7981,1908.2413,1184.658,1904.3333,1191.0729" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[01bbf899784af3fec4bf8c1dc750e74a]
+link KohonenAdaptivity to PyAdaptivity--><g id="link_KohonenAdaptivity_PyAdaptivity"><path codeLine="195" d="M2637.2813,1059.1563 C2623.8854,1079.7083 2600.7396,1109.4792 2571.875,1123.4375 C2451.7708,1181.5104 2101.8333,1129.7292 1972.9167,1164.0625 C1949.1875,1170.3854 1924.7396,1180.4167 1902.5104,1191.1146 " fill="none" id="KohonenAdaptivity-PyAdaptivity" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[6d504cf20eee1cc43c1c2dd6d0918e76]
+link PySOM to PyTopology--><g id="link_PySOM_PyTopology"><path codeLine="202" d="M1540.5729,1085.4896 C1475,1109.1146 1394.7917,1138.0313 1322.9167,1164.0625 C1298.8229,1172.7813 1273.1563,1182.1042 1248.4063,1191.0938 " fill="none" id="PySOM-PyTopology" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[0870120af5e97df0ec8afc16e7c8b034]
+link PySOM to PyResponsiveness--><g id="link_PySOM_PyResponsiveness"><path codeLine="203" d="M1788.125,1085.5208 C1863.9688,1117.4271 1963.1667,1159.1563 2039.0104,1191.0625 " fill="none" id="PySOM-PyResponsiveness" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[3c59859abf6811ee8af593fec9940f0d]
+link PySOM to PyAdaptivity--><g id="link_PySOM_PyAdaptivity"><path codeLine="204" d="M1708.6354,1085.7813 C1731.4792,1117.5729 1761.2708,1159.0417 1784.1042,1190.8333 " fill="none" id="PySOM-PyAdaptivity" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[c9f253c79b972a029eb035f115c74922]
+link PySOM to PyTraining--><g id="link_PySOM_PyTraining"><path codeLine="205" d="M1630.7917,1085.7813 C1602.3646,1117.5729 1565.2917,1159.0417 1536.875,1190.8333 " fill="none" id="PySOM-PyTraining" style="stroke:#78C2AD;stroke-width:3.125;"/></g><!--MD5=[ef0315daec390a7675ac8cc103a7bbbb]
+@startuml self-organization
+!theme minty
+
+    package som-rs.neural #FFFFFF {
+        interface Neural << (T,Thistle) >>  {
+            +{abstract} get_lateral()
+            +{abstract} get_lateral_mut()
+            +{abstract} set_lateral(lateral)
+            +{abstract} get_patterns()
+            +{abstract} get_patterns_mut()
+            +{abstract} set_patterns(patterns)
+        }
+
+        class NeuralLayer <<  (S,LightSteelBlue) >> implements Neural {
+            + Array2 lateral
+            + Array2 patterns
+        }
+    }
+    note left of Neural
+    Representation of a <i>layer<i> of neurons.
+    This emphasis destinguishs from a regular
+    neural network such that there are
+    lateral connections between the neurons
+    of the layer that creates a topology
+    that define learning and adaptation.
+    The topology has to match a latent structure
+    in the unlabeled input data.
+    Consequently there are two fields: The first
+    <i>lateral</i> are the coordinates of each neuron
+    in the physical neural space (i.e., "where in the brain").
+    The second <i>patterns</i>, is often referred to as
+    the <i>codebook</i>. These are the patterns each
+    neuron reacts most strongly to.
+    end note
+
+    package som-rs.selforganizing #FFFFFF {
+        interface SelfOrganizing << (T,Thistle) >>  {
+            +{abstract} init_lateral()
+            +{abstract} get_lateral_distance(index)
+            +{abstract} get_best_matching(pattern)
+            +{abstract} adapt(pattern, influence, rate)
+            +{abstract} train(patterns)
+        }
+        class SelforganizingNetwork<A,T,R,L> <<  (S,LightSteelBlue) >>{
+            + NeuralLayer neurons
+            + A:Adaptable adaptivity
+            + T:Topological topology
+            + R:Responsive responsiveness
+            + L:Trainable training
+        }
+
+
+        class SelforganizingNetwork <<  (S,LightSteelBlue) >> implements SelfOrganizing
+        class SelforganizingNetwork <<  (S,LightSteelBlue) >> implements Neural
+
+        interface SelfOrganizingNeural implements SelfOrganizing
+        interface SelfOrganizingNeural implements Neural
+
+
+    }
+
+    note right of SelfOrganizingNeural
+    No need to implement Box<dyn SelfOrganizingNeural>.
+    I guess that's because it does not have any
+    generic arguments.
+    end note
+
+    package som-rs.adaptable #FFFFFF {
+        interface Adaptable<N,R> << (T,Thistle) >>  {
+            +{abstract} adapt(neurons, responsiveness, pattern, influence, rate)
+        }
+        package som-rs.adaptable.kohonen #FFFFFF {
+            class KohonenAdaptivity <<  (S,LightSteelBlue) >> implements Adaptable {
+                ' + adapt(neurons, responsiveness, pattern, influence, rate)
+            }
+        }
+        class "Box<dyn Adaptable>" implements Adaptable
+
+    }
+
+    note bottom of KohonenAdaptivity
+    Represents neural plasticity and the
+    update rule for the codebook / patterns.
+    **TODO:** Make `neurons` non-mutable.
+    This rule should only compute the updates
+    and learning decides what to do
+    end note
+
+    package som-rs.responsive #FFFFFF {
+        interface Responsive<N> << (T,Thistle) >>  {
+            +{abstract} get_best_matching(neurons, pattern)
+        }
+        class CartesianResponsiveness <<  (S,LightSteelBlue) >> implements Responsive {
+            ' + get_best_matching(neurons, pattern)
+
+        }
+        class "Box<dyn Responsive>" implements Responsive
+
+    }
+
+    note bottom of CartesianResponsiveness
+    Represents the responsiveness of the
+    neurons to feature patterns. The most
+    simple case is finding the neuron which
+    pattern has the smallest Euclidean distance
+    to the feature vector.
+    <i>Synonyms</i>: feature vector, pattern,
+    stimulus, codebook
+    end note
+
+    package som-rs.topological #FFFFFF {
+        interface Topological<N> << (T,Thistle) >> {
+            +{abstract} get_lateral_connections(data)
+            +{abstract} init_lateral(neurons)
+        }
+        class CartesianTopology <<  (S,LightSteelBlue) >> implements Topological {
+            + shape
+            + new(shape)
+            ' + get_lateral_connections(data)
+            ' + init_lateral(neurons)
+        }
+        class "Box<dyn Topological>" implements Topological
+
+    }
+
+    note bottom of CartesianTopology
+    Defines the topology of the network,
+    that is, the lateral structure of
+    the neural network.
+    **TODO**: remove `get_lateral`, Rename to
+    Euclidean or uniform. Add 2D torus and
+    2D Hexagon.
+    <i>Synonyms</i>: Neural space,
+    lateral space, topology, neural
+    coordinates
+    end note
+
+    package som-rs.trainable #FFFFFF {
+        interface Trainable<N,A,R> << (T,Thistle) >> {
+            +{abstract} train(neurons, adaptation, feature, patterns)
+        }
+        class IncrementalLearning <<  (S,LightSteelBlue) >> implements Trainable {
+            + radii
+            + rates
+            + epochs
+            ' + train(neurons, adaptation, feature, patterns)
+        }
+        class "Box<dyn Trainable>" implements Trainable
+    }
+
+    note bottom of IncrementalLearning
+    Defines how the network learns.
+    Classic SOM can be trained incrementally
+    or in batch mode. Both use the update
+    rule defined in the Adaptable component
+    <i>Synonyms</i>: learn, train, fit
+    end note
+
+    SelforganizingNetwork *-down- Adaptable : owns
+    SelforganizingNetwork *-down- Responsive : owns
+    SelforganizingNetwork *-down- Topological : owns
+    SelforganizingNetwork *-down- Trainable : owns
+    SelforganizingNetwork *-right- NeuralLayer : owns
+
+    package pysom #FFFFFF {
+        class PyAdaptivity {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn KohonenAdaptivity> kohonen()
+        }
+
+        note bottom of PyAdaptivity
+        Python bindings are optional. Therefore,
+        we need this (these) wrapper class(es).
+        end note
+
+        class PyResponsiveness {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn CartesianResponsiveness> cartesian()
+        }
+        class PyTopology {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn CartesianTopology> cartesian(shape:  PyTuple)
+        }
+        class PyTraining {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn IncrementalLearning> incremental()
+        }
+
+        "Box<dyn Topological>" -down-* PyTopology
+        CartesianTopology - - PyTopology
+        "Box<dyn Responsive>" -down-* PyResponsiveness
+        CartesianResponsiveness - - PyResponsiveness
+        "Box<dyn Trainable>" -down-* PyTraining
+        IncrementalLearning - - PyTraining
+        "Box<dyn Adaptable>" -down-* PyAdaptivity
+        KohonenAdaptivity - - PyAdaptivity
+
+        class PySOM {
+            - Box<dyn SelforganizingNeural> __som
+            + new(...)
+        }
+
+        PySOM - - PyTopology
+        PySOM - - PyResponsiveness
+        PySOM - - PyAdaptivity
+        PySOM - - PyTraining
+
+    }
+
+    hide empty members
+@enduml
+
+@startuml self-organization
+
+
+
+skinparam backgroundColor transparent
+skinparam useBetaStyle false
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor transparent
+    FontColor #fff
+    HyperLinkColor #fd7e14
+    LineColor #6caf9c
+    LineThickness 1
+    Margin 10
+    Padding 6
+    Shadowing 0.0
+  }
+  node {
+   Padding 15
+   roundcorner 20
+   BackgroundColor #78c2ad-#6caf9c
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  groupHeader {
+    BackgroundColor #f3969a
+    FontColor #6cc3d5
+    FontStyle bold
+  }
+  header {
+    LineThickness 0
+  }
+  referenceHeader {
+    BackgroundColor transparent
+    FontColor #343a40
+    FontStyle bold
+  }
+  separator {
+    BackgroundColor #fff
+    FontColor transparent
+    FontStyle bold
+  }
+  title {
+	FontSize 20
+	BorderRoundCorner            8
+	BorderThickness 	         1
+	BackgroundColor  #f4a1a4-#f3969a
+	FontColor #78c2ad
+	BorderColor #f3969a
+  }
+  nwdiagDiagram {
+	network {
+			FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5    
+		LineColor #78c2ad
+		LineThickness 1.0
+		FontColor #6caf9c
+	}
+	server {
+			FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	}
+	arrow {
+		FontColor #6caf9c
+		LineColor #6caf9c
+	}
+	group {
+		BackGroundColor #f8f9fa
+		LineColor #dfe0e1
+		LineThickness 2.0
+		Margin 5
+		Padding 5
+	}
+  }
+  ganttDiagram {
+	task {
+			FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+		LineColor #78c2ad
+		Margin 10
+		Padding 6
+	}
+	note {
+		FontColor #fff
+		LineColor #61b0c0
+		BackGroundColor #6cc3d5
+	}
+	separator {
+		LineColor #f3969a
+		BackGroundColor #f3969a-#db878b
+		FontColor #fff
+	}
+	milestone {
+		FontColor #6cc3d5
+		FontSize 16
+		FontStyle italic
+		BackGroundColor #f3969a
+		LineColor #db878b
+	}
+	timeline {
+		BackgroundColor #f3969a
+		FontColor #fff
+	}
+	closed {
+		BackgroundColor #e6b95d
+		FontColor #fff
+	}
+  }
+</style>
+skinparam defaultFontName       "Verdana"
+skinparam defaultFontSize       12
+skinparam dpi                   100
+skinparam shadowing             false
+skinparam roundcorner           8
+skinparam ParticipantPadding    40
+skinparam BoxPadding            40
+skinparam Padding               5
+skinparam ArrowColor            #343a40
+skinparam stereotype {
+    CBackgroundColor #f4a1a4
+    CBorderColor #db878b
+    ABackgroundColor #67d1a7
+    ABorderColor #4db88d
+    IBackgroundColor #ff8662
+    IBorderColor #e66c49
+    EBackgroundColor #ffd376
+    EBorderColor #e6b95d
+    NBackgroundColor #7bc9d9
+    NBorderColor #61b0c0
+}
+skinparam title {
+	FontColor	                 #6caf9c
+	BorderColor	                 #db878b
+	FontSize	    	         20
+	BorderRoundCorner            8
+	BorderThickness 	         1
+	BackgroundColor              #f4a1a4-#f3969a
+}
+
+skinparam legend {
+	BackgroundColor #f3969a
+	BorderColor #db878b
+	FontColor #f8f9fa
+}
+
+skinparam swimlane {
+	BorderColor #6cc3d5
+	BorderThickness 2
+	TitleBackgroundColor  #f4a1a4-#f3969a
+	TitleFontColor #78c2ad
+}
+
+
+skinparam activity {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	BarColor #56cc9d
+	StartColor #6cc3d5
+	EndColor #6cc3d5
+	DiamondBackgroundColor #f4a1a4
+  	DiamondBorderColor #db878b
+  	DiamondFontColor #fff
+}
+
+
+skinparam participant {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	ParticipantBorderThickness 2
+}
+
+
+skinparam actor {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam arrow {
+	Thickness 3
+	Color #78c2ad
+	FontColor #fff
+}
+
+
+skinparam sequence {
+	BorderColor #78c2ad
+	TitleFontColor #78c2ad
+	BackgroundColor transparent
+	StartColor #78c2ad
+	EndColor #78c2ad
+	BoxBackgroundColor transparent
+	BoxBorderColor #343a40
+	BoxFontColor #343a40
+	DelayFontColor #343a40
+	LifeLineBorderColor #f3969a
+	LifeLineBorderThickness 2
+	LifeLineBackgroundColor #db878b
+	GroupBorderColor #343a40
+	GroupFontColor #343a40
+	GroupHeaderFontColor #6cc3d5
+	GroupBackgroundColor #f3969a
+	GroupHeaderBackgroundColor transparent
+	DividerBackgroundColor #343a40
+    DividerBorderColor #343a40
+    DividerBorderThickness 2
+    DividerFontColor #f8f9fa
+	ReferenceBackgroundColor transparent
+	ReferenceBorderColor #343a40
+	ReferenceFontColor #343a40
+	ReferenceHeaderFontColor #6cc3d5
+	ReferenceHeaderBackgroundColor #f3969a
+	StereotypeFontColor #fff
+}
+
+
+skinparam partition {
+	BorderColor #78c2ad
+	FontColor #78c2ad
+	BackgroundColor transparent
+}
+
+
+skinparam collections {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam control {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam entity {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam boundary {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam agent {
+	BackgroundColor #ffce67
+	BorderColor #ffd376
+	FontColor #343a40
+}
+
+
+skinparam note {
+	BorderThickness 1
+	BackgroundColor #6cc3d5
+	BorderColor #61b0c0
+	FontColor #fff
+}
+
+
+skinparam artifact {
+	BackgroundColor #343a40
+	BorderColor #2f343a
+	FontColor #f8f9fa
+}
+
+
+skinparam component {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam interface {
+	BackgroundColor  #e66c49
+	BorderColor  #ff7851
+	FontColor #343a40
+}
+
+
+skinparam storage {
+	BackgroundColor #ffce67
+  	BorderColor #e6b95d
+	FontColor #fff
+}
+
+
+skinparam node {
+	BackgroundColor  #f3969a
+	BorderColor #f8f9fa
+	FontColor #f8f9fa
+}
+
+
+skinparam cloud {
+	BackgroundColor #F2FCFE-#eeeeee
+	BorderColor #F2FCFE
+	FontColor #343a40
+}
+
+
+skinparam database {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam class {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	HeaderBackgroundColor #86c8b5
+	StereotypeFontColor #343a40
+	BorderThickness 1
+	AttributeFontColor #343a40
+	AttributeFontSize 11
+}
+
+
+skinparam object {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	StereotypeFontColor #343a40
+	BorderThickness 1
+	AttributeFontColor #fff
+	AttributeFontSize 11
+}
+
+
+skinparam usecase {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	BorderThickness 2
+	StereotypeFontColor #78c2ad
+}
+
+
+skinparam rectangle {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	BackgroundColor #f4a1a4
+	BorderThickness 2
+	StereotypeFontColor #78c2ad
+}
+
+
+skinparam package {
+	BackgroundColor #f3969a
+  	BorderColor #78c2ad
+	FontColor #78c2ad
+	BorderThickness 2
+}
+
+
+skinparam folder {
+	BackgroundColor #f4a1a4
+  	BorderColor #ffce67
+	FontColor #ffce67
+	BorderThickness 2
+}
+
+
+skinparam frame {
+	BackgroundColor #f4a1a4
+  	BorderColor #6cc3d5
+	FontColor #6cc3d5
+	BorderThickness 2
+}
+
+
+skinparam state {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+	StartColor #6cc3d5
+	EndColor #6cc3d5
+	AttributeFontColor #fff
+	AttributeFontSize 11
+}
+
+
+skinparam queue {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+
+skinparam card {
+	BackgroundColor #6cc3d5
+	BorderColor #61b0c0
+	FontColor #fff
+}
+
+
+skinparam file {
+	BackgroundColor #db878b
+	BorderColor #f8f9fa
+	FontColor #f8f9fa
+}
+
+
+skinparam stack {
+		FontColor #fff
+	BorderColor #78c2ad
+	BackgroundColor #86c8b5
+}
+
+    package som-rs.neural #FFFFFF {
+        interface Neural << (T,Thistle) >>  {
+            +{abstract} get_lateral()
+            +{abstract} get_lateral_mut()
+            +{abstract} set_lateral(lateral)
+            +{abstract} get_patterns()
+            +{abstract} get_patterns_mut()
+            +{abstract} set_patterns(patterns)
+        }
+
+        class NeuralLayer <<  (S,LightSteelBlue) >> implements Neural {
+            + Array2 lateral
+            + Array2 patterns
+        }
+    }
+    note left of Neural
+    Representation of a <i>layer<i> of neurons.
+    This emphasis destinguishs from a regular
+    neural network such that there are
+    lateral connections between the neurons
+    of the layer that creates a topology
+    that define learning and adaptation.
+    The topology has to match a latent structure
+    in the unlabeled input data.
+    Consequently there are two fields: The first
+    <i>lateral</i> are the coordinates of each neuron
+    in the physical neural space (i.e., "where in the brain").
+    The second <i>patterns</i>, is often referred to as
+    the <i>codebook</i>. These are the patterns each
+    neuron reacts most strongly to.
+    end note
+
+    package som-rs.selforganizing #FFFFFF {
+        interface SelfOrganizing << (T,Thistle) >>  {
+            +{abstract} init_lateral()
+            +{abstract} get_lateral_distance(index)
+            +{abstract} get_best_matching(pattern)
+            +{abstract} adapt(pattern, influence, rate)
+            +{abstract} train(patterns)
+        }
+        class SelforganizingNetwork<A,T,R,L> <<  (S,LightSteelBlue) >>{
+            + NeuralLayer neurons
+            + A:Adaptable adaptivity
+            + T:Topological topology
+            + R:Responsive responsiveness
+            + L:Trainable training
+        }
+
+
+        class SelforganizingNetwork <<  (S,LightSteelBlue) >> implements SelfOrganizing
+        class SelforganizingNetwork <<  (S,LightSteelBlue) >> implements Neural
+
+        interface SelfOrganizingNeural implements SelfOrganizing
+        interface SelfOrganizingNeural implements Neural
+
+
+    }
+
+    note right of SelfOrganizingNeural
+    No need to implement Box<dyn SelfOrganizingNeural>.
+    I guess that's because it does not have any
+    generic arguments.
+    end note
+
+    package som-rs.adaptable #FFFFFF {
+        interface Adaptable<N,R> << (T,Thistle) >>  {
+            +{abstract} adapt(neurons, responsiveness, pattern, influence, rate)
+        }
+        package som-rs.adaptable.kohonen #FFFFFF {
+            class KohonenAdaptivity <<  (S,LightSteelBlue) >> implements Adaptable {
+            }
+        }
+        class "Box<dyn Adaptable>" implements Adaptable
+
+    }
+
+    note bottom of KohonenAdaptivity
+    Represents neural plasticity and the
+    update rule for the codebook / patterns.
+    **TODO:** Make `neurons` non-mutable.
+    This rule should only compute the updates
+    and learning decides what to do
+    end note
+
+    package som-rs.responsive #FFFFFF {
+        interface Responsive<N> << (T,Thistle) >>  {
+            +{abstract} get_best_matching(neurons, pattern)
+        }
+        class CartesianResponsiveness <<  (S,LightSteelBlue) >> implements Responsive {
+
+        }
+        class "Box<dyn Responsive>" implements Responsive
+
+    }
+
+    note bottom of CartesianResponsiveness
+    Represents the responsiveness of the
+    neurons to feature patterns. The most
+    simple case is finding the neuron which
+    pattern has the smallest Euclidean distance
+    to the feature vector.
+    <i>Synonyms</i>: feature vector, pattern,
+    stimulus, codebook
+    end note
+
+    package som-rs.topological #FFFFFF {
+        interface Topological<N> << (T,Thistle) >> {
+            +{abstract} get_lateral_connections(data)
+            +{abstract} init_lateral(neurons)
+        }
+        class CartesianTopology <<  (S,LightSteelBlue) >> implements Topological {
+            + shape
+            + new(shape)
+        }
+        class "Box<dyn Topological>" implements Topological
+
+    }
+
+    note bottom of CartesianTopology
+    Defines the topology of the network,
+    that is, the lateral structure of
+    the neural network.
+    **TODO**: remove `get_lateral`, Rename to
+    Euclidean or uniform. Add 2D torus and
+    2D Hexagon.
+    <i>Synonyms</i>: Neural space,
+    lateral space, topology, neural
+    coordinates
+    end note
+
+    package som-rs.trainable #FFFFFF {
+        interface Trainable<N,A,R> << (T,Thistle) >> {
+            +{abstract} train(neurons, adaptation, feature, patterns)
+        }
+        class IncrementalLearning <<  (S,LightSteelBlue) >> implements Trainable {
+            + radii
+            + rates
+            + epochs
+        }
+        class "Box<dyn Trainable>" implements Trainable
+    }
+
+    note bottom of IncrementalLearning
+    Defines how the network learns.
+    Classic SOM can be trained incrementally
+    or in batch mode. Both use the update
+    rule defined in the Adaptable component
+    <i>Synonyms</i>: learn, train, fit
+    end note
+
+    SelforganizingNetwork *-down- Adaptable : owns
+    SelforganizingNetwork *-down- Responsive : owns
+    SelforganizingNetwork *-down- Topological : owns
+    SelforganizingNetwork *-down- Trainable : owns
+    SelforganizingNetwork *-right- NeuralLayer : owns
+
+    package pysom #FFFFFF {
+        class PyAdaptivity {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn KohonenAdaptivity> kohonen()
+        }
+
+        note bottom of PyAdaptivity
+        Python bindings are optional. Therefore,
+        we need this (these) wrapper class(es).
+        end note
+
+        class PyResponsiveness {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn CartesianResponsiveness> cartesian()
+        }
+        class PyTopology {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn CartesianTopology> cartesian(shape:  PyTuple)
+        }
+        class PyTraining {
+        - "Box<dyn Adaptable>" __component
+        + {static} Box<dyn IncrementalLearning> incremental()
+        }
+
+        "Box<dyn Topological>" -down-* PyTopology
+        CartesianTopology - - PyTopology
+        "Box<dyn Responsive>" -down-* PyResponsiveness
+        CartesianResponsiveness - - PyResponsiveness
+        "Box<dyn Trainable>" -down-* PyTraining
+        IncrementalLearning - - PyTraining
+        "Box<dyn Adaptable>" -down-* PyAdaptivity
+        KohonenAdaptivity - - PyAdaptivity
+
+        class PySOM {
+            - Box<dyn SelforganizingNeural> __som
+            + new(...)
+        }
+
+        PySOM - - PyTopology
+        PySOM - - PyResponsiveness
+        PySOM - - PyAdaptivity
+        PySOM - - PyTraining
+
+    }
+
+    hide empty members
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -18,7 +18,7 @@ use cerebral::{default::*, BoxedSelforganizing};
 use cerebral::{BoxedAdaptable, BoxedResponsive, BoxedTopological, BoxedTrainable};
 
 // use cerebral::neurons;
-use cerebral::{SelforganizingNetwork, NeuralLayer};
+use cerebral::{NeuralLayer, SelforganizingNetwork};
 
 #[pyclass]
 #[derive(Clone)]
@@ -35,7 +35,6 @@ impl PyAdaptivity {
         })
     }
 }
-
 
 // Can we get Arc to work?
 // #[pyclass]
@@ -64,7 +63,7 @@ struct PyResponsiveness {
 #[pymethods]
 impl PyResponsiveness {
     #[staticmethod]
-    fn cartesian() -> Result<Self, PyErr>  {
+    fn cartesian() -> Result<Self, PyErr> {
         Ok(PyResponsiveness {
             __component: Box::new(CartesianResponsiveness {}),
         })

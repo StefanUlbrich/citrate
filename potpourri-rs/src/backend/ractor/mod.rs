@@ -1,12 +1,16 @@
 use crate::Mixables;
 
-pub struct Cluster<T> where
-    T: Mixables{
-    mixables: T
+pub struct Cluster<T>
+where
+    T: Mixables,
+{
+    mixables: T,
 }
 
-
-impl<T> Mixables for Cluster<T>  where T: Mixables{
+impl<T> Mixables for Cluster<T>
+where
+    T: Mixables,
+{
     type SufficientStatistics = T::SufficientStatistics;
 
     type Likelihood = T::Likelihood;
@@ -18,8 +22,6 @@ impl<T> Mixables for Cluster<T>  where T: Mixables{
     fn expect(&self, data: &Self::DataIn<'_>) -> (Self::Likelihood, f64) {
         todo!()
     }
-
-
 
     fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics) {
         todo!()
@@ -48,12 +50,7 @@ impl<T> Mixables for Cluster<T>  where T: Mixables{
         todo!()
     }
 
-    fn compute(
-        &self,
-        responsibilities: &Self::Likelihood,
-    ) -> Self::SufficientStatistics {
+    fn compute(&self, responsibilities: &Self::Likelihood) -> Self::SufficientStatistics {
         todo!()
     }
-
-
 }

@@ -3,12 +3,12 @@ pub struct KohonenAdaptivity {}
 
 use ndarray::{prelude::*, Data};
 
+use super::{Adaptable, BoxedAdaptable};
 use crate::nd_tools::{
     argmin,
     point_set::{row_norm_l2, PointSet},
 };
 use crate::{Neural, Responsive};
-use super::{BoxedAdaptable, Adaptable};
 
 impl<N, R> Adaptable<N, R> for KohonenAdaptivity
 where
@@ -41,7 +41,7 @@ where
         neurons.get_patterns_mut().assign(&updated);
     }
 
-    fn clone_dyn(&self) -> BoxedAdaptable<N,R> {
+    fn clone_dyn(&self) -> BoxedAdaptable<N, R> {
         Box::new(self.clone()) // Forward to the derive(Clone) impl    }
     }
 }

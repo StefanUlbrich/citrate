@@ -1,6 +1,6 @@
 // Todo: move outside of the backend!
 
-use crate::{Error, Parametrizable, AvgLLH};
+use crate::{AvgLLH, Error, Parametrizable};
 
 /// An additional interface for `Mixables` that can be used as latent states.
 /// These can be categorical distributions, with or without finite Dirichlet
@@ -11,14 +11,12 @@ pub trait Latent<T>
 where
     T: Parametrizable,
 {
-
     fn expect(
         &self,
         data: &T::DataIn<'_>,
         likelihood: &T::Likelihood,
     ) -> Result<(T::Likelihood, AvgLLH), Error>;
 }
-
 
 pub trait Mixable<T>
 where
@@ -39,7 +37,7 @@ where
 ///
 /// Warning: we don't enforce trait bounds here due to a possible
 /// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
-/// 
+///
 /// Warning: `Mixables` have to compute the log-likelihood in the expectation step!
 ///
 #[derive(Clone, Debug)]
@@ -75,8 +73,7 @@ where
 
 impl<T, L> Parametrizable for Mixture<T, L>
 where
-    T: for<'a> Parametrizable<Likelihood = L::Likelihood, DataIn<'a> = L::DataIn<'a>>
-        + Mixable<T>,
+    T: for<'a> Parametrizable<Likelihood = L::Likelihood, DataIn<'a> = L::DataIn<'a>> + Mixable<T>,
     L: Parametrizable + Latent<L>,
 {
     type SufficientStatistics = (L::SufficientStatistics, T::SufficientStatistics);

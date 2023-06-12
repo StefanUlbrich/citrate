@@ -5,7 +5,7 @@ use ndarray_rand::RandomExt;
 use rand_isaac::isaac64::Isaac64Rng;
 
 use cerebral::{default::*, BoxedSelforganizing, BoxedTrainable};
-use cerebral::{SelforganizingNetwork, NeuralLayer, Selforganizing};
+use cerebral::{NeuralLayer, Selforganizing, SelforganizingNetwork};
 
 #[test]
 fn test_kohonen() {

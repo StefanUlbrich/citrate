@@ -27,7 +27,6 @@ pub struct AvgLLH(f64);
 /// Average log-likelihood. Used to meature convergence
 pub struct AvgLLH(f64);
 
-
 pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
     type Likelihood;
@@ -83,11 +82,7 @@ pub trait Parametrizable {
     /// Note: This works better than an initialization method, because the layers
     /// such as the `Probabilistic` trait don't need to implement backend-specific
     /// random samplers.
-    fn expect_rand(
-        &self,
-        _data: &Self::DataIn<'_>,
-        _k: usize,
-    ) -> Result<Self::Likelihood, Error> {
+    fn expect_rand(&self, _data: &Self::DataIn<'_>, _k: usize) -> Result<Self::Likelihood, Error> {
         todo!()
     }
 }

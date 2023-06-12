@@ -3,7 +3,7 @@ use ndarray::{prelude::*, Data};
 use crate::{Adaptable, Neural, NeuralLayer, Responsive, Topological, Trainable};
 
 /// Public trait that defines the concept of self organization
-pub trait Selforganizing : Neural{
+pub trait Selforganizing: Neural {
     // Associated to topology
 
     /// Init the lateral connections according to network type
@@ -85,7 +85,8 @@ where
     }
 
     fn get_best_matching(&mut self, pattern: &ArrayView1<f64>) -> usize {
-        self.responsiveness.get_best_matching(&self.neurons, pattern)
+        self.responsiveness
+            .get_best_matching(&self.neurons, pattern)
     }
 
     fn adapt(&mut self, pattern: &ArrayView1<f64>, influence: f64, rate: f64) {
@@ -142,7 +143,6 @@ where
         todo!()
     }
 }
-
 
 pub type BoxedSelforganizing = Box<dyn Selforganizing + Send>;
 

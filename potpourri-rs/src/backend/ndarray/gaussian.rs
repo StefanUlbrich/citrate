@@ -1,6 +1,6 @@
 use std::f64::consts::PI;
 
-use crate::{Error, Mixable, Parametrizable, AvgLLH};
+use crate::{AvgLLH, Error, Mixable, Parametrizable};
 use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
@@ -9,12 +9,28 @@ use super::utils::{
     get_det_spd, get_shape2, get_shape3, get_weighted_means, get_weighted_sum, invert_spd,
 };
 
+/// Represents a gaussian mixture model. The number of components
+/// is determined automatically from the responsibilities when first
+/// calling `maximize` method.
+///
+/// The sufficient statistics that can be extracted from
+/// the data to maximize the parameters. It is a triple of
+/// arrays (names as in [Kimura et al.](https://link.springer.com/article/10.1007/s10044-011-0256-4)):
+///
+/// $$ \begin{aligned}
+/// a_j &= \sum_i^n r_{ij},&& (k) \\\\
+/// b_j &= \sum_i^n r_{ij} \cdot x_i ,&& (k \times d) \\\\
+/// c_j &= \sum_i^n r_{ij} \cdot x_i^T\cdot x_i, &&(k \times d \times d) \\\\
+/// \end{aligned} $$
 #[derive(Default, Debug, Clone)]
 pub struct Gaussian {
+    /// The mean values, $ k\times d $
     pub means: Array2<f64>,
+    /// The covariance matrices), $(k\times d\times d)$
     pub covariances: Array3<f64>,
+    /// The precision matrices (inverted coariances), $(k\times d\times d)$
     pub precisions: Array3<f64>,
-    pub summands: Array1<f64>,
+    summands: Array1<f64>,
     sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
 }
 
@@ -27,17 +43,6 @@ impl Gaussian {
 }
 
 impl Parametrizable for Gaussian {
-    /// The sufficient statistics that can be extracted from
-    /// the data to maximize the parameters. It is a triple of
-    /// arrays (names as in Kimura et al.):
-    ///
-    ///  $$ e=m\cdot c^2 $$
-    ///
-    /// $$ \begin{aligned}
-    /// a_j = \sum_i^n r_{ij}&, \qquad (k) \\\\
-    /// b_j = \sum_i^n r_{ij} \cdot x_i &, \qquad (k \times d) \\\\
-    /// c_j = \sum_i^n r_{ij} \cdot x_i^T\cdot x_i&, \qquad (k \times d \times d) \\\\
-    /// \end{aligned} $$
     type SufficientStatistics = (Array1<f64>, Array2<f64>, Array3<f64>);
 
     type Likelihood = Array2<f64>;

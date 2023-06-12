@@ -2,8 +2,7 @@ use crate::nd_tools::ndindex::get_ndindex_array;
 use crate::Neural;
 use ndarray::{prelude::*, Shape};
 
-
-pub type BoxedTopological<N> = Box<dyn Topological<N> + Send> ;
+pub type BoxedTopological<N> = Box<dyn Topological<N> + Send>;
 /// Interface for structures encapsulating representations of network layer topologies.
 pub trait Topological<N>
 where
@@ -75,7 +74,9 @@ where
         // Box::new(self.clone())
         // Convert into dyn object first. Unclear whether this is the "right" thing to do
         let dim = self.shape.raw_dim().clone().into_dyn();
-        return Box::new(CartesianTopology {shape: Shape::from(dim)})
+        return Box::new(CartesianTopology {
+            shape: Shape::from(dim),
+        });
     }
 }
 
