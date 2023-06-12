@@ -8,7 +8,7 @@ on:
   push:
     # tags: '*'
     branches:
-      - main
+      - contrib/docs
   pull_request:
     branches:
       - main
@@ -21,19 +21,19 @@ jobs:
       uses: actions/checkout@master
       with:
         fetch-depth: 0
-    - uses: actions/setup-python@v3
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
       with:
-        python-version: 3.10.2
-    - uses: abatilo/actions-poetry@v2.1.4
-    - name: install
-      run: poetry install
+        toolchain: 1.68.2
+        components: rustfmt, clippy
     - name: Build documentation
       run: |
+        RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -F ndarray -p potpourri  --no-deps
+        RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -p cerebral  --no-deps
         mkdir gh-pages
         touch gh-pages/.nojekyll
-        cd docs/
-        poetry run sphinx-build -b html . _build
-        cp -r _build/* ../gh-pages/
+        cp -r target/* ../gh-pages/
+        cp static/index.html ../gh-pages
     - name: Deploy documentation
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@4.1.4
