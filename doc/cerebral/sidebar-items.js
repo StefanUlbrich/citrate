@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["adaptable","default","nd_tools","neural","responsive","selforganizing","topological","trainable"]};

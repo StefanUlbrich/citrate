@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["filter_data","generate_random_expections","generate_samples","get_det_spd","get_shape2","get_shape3","invert_spd"]};

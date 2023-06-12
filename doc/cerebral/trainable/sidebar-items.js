@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["IncrementalLearning"],"trait":["Trainable"],"type":["BoxedTrainable"]};
