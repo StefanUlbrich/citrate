@@ -1,6 +1,6 @@
 use std::f64::consts::PI;
 
-use crate::{Error, Mixable, Parametrizable};
+use crate::{Error, Mixable, Parametrizable, AvgLLH};
 use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
@@ -40,12 +40,12 @@ impl Parametrizable for Gaussian {
     /// \end{aligned} $$
     type SufficientStatistics = (Array1<f64>, Array2<f64>, Array3<f64>);
 
-    type LogLikelihood = Array2<f64>;
+    type Likelihood = Array2<f64>;
     type DataIn<'a> = ArrayView2<'a, f64>;
 
     type DataOut = Array2<f64>;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error> {
         let [k, _d, _] = get_shape3(&self.covariances)?;
 
         // n x k x d
@@ -72,13 +72,13 @@ impl Parametrizable for Gaussian {
                     })
             });
 
-        Ok((responsibilities, f64::NAN))
+        Ok((responsibilities, AvgLLH(f64::NAN)))
     }
 
     fn compute(
         &self,
         data: &Self::DataIn<'_>,
-        responsibilities: &Self::LogLikelihood,
+        responsibilities: &Self::Likelihood,
     ) -> Result<Self::SufficientStatistics, Error> {
         let sum_responsibilities = responsibilities.sum_axis(Axis(0)); // (K)
 
@@ -190,7 +190,7 @@ impl Parametrizable for Gaussian {
 impl Mixable<Gaussian> for Gaussian {
     fn predict(
         &self,
-        _latent_likelihood: <Gaussian as Parametrizable>::LogLikelihood,
+        _latent_likelihood: <Gaussian as Parametrizable>::Likelihood,
         _data: &<Gaussian as Parametrizable>::DataIn<'_>,
     ) -> Result<<Gaussian as Parametrizable>::DataOut, Error> {
         Err(Error::NotImplemented)

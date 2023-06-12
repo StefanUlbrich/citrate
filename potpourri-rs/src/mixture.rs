@@ -1,6 +1,6 @@
 // Todo: move outside of the backend!
 
-use crate::{Error, Parametrizable};
+use crate::{Error, Parametrizable, AvgLLH};
 
 /// An additional interface for `Mixables` that can be used as latent states.
 /// These can be categorical distributions, with or without finite Dirichlet
@@ -11,17 +11,14 @@ pub trait Latent<T>
 where
     T: Parametrizable,
 {
-    // fn join(
-    //     likelihood_a: &T::LogLikelihood,
-    //     likelihood_b: &T::LogLikelihood,
-    // ) -> Result<(T::LogLikelihood, f64), Error>;
 
     fn expect(
         &self,
         data: &T::DataIn<'_>,
-        likelihood: &T::LogLikelihood,
-    ) -> Result<(T::LogLikelihood, f64), Error>;
+        likelihood: &T::Likelihood,
+    ) -> Result<(T::Likelihood, AvgLLH), Error>;
 }
+
 
 pub trait Mixable<T>
 where
@@ -29,7 +26,7 @@ where
 {
     fn predict(
         &self,
-        latent_likelihood: T::LogLikelihood,
+        latent_likelihood: T::Likelihood,
         data: &T::DataIn<'_>,
     ) -> Result<T::DataOut, Error>;
 }
@@ -42,14 +39,16 @@ where
 ///
 /// Warning: we don't enforce trait bounds here due to a possible
 /// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
+/// 
+/// Warning: `Mixables` have to compute the log-likelihood in the expectation step!
 ///
 #[derive(Clone, Debug)]
 pub struct Mixture<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
-    // T: for<'a, 'b> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    // T: for<'a, 'b> Mixables<Likelihood = L::Likelihood, DataIn<'a> = L::DataIn<'a>>
     //     + Probabilistic<T>,
-    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
+    T: Parametrizable<Likelihood = L::Likelihood>,
     // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
     L: Parametrizable + Latent<L>,
 {
@@ -60,9 +59,9 @@ where
 impl<T, L> Mixture<T, L>
 where
     // https://doc.rust-lang.org/nomicon/hrtb.html -- include in docs about GAT
-    // T: for<'a> Mixables<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    // T: for<'a> Mixables<Likelihood = L::Likelihood, DataIn<'a> = L::DataIn<'a>>
     //     + Probabilistic<T>,
-    T: Parametrizable<LogLikelihood = L::LogLikelihood>,
+    T: Parametrizable<Likelihood = L::Likelihood>,
     // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
     L: Parametrizable + Latent<L>,
 {
@@ -76,20 +75,19 @@ where
 
 impl<T, L> Parametrizable for Mixture<T, L>
 where
-    T: for<'a> Parametrizable<LogLikelihood = L::LogLikelihood, DataIn<'a> = L::DataIn<'a>>
+    T: for<'a> Parametrizable<Likelihood = L::Likelihood, DataIn<'a> = L::DataIn<'a>>
         + Mixable<T>,
-    // T: Mixables<LogLikelihood = L::LogLikelihood>,
     L: Parametrizable + Latent<L>,
 {
     type SufficientStatistics = (L::SufficientStatistics, T::SufficientStatistics);
 
-    type LogLikelihood = T::LogLikelihood;
+    type Likelihood = T::Likelihood;
 
     type DataIn<'a> = T::DataIn<'a>;
 
     type DataOut = T::DataOut;
 
-    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::LogLikelihood, f64), Error> {
+    fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error> {
         // Todo compute the second parameter
         Latent::expect(&self.latent, data, &self.mixables.expect(data)?.0)
 
@@ -102,7 +100,7 @@ where
     fn compute(
         &self,
         data: &Self::DataIn<'_>,
-        responsibilities: &Self::LogLikelihood,
+        responsibilities: &Self::Likelihood,
     ) -> Result<Self::SufficientStatistics, Error> {
         Ok((
             self.latent.compute(&data, responsibilities)?,
@@ -147,7 +145,7 @@ where
         Ok((L::merge(&a[..], weights)?, T::merge(&b[..], weights)?))
     }
 
-    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::LogLikelihood, Error> {
+    fn expect_rand(&self, data: &Self::DataIn<'_>, k: usize) -> Result<Self::Likelihood, Error> {
         self.latent.expect_rand(data, k)
     }
 }
@@ -181,7 +179,7 @@ mod tests {
             latent: categorial,
         };
 
-        let mut likelihood: f64;
+        let mut likelihood: AvgLLH;
         let mut responsibilities = generate_random_expections(&data.view(), k).unwrap();
         for _ in 1..20 {
             let stat = mixture.compute(&data.view(), &responsibilities).unwrap();
@@ -191,7 +189,7 @@ mod tests {
             info!(%mixture.latent.pmf);
 
             (responsibilities, likelihood) = mixture.expect(&data.view()).unwrap();
-            info!(%likelihood);
+            info!("lieklihood {}", likelihood.0);
         }
 
         info!(%means);
