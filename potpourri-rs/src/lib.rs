@@ -1,28 +1,28 @@
-/**
- * Package for models with discrete, unobservable latent variables that can be learned with the
- * Expectation Maximization algorithm.
- *
- * The package aims at highest modularity to allow for easy experimentation for research
- * such as adding parallelization on clusters and exploring new models
- *
- * Conventions:
- * * Traits: Capital letters and CamelCase, adjectives used as nouns that indicate a cabability.
- * * Structs: Capital letters and CamelCase, nouns describing things and concepts
- * * methods/functions: snake_case and imperatives or short, discriptive imperative clauses
- */
+//! <div>
+//! <img src="../potpourri.svg" width="800" />
+//! </div>
+//!
+//! Package for models with discrete, unobservable latent variables that can be learned with the
+//! Expectation Maximization algorithm.
+//! The package aims at highest modularity to allow for easy experimentation for research
+//! such as adding parallelization on clusters and exploring new models
+//!
+//! Conventions:
+//! * Traits: Capital letters and CamelCase, adjectives used as nouns that indicate a cabability.
+//! * Structs: Capital letters and CamelCase, nouns describing things and concepts
+//! * methods/functions: snake_case and imperatives or short, discriptive imperative clauses
+
 pub mod backend;
 pub mod errors;
 pub mod mixture;
 pub mod model;
 
+use errors::Error;
 pub use mixture::{Latent, Mixable, Mixture};
 pub use model::Model;
 
-use errors::Error;
-
 /// Average log-likelihood. Used to meature convergence
 pub struct AvgLLH(f64);
-
 
 pub trait Parametrizable {
     type SufficientStatistics: Send + Sync;
@@ -79,11 +79,7 @@ pub trait Parametrizable {
     /// Note: This works better than an initialization method, because the layers
     /// such as the `Probabilistic` trait don't need to implement backend-specific
     /// random samplers.
-    fn expect_rand(
-        &self,
-        _data: &Self::DataIn<'_>,
-        _k: usize,
-    ) -> Result<Self::Likelihood, Error> {
+    fn expect_rand(&self, _data: &Self::DataIn<'_>, _k: usize) -> Result<Self::Likelihood, Error> {
         todo!()
     }
 }

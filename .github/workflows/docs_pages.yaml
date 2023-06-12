@@ -8,7 +8,7 @@ on:
   push:
     # tags: '*'
     branches:
-      - contrib/docs
+      - main
   pull_request:
     branches:
       - main
@@ -33,7 +33,7 @@ jobs:
         mkdir gh-pages
         touch gh-pages/.nojekyll
         cp -r target/* gh-pages/
-        cp static/index.html gh-pages
+        cp static/* gh-pages
     - name: ☁️ Deploy documentation
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@4.1.4

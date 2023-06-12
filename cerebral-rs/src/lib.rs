@@ -1,3 +1,8 @@
+//! <div>
+//! <img src="../cerebral.svg" width="800" />
+//! </div>
+//!
+//!
 //! Naming convenctions
 //! * traits: Start with capital letter and are adjectives
 //! * structs: Start with capital letter and are substantives
@@ -38,16 +43,16 @@
 //! }
 //! ```
 
-pub mod selforganizing;
 pub mod neural;
+pub mod selforganizing;
 
 pub mod adaptable;
 pub mod responsive;
 pub mod topological;
 pub mod trainable;
 
-pub use selforganizing::{SelforganizingNetwork, Selforganizing, BoxedSelforganizing};
 pub use neural::{Neural, NeuralLayer};
+pub use selforganizing::{BoxedSelforganizing, Selforganizing, SelforganizingNetwork};
 
 pub use adaptable::{Adaptable, BoxedAdaptable};
 pub use responsive::{BoxedResponsive, Responsive};
