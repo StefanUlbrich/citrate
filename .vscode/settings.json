@@ -1,6 +1,19 @@
 {
+    "editor.trimAutoWhitespace": true,
+    "editor.fontFamily": "'Fira Code'",
+    "editor.fontLigatures": true,
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
     "cSpell.words": [
         "pymodule",
         "pysom"
-    ]
+    ],
+    "rust-analyzer.linkedProjects": [
+        "./potpourri-rs/Cargo.toml",
+    ],
+    "rust-analyzer.cargo.features": [
+        "ndarray"
+    ],
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "rust-analyzer.inlayHints.reborrowHints.enable":"mutable"
 }
