@@ -92,7 +92,17 @@
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
 <a href="#75" id="75">75</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Naming convenctions
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+</pre><pre class="rust"><code><span class="doccomment">//! &lt;div&gt;
+//! &lt;img src=&quot;../cerebral.svg&quot; width=&quot;800&quot; /&gt;
+//! &lt;/div&gt;
+//!
+//!
+//! Naming convenctions
 //! * traits: Start with capital letter and are adjectives
 //! * structs: Start with capital letter and are substantives
 //!
@@ -132,16 +142,16 @@
 //! }
 //! ```
 
-</span><span class="kw">pub mod </span>selforganizing;
-<span class="kw">pub mod </span>neural;
+</span><span class="kw">pub mod </span>neural;
+<span class="kw">pub mod </span>selforganizing;
 
 <span class="kw">pub mod </span>adaptable;
 <span class="kw">pub mod </span>responsive;
 <span class="kw">pub mod </span>topological;
 <span class="kw">pub mod </span>trainable;
 
-<span class="kw">pub use </span>selforganizing::{SelforganizingNetwork, Selforganizing, BoxedSelforganizing};
 <span class="kw">pub use </span>neural::{Neural, NeuralLayer};
+<span class="kw">pub use </span>selforganizing::{BoxedSelforganizing, Selforganizing, SelforganizingNetwork};
 
 <span class="kw">pub use </span>adaptable::{Adaptable, BoxedAdaptable};
 <span class="kw">pub use </span>responsive::{BoxedResponsive, Responsive};
