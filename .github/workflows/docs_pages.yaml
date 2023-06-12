@@ -17,24 +17,24 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: 🐙 Checkout
       uses: actions/checkout@master
       with:
         fetch-depth: 0
-    - name: Install Rust
+    - name: 🦀 Install Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: 1.68.2
         components: rustfmt, clippy
-    - name: Build documentation
+    - name: 🏗 Build documentation
       run: |
         RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -F ndarray -p potpourri  --no-deps
         RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -p cerebral  --no-deps
         mkdir gh-pages
         touch gh-pages/.nojekyll
-        cp -r target/* ../gh-pages/
-        cp static/index.html ../gh-pages
-    - name: Deploy documentation
+        cp -r target/* gh-pages/
+        cp static/index.html gh-pages
+    - name: ☁️ Deploy documentation
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
