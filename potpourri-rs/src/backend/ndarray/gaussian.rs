@@ -30,7 +30,7 @@ pub struct Gaussian {
     pub covariances: Array3<f64>,
     /// The precision matrices (inverted coariances), $(k\times d\times d)$
     pub precisions: Array3<f64>,
-    summands: Array1<f64>,
+    pub summands: Array1<f64>,
     sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
 }
 
@@ -155,6 +155,8 @@ impl Parametrizable for Gaussian {
                 ))
             });
 
+        // TODO: where are the weights updated. Reminder that this happens in the finite class!
+
         Ok(())
     }
 
@@ -212,7 +214,8 @@ mod tests {
     #[traced_test]
     #[test]
     fn check_maximization() {
-        let (data, responsibilities, _, covariances) = generate_samples(300000, 3, 2);
+        let (data, responsibilities, _, covariances) =
+            generate_samples(&[100000, 100000, 100000], 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -228,7 +231,8 @@ mod tests {
     fn check_expectation() {
         // Simulate an expectation maximization step:
         // 1. generate data with responsibility, 2. maximize, 3. expect, 3. maximize again, 4. compare to ground trouth
-        let (data, responsibilities, _, covariances) = generate_samples(600000, 3, 2);
+        let (data, responsibilities, _, covariances) =
+            generate_samples(&[200000, 200000, 200000], 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -251,10 +255,10 @@ mod tests {
     }
 
     /// Checks whether we can learn on partitioned data! Important for federated learning.
-    // #[traced_test]
+    #[traced_test]
     #[test]
     fn check_merge() {
-        let (data, responsibilities, _, covariances) = generate_samples(30000, 3, 2);
+        let (data, responsibilities, _, covariances) = generate_samples(&[10000, 10000, 10000], 2);
         let (data_1, responsibilities_1) =
             filter_data(&data.view(), &responsibilities.view(), |x, _y| x[1] > 0.5).unwrap();
         let (data_2, responsibilities_2) =
@@ -271,13 +275,15 @@ mod tests {
 
         gaussian.maximize(&sufficient_statistics_1).unwrap();
 
+        info!("{}", covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
+
         // This should fail--we ignored much of the data
-        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
 
         gaussian.maximize(&sufficient_statistics_2).unwrap();
 
         // This should fail--we ignored much of the data
-        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
 
         let sufficient_statistics = Gaussian::merge(
             &[&sufficient_statistics_1, &sufficient_statistics_2],
@@ -286,8 +292,10 @@ mod tests {
         .unwrap();
         gaussian.maximize(&sufficient_statistics).unwrap();
 
+        info!(%gaussian.covariances);
+        info!(%covariances);
         // This should fail--we ignored much of the data
-        assert!(covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
     }
 
     // #[traced_test]

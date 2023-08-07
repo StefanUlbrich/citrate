@@ -217,7 +217,7 @@ mod tests {
     #[test]
     #[traced_test]
     fn single_gmm_em() {
-        let (data, _, _, _covariances) = generate_samples(30000, 3, 2);
+        let (data, _, _, _covariances) = generate_samples(&[10000, 10000, 10000], 2);
 
         let gaussian = Gaussian::new();
         let categorial = Finite::new(None);

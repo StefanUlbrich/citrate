@@ -165,7 +165,7 @@ mod tests {
         // let (data, responsibilities, _means, _covariancess) = generate_samples(30, k, 2);
         // info!(%data);
         // info!(%responsibilities);
-        let (data, _, means, _covariances) = generate_samples(30000, k, 2);
+        let (data, _, means, _covariances) = generate_samples(&[15000, 5000, 10000], 2);
 
         info!(%means);
 

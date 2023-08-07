@@ -17,12 +17,12 @@ fn expect_bench(gaussian: &Gaussian, data: &Array2<f64>) {
     let (responsibilities, likelihood) = gaussian.expect(&data.view()).unwrap();
 }
 
-fn data(n: usize) -> (Array2<f64>, Array2<f64>, Array3<f64>) {
-    generate_samples(30000, 3, 2)
+fn data(n: usize) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
+    generate_samples(&[10000, 10000, 10000], 2)
 }
 
 fn expect_benchmark(c: &mut Criterion) {
-    let (samples, _, _) = data(30000);
+    let (samples, _, _, _) = data(30000);
     let gaussian = Gaussian::new();
     c.bench_function("expect_bench", |b| {
         b.iter(|| expect_bench(&gaussian, &samples))
