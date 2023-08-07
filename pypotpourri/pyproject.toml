@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "rust-python-ndarray-tutorial"
+version = "0.1.0"
+description = "A tutorial for writing numerical Python extensions with Rust and `ndarray`"
+authors = ["Stefan Ulbrich <6009224+StefanUlbrich@users.noreply.github.com>"]
+license = "MIT"
+readme = "Readme.md"
+packages = [{include = "gmm", from="src/python"}]
+
+[project]
+name = "gmm-rs"
+version = "0.1.1"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+readme = "Readme.md"
+
+
+[tool.poetry.scripts]
+gmm = 'gmm:run'
+bench = 'gmm:bench'
+data = 'gmm:make_data'
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+scipy = "^1.11.1"
+scikit-learn = "^1.3.0"
+numpy = "^1.25.1"
+
+[tool.poetry.group.dev.dependencies]
+seaborn = "^0.12.2"
+matplotlib = "^3.7.2"
+jupyterlab = "^4.0.3"
+black = "^23.7.0"
+ruff = "^0.0.278"
+mypy = "^1.4.1"
+maturin = "^1.1.0"
+
+
+[tool.maturin]
+python-source = "src/python"
+
+[build-system]
+requires = ["maturin>=1,<2"]
+build-backend = "maturin"
+
+# [build-system]
+# requires = ["poetry-core"]
+# build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.black]
+line-length = 120
