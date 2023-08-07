@@ -258,17 +258,81 @@
 <a href="#239" id="239">239</a>
 <a href="#240" id="240">240</a>
 <a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{AvgLLH, Error, Learning, Parametrizable};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span>tracing::info;
 
 <span class="doccomment">/// The basis struct to use for models
+</span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>Model&lt;T&gt;
 <span class="kw">where
     </span>T: Parametrizable,
 {
-    <span class="kw">pub </span>mixable: T,
+    <span class="kw">pub </span>parametrizable: T,
     <span class="kw">pub </span>n_components: usize,
     <span class="kw">pub </span>max_iterations: usize,
     <span class="kw">pub </span>n_init: usize,
@@ -280,11 +344,12 @@
     </span><span class="kw">pub </span>info: ModelInfo,
 }
 
-<span class="kw">pub struct </span>ModelInfo {
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ModelInfo {
     <span class="kw">pub </span>fitted: bool,
     <span class="kw">pub </span>converged: bool,
     <span class="kw">pub </span>n_iterations: usize,
-    <span class="kw">pub </span>likelihood: f64,
+    <span class="kw">pub </span>likelihood: AvgLLH,
     <span class="comment">// pub initialized: bool,
 </span>}
 
@@ -293,14 +358,14 @@
     </span>T: Parametrizable + Sync,
 {
     <span class="kw">pub fn </span>new(
-        mixable: T,
+        parametrizable: T,
         n_components: usize,
         max_iterations: usize,
         n_init: usize,
         incremental: bool,
     ) -&gt; Model&lt;T&gt; {
         Model {
-            mixable,
+            parametrizable,
             n_components,
             max_iterations,
             n_init,
@@ -313,7 +378,7 @@
                 fitted: <span class="bool-val">false</span>,
                 converged: <span class="bool-val">false</span>,
                 n_iterations: <span class="number">0</span>,
-                likelihood: f64::NAN,
+                likelihood: AvgLLH(f64::NAN),
                 <span class="comment">// initialized: false,
             </span>},
         }
@@ -326,7 +391,7 @@
     sufficient_statistics: T::SufficientStatistics,
     converged: bool,
     n_iterations: usize,
-    likelihood: f64,
+    likelihood: AvgLLH,
 }
 
 <span class="kw">impl</span>&lt;T: Parametrizable&gt; Intermediate&lt;T&gt; {
@@ -334,7 +399,7 @@
         sufficient_statistics: T::SufficientStatistics,
         converged: bool,
         n_iterations: usize,
-        likelihood: f64,
+        likelihood: AvgLLH,
     ) -&gt; <span class="self">Self </span>{
         Intermediate {
             sufficient_statistics,
@@ -349,18 +414,23 @@
 <span class="kw">where
     </span>T: Parametrizable + Sync,
 {
-    <span class="doccomment">/// Single EM iteration.
-    </span><span class="kw">fn </span>single_fit(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>mixable: T, data: <span class="kw-2">&amp;</span>T::DataIn&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Intermediate&lt;T&gt;, Error&gt; {
+    <span class="doccomment">/// Single EM iteration. Consumes a copy of a parametrizable
+    </span><span class="kw">fn </span>single_fit(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="kw-2">mut </span>parametrizable: T,
+        data: <span class="kw-2">&amp;</span>T::DataIn&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Intermediate&lt;T&gt;, Error&gt; {
         <span class="comment">// If the model has not been fitted yet, do a random initialization
 
         // use random sufficient statistics for variable initialization
-        </span><span class="kw">let </span><span class="kw-2">mut </span>sufficient_statistics = <span class="self">self
-            </span>.mixable
-            .compute(<span class="kw-2">&amp;</span>data, <span class="kw-2">&amp;</span>mixable.expect_rand(<span class="kw-2">&amp;</span>data, <span class="self">self</span>.n_components)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span><span class="kw-2">mut </span>sufficient_statistics = <span class="self">self</span>.parametrizable.compute(
+            <span class="kw-2">&amp;</span>data,
+            <span class="kw-2">&amp;</span>parametrizable.expect_rand(<span class="kw-2">&amp;</span>data, <span class="self">self</span>.n_components)<span class="question-mark">?</span>,
+        )<span class="question-mark">?</span>;
 
         <span class="comment">// .. and optional model initialization
         </span><span class="kw">if </span>!<span class="self">self</span>.info.fitted {
-            mixable.maximize(<span class="kw-2">&amp;</span>sufficient_statistics)<span class="question-mark">?</span>;
+            parametrizable.maximize(<span class="kw-2">&amp;</span>sufficient_statistics)<span class="question-mark">?</span>;
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>n_iterations = <span class="number">0</span>;
@@ -368,23 +438,26 @@
         <span class="kw">let </span><span class="kw-2">mut </span>last_likelihood: AvgLLH = AvgLLH(f64::NEG_INFINITY);
 
         <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.max_iterations {
-            <span class="macro">info!</span>(%i);
-            <span class="kw">let </span>(responsibilities, likelihood) = mixable.expect(<span class="kw-2">&amp;</span>data)<span class="question-mark">?</span>;
-            sufficient_statistics = mixable.compute(<span class="kw-2">&amp;</span>data, <span class="kw-2">&amp;</span>responsibilities)<span class="question-mark">?</span>;
-            mixable.maximize(<span class="kw-2">&amp;</span>sufficient_statistics)<span class="question-mark">?</span>;
-            <span class="kw">if </span>f64::abs(likelihood.<span class="number">0 </span>- last_likelihood.<span class="number">0</span>) &gt; <span class="self">self</span>.tol {
+            <span class="kw">let </span>(responsibilities, likelihood) = parametrizable.expect(<span class="kw-2">&amp;</span>data)<span class="question-mark">?</span>;
+            sufficient_statistics = parametrizable.compute(<span class="kw-2">&amp;</span>data, <span class="kw-2">&amp;</span>responsibilities)<span class="question-mark">?</span>;
+            parametrizable.maximize(<span class="kw-2">&amp;</span>sufficient_statistics)<span class="question-mark">?</span>;
+
+            <span class="kw">let </span>diff = f64::abs(likelihood.<span class="number">0 </span>- last_likelihood.<span class="number">0</span>);
+            last_likelihood = likelihood;
+
+            <span class="macro">info!</span>(<span class="string">&quot;{}: {}&quot;</span>, i, diff);
+            <span class="kw">if </span>diff &lt; <span class="self">self</span>.tol {
                 converged = <span class="bool-val">true</span>;
                 n_iterations = i;
                 <span class="kw">break</span>;
             }
-            last_likelihood = likelihood;
         }
 
         <span class="prelude-val">Ok</span>(Intermediate::new(
             sufficient_statistics,
             converged,
             n_iterations,
-            f64::NEG_INFINITY,
+            last_likelihood,
         ))
     }
 }
@@ -396,7 +469,7 @@
     <span class="kw">type </span>DataIn&lt;<span class="lifetime">&#39;a</span>&gt; = T::DataIn&lt;<span class="lifetime">&#39;a</span>&gt;;
     <span class="kw">type </span>DataOut = T::DataOut;
 
-    <span class="kw">fn </span>fit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, data: <span class="self">Self</span>::DataIn&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+    <span class="kw">fn </span>fit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, data: <span class="kw-2">&amp;</span><span class="self">Self</span>::DataIn&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
         <span class="kw">if </span>!<span class="self">self</span>.incremental {
             <span class="kw">if </span><span class="self">self</span>.n_init &gt; <span class="number">0 </span>&amp;&amp; <span class="self">self</span>.info.fitted {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ParameterError {
@@ -408,23 +481,29 @@
             <span class="comment">// https://stackoverflow.com/a/36371890
             </span><span class="kw">let </span>results: <span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt; = (<span class="number">0</span>..<span class="self">self</span>.n_init)
                 .into_par_iter()
-                .map(|<span class="kw">_</span>| <span class="self">self</span>.mixable.clone())
+                .map(|<span class="kw">_</span>| <span class="self">self</span>.parametrizable.clone())
                 .map(|x| <span class="self">self</span>.single_fit(x, <span class="kw-2">&amp;</span>data))
                 .collect();
             <span class="comment">// results variable required to determine the lifetime of references returned by `max_by`
             </span><span class="kw">let </span>results = results<span class="question-mark">?</span>;
 
+            <span class="macro">info!</span>(
+                <span class="string">&quot;Likelihood of all runs {:?}&quot;</span>,
+                results.iter().map(|i| i.likelihood.<span class="number">0</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+            );
+
             <span class="kw">let </span>best = results
                 .iter()
-                .max_by(|a, b| a.likelihood.total_cmp(<span class="kw-2">&amp;</span>b.likelihood))
+                .max_by(|a, b| a.likelihood.<span class="number">0</span>.total_cmp(<span class="kw-2">&amp;</span>b.likelihood.<span class="number">0</span>))
                 .unwrap();
 
+            <span class="macro">info!</span>(<span class="string">&quot;Best {:?}&quot;</span>, best.likelihood.<span class="number">0</span>);
             <span class="comment">// restore winning model from the sufficient statistics
             // Additional step,  maybe a bit more expensive but elegant
-            </span><span class="self">self</span>.mixable.maximize(<span class="kw-2">&amp;</span>best.sufficient_statistics)<span class="question-mark">?</span>;
+            </span><span class="self">self</span>.parametrizable.maximize(<span class="kw-2">&amp;</span>best.sufficient_statistics)<span class="question-mark">?</span>;
             <span class="self">self</span>.info.converged = best.converged;
             <span class="self">self</span>.info.n_iterations = best.n_iterations;
-            <span class="self">self</span>.info.likelihood = best.likelihood;
+            <span class="self">self</span>.info.likelihood = best.likelihood.clone();
         } <span class="kw">else </span>{
             <span class="comment">// incremental learning
 
@@ -468,16 +547,19 @@
 <span class="comment">// TODO: Move to integration tests
 </span><span class="attr">#[cfg(all(test, feature = <span class="string">&quot;ndarray&quot;</span>))]
 </span><span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">crate</span>::backend::ndarray::gaussian::sort_parameters;
     <span class="kw">use </span><span class="kw">crate</span>::backend::ndarray::utils::generate_samples;
     <span class="kw">use </span><span class="kw">crate</span>::backend::ndarray::{finite::Finite, gaussian::Gaussian};
     <span class="kw">use </span><span class="kw">crate</span>::mixture::Mixture;
     <span class="kw">use </span><span class="kw">crate</span>::model::Model;
+    <span class="kw">use </span><span class="kw">crate</span>::Learning;
+    <span class="kw">use </span>tracing::info;
     <span class="kw">use </span>tracing_test::traced_test;
 
     <span class="attr">#[test]
     #[traced_test]
     </span><span class="kw">fn </span>single_gmm_em() {
-        <span class="kw">let </span>(data, <span class="kw">_</span>, <span class="kw">_</span>, _covariances) = generate_samples(<span class="kw-2">&amp;</span>[<span class="number">10000</span>, <span class="number">10000</span>, <span class="number">10000</span>], <span class="number">2</span>);
+        <span class="kw">let </span>(data, <span class="kw">_</span>, <span class="kw">_</span>, _covariances) = generate_samples(<span class="kw-2">&amp;</span>[<span class="number">15000</span>, <span class="number">10000</span>, <span class="number">50000</span>], <span class="number">2</span>);
 
         <span class="kw">let </span>gaussian = Gaussian::new();
         <span class="kw">let </span>categorial = Finite::new(<span class="prelude-val">None</span>);
@@ -494,9 +576,53 @@
 
         <span class="kw">let </span>gmm = Model::new(density, <span class="number">3</span>, <span class="number">200</span>, <span class="number">1</span>, <span class="bool-val">false</span>);
 
-        <span class="kw">let </span>result = gmm.single_fit(gmm.mixable.clone(), <span class="kw-2">&amp;</span>data.view()).unwrap();
+        <span class="kw">let </span>result = gmm
+            .single_fit(gmm.parametrizable.clone(), <span class="kw-2">&amp;</span>data.view())
+            .unwrap();
 
-        <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, result)
+        <span class="macro">info!</span>(<span class="question-mark">?</span>result);
+        <span class="macro">assert!</span>(result.n_iterations &lt; <span class="number">35</span>);
+        <span class="macro">assert!</span>(result.converged == <span class="bool-val">true</span>);
     }
+
+    <span class="attr">#[test]
+    #[traced_test]
+    </span><span class="kw">fn </span>test_multi_pass() {
+        <span class="comment">// Samples must be sorted in decreasing order
+        </span><span class="kw">let </span>(data, <span class="kw">_</span>, means, <span class="kw">_</span>) = generate_samples(<span class="kw-2">&amp;</span>[<span class="number">5000</span>, <span class="number">10000</span>, <span class="number">15000</span>], <span class="number">2</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>model = Model::new(
+            Mixture::new(Gaussian::new(), Finite::new(<span class="prelude-val">None</span>)),
+            <span class="number">3</span>,
+            <span class="number">50</span>,
+            <span class="number">4</span>,
+            <span class="bool-val">false</span>,
+        );
+
+        model.fit(<span class="kw-2">&amp;</span>data.view()).unwrap();
+        <span class="macro">info!</span>(<span class="question-mark">?</span>model.info);
+
+        <span class="kw">let </span>(means_sorted, <span class="kw">_</span>) = sort_parameters(
+            <span class="kw-2">&amp;</span>model.parametrizable.mixables,
+            <span class="kw-2">&amp;</span>model.parametrizable.latent.pmf.view(),
+        );
+
+        <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, model.parametrizable.mixables.means);
+        <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, model.parametrizable.latent.pmf);
+
+        <span class="macro">info!</span>(%means);
+        <span class="comment">// info!(?model.parametrizable.mixables.means),
+
+        </span><span class="macro">info!</span>(%means_sorted);
+        <span class="macro">info!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span>means_sorted - <span class="kw-2">&amp;</span>means);
+
+        <span class="macro">assert!</span>(means.abs_diff_eq(<span class="kw-2">&amp;</span>means_sorted, <span class="number">1e-2</span>));
+
+        <span class="comment">// time cargo test -F ndarray -p potpourri test_multi_pass --release
+        // 6,17s user 0,60s system 703% cpu 0,962 total
+
+        // cargo test -F ndarray -p potpourri test_multi_pass
+        // 270,15s user 0,57s system 804% cpu 33,635 total
+    </span>}
 }
 </code></pre></div></section></main></body></html>
