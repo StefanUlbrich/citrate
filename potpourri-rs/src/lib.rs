@@ -22,6 +22,7 @@ pub use mixture::{Latent, Mixable, Mixture};
 pub use model::Model;
 
 /// Average log-likelihood. Used to meature convergence
+#[derive(Debug, Clone)]
 pub struct AvgLLH(f64);
 
 pub trait Parametrizable {
@@ -95,6 +96,6 @@ pub trait Learning {
     type DataIn<'a>;
     type DataOut;
 
-    fn fit(&mut self, data: Self::DataIn<'_>) -> Result<(), Error>;
+    fn fit(&mut self, data: &Self::DataIn<'_>) -> Result<(), Error>;
     fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error>;
 }
