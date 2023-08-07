@@ -5,6 +5,8 @@ use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
 
+use itertools::Itertools;
+
 use super::utils::{
     get_det_spd, get_shape2, get_shape3, get_weighted_means, get_weighted_sum, invert_spd,
 };
@@ -202,6 +204,31 @@ impl Mixable<Gaussian> for Gaussian {
     ) -> Result<<Gaussian as Parametrizable>::DataOut, Error> {
         Err(Error::NotImplemented)
     }
+}
+
+/// Function that sorts the parameters (means, covariances) of a Gaussian mixture according to the
+/// weights of the components. TODO: This should be part of the Mixable interface
+/// but this is difficult right now (type of the pmf is unknown in the interace).
+pub fn sort_parameters(gmm: &Gaussian, pmf: &ArrayView1<f64>) -> (Array2<f64>, Array3<f64>) {
+    let mut means = gmm.means.clone();
+    let mut covariances = gmm.covariances.clone();
+
+    pmf.as_slice()
+        .unwrap()
+        .into_iter()
+        .enumerate()
+        .sorted_by(|a, b| a.1.partial_cmp(b.1).unwrap())
+        .enumerate()
+        .for_each(|x| {
+            means
+                .slice_mut(s![x.0, ..])
+                .assign(&gmm.means.slice(s![x.1 .0, ..]));
+            covariances
+                .slice_mut(s![x.0, .., ..])
+                .assign(&gmm.covariances.slice(s![x.1 .0, .., ..]));
+        });
+
+    (means, covariances)
 }
 
 #[cfg(test)]
