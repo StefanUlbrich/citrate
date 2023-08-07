@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Gaussian"]};
+window.SIDEBAR_ITEMS = {"fn":["sort_parameters"],"struct":["Gaussian"]};
