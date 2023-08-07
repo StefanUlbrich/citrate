@@ -152,7 +152,7 @@ mod tests {
     use super::*;
     use crate::backend::ndarray::{
         finite::Finite,
-        gaussian::Gaussian,
+        gaussian::{sort_parameters, Gaussian},
         utils::{generate_random_expections, generate_samples},
     };
     use tracing::info;
@@ -165,7 +165,7 @@ mod tests {
         // let (data, responsibilities, _means, _covariancess) = generate_samples(30, k, 2);
         // info!(%data);
         // info!(%responsibilities);
-        let (data, _, means, _covariances) = generate_samples(30000, k, 2);
+        let (data, _, means, _covariances) = generate_samples(&[5000, 10000, 15000], 2);
 
         info!(%means);
 
@@ -190,6 +190,12 @@ mod tests {
         }
 
         info!(%means);
+
+        let (means_sorted, _) = sort_parameters(&mixture.mixables, &mixture.latent.pmf.view());
+        info!(%means_sorted);
+        info!("{}", &means_sorted - &means);
+
+        assert!(means.abs_diff_eq(&means_sorted, 1e-2));
 
         // println!("{:?}", result)
     }

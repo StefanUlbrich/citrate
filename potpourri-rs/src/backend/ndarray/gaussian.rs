@@ -5,6 +5,8 @@ use itertools::izip;
 use ndarray::parallel::prelude::*;
 use ndarray::prelude::*;
 
+use itertools::Itertools;
+
 use super::utils::{
     get_det_spd, get_shape2, get_shape3, get_weighted_means, get_weighted_sum, invert_spd,
 };
@@ -30,7 +32,7 @@ pub struct Gaussian {
     pub covariances: Array3<f64>,
     /// The precision matrices (inverted coariances), $(k\times d\times d)$
     pub precisions: Array3<f64>,
-    summands: Array1<f64>,
+    pub summands: Array1<f64>,
     sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
 }
 
@@ -155,6 +157,8 @@ impl Parametrizable for Gaussian {
                 ))
             });
 
+        // TODO: where are the weights updated. Reminder that this happens in the finite class!
+
         Ok(())
     }
 
@@ -202,6 +206,31 @@ impl Mixable<Gaussian> for Gaussian {
     }
 }
 
+/// Function that sorts the parameters (means, covariances) of a Gaussian mixture according to the
+/// weights of the components. TODO: This should be part of the Mixable interface
+/// but this is difficult right now (type of the pmf is unknown in the interace).
+pub fn sort_parameters(gmm: &Gaussian, pmf: &ArrayView1<f64>) -> (Array2<f64>, Array3<f64>) {
+    let mut means = gmm.means.clone();
+    let mut covariances = gmm.covariances.clone();
+
+    pmf.as_slice()
+        .unwrap()
+        .into_iter()
+        .enumerate()
+        .sorted_by(|a, b| a.1.partial_cmp(b.1).unwrap())
+        .enumerate()
+        .for_each(|x| {
+            means
+                .slice_mut(s![x.0, ..])
+                .assign(&gmm.means.slice(s![x.1 .0, ..]));
+            covariances
+                .slice_mut(s![x.0, .., ..])
+                .assign(&gmm.covariances.slice(s![x.1 .0, .., ..]));
+        });
+
+    (means, covariances)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -212,7 +241,8 @@ mod tests {
     #[traced_test]
     #[test]
     fn check_maximization() {
-        let (data, responsibilities, _, covariances) = generate_samples(300000, 3, 2);
+        let (data, responsibilities, _, covariances) =
+            generate_samples(&[100000, 100000, 100000], 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -228,7 +258,8 @@ mod tests {
     fn check_expectation() {
         // Simulate an expectation maximization step:
         // 1. generate data with responsibility, 2. maximize, 3. expect, 3. maximize again, 4. compare to ground trouth
-        let (data, responsibilities, _, covariances) = generate_samples(600000, 3, 2);
+        let (data, responsibilities, _, covariances) =
+            generate_samples(&[200000, 200000, 200000], 2);
 
         let mut gaussian = Gaussian::new();
 
@@ -251,10 +282,10 @@ mod tests {
     }
 
     /// Checks whether we can learn on partitioned data! Important for federated learning.
-    // #[traced_test]
+    #[traced_test]
     #[test]
     fn check_merge() {
-        let (data, responsibilities, _, covariances) = generate_samples(30000, 3, 2);
+        let (data, responsibilities, _, covariances) = generate_samples(&[10000, 10000, 10000], 2);
         let (data_1, responsibilities_1) =
             filter_data(&data.view(), &responsibilities.view(), |x, _y| x[1] > 0.5).unwrap();
         let (data_2, responsibilities_2) =
@@ -271,13 +302,15 @@ mod tests {
 
         gaussian.maximize(&sufficient_statistics_1).unwrap();
 
+        info!("{}", covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
+
         // This should fail--we ignored much of the data
-        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
 
         gaussian.maximize(&sufficient_statistics_2).unwrap();
 
         // This should fail--we ignored much of the data
-        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(!covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
 
         let sufficient_statistics = Gaussian::merge(
             &[&sufficient_statistics_1, &sufficient_statistics_2],
@@ -286,8 +319,10 @@ mod tests {
         .unwrap();
         gaussian.maximize(&sufficient_statistics).unwrap();
 
+        info!(%gaussian.covariances);
+        info!(%covariances);
         // This should fail--we ignored much of the data
-        assert!(covariances.abs_diff_eq(&gaussian.covariances, 1e-1));
+        assert!(covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
     }
 
     // #[traced_test]

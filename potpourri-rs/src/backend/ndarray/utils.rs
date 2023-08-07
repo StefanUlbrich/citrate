@@ -55,16 +55,19 @@ pub fn get_det_spd(matrix: &ArrayView2<f64>) -> Result<f64, Error> {
  * ****************************************************************************/
 
 /// Create data generated with a Gaussian mixture model.
-/// Returns $n$ samples from a Gaussian mixture with $k$ components
-/// in a $d$-dimensional feature space. It also returns the $n \times x k$
+/// Returns $n_1+\ldots +n_k$ samples from a Gaussian mixture with $k$ components
+/// in a $d$-dimensional feature space. It also returns the $(n_1+\ldots +n_k) \times k$
 /// "true" responisiblity matrix (i.e., only ones and zeros in its elements).
 /// For testing, it returns also the generated covariances
+/// Returns: (samples, responsibilities, means, covariances)
 pub fn generate_samples(
-    n: usize,
-    k: usize,
+    nk: &[usize],
     d: usize,
 ) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
     // TODO simplify!
+
+    let n_total = nk.into_iter().sum();
+    let k = nk.len();
 
     let mut covariances = Array3::<f64>::default((k, d, d));
     covariances.axis_iter_mut(Axis(0)).for_each(|mut x| {
@@ -85,8 +88,8 @@ pub fn generate_samples(
         })
         .collect();
 
-    let mut samples = Array2::<f64>::default((n, d));
-    let mut responsibilities = Array2::<f64>::default((n, k));
+    let mut samples = Array2::<f64>::default((n_total, d));
+    let mut responsibilities = Array2::<f64>::default((n_total, k));
 
     (
         samples.axis_iter_mut(Axis(0)),
@@ -95,7 +98,13 @@ pub fn generate_samples(
         .into_par_iter()
         .enumerate()
         .for_each(|(i, (mut s_row, mut r_row))| {
-            let component = i / (n / k);
+            let mut component: usize = 0;
+            component = loop {
+                if i < nk[0..component + 1].into_iter().sum() {
+                    break component;
+                }
+                component += 1;
+            };
             let sample = mvn[component].sample(&mut rand::thread_rng());
             r_row[component] = 1.0;
 
@@ -104,6 +113,53 @@ pub fn generate_samples(
 
     (samples, responsibilities, means, covariances)
 }
+
+// todo: remove when above works
+// pub fn generate_samples_old(
+//     n: usize,
+//     k: usize,
+//     d: usize,
+// ) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
+//     // TODO simplify!
+
+//     let mut covariances = Array3::<f64>::default((k, d, d));
+//     covariances.axis_iter_mut(Axis(0)).for_each(|mut x| {
+//         let y = Array2::<f64>::random((d, d), Standard) / 5.0;
+//         x.assign(&y.t().dot(&y));
+//     });
+
+//     let mut means = Array2::<f64>::default((k, d));
+//     means.axis_iter_mut(Axis(0)).for_each(|mut x| {
+//         x.assign(&Array1::<f64>::random(d, Standard));
+//     });
+
+//     let mvn: Vec<_> = (means.axis_iter(Axis(0)), covariances.axis_iter(Axis(0)))
+//         .into_par_iter()
+//         .map(|(m, x)| {
+//             MultivariateNormal::new(m.into_owned().into_raw_vec(), x.into_owned().into_raw_vec())
+//                 .unwrap()
+//         })
+//         .collect();
+
+//     let mut samples = Array2::<f64>::default((n, d));
+//     let mut responsibilities = Array2::<f64>::default((n, k));
+
+//     (
+//         samples.axis_iter_mut(Axis(0)),
+//         responsibilities.axis_iter_mut(Axis(0)),
+//     )
+//         .into_par_iter()
+//         .enumerate()
+//         .for_each(|(i, (mut s_row, mut r_row))| {
+//             let component = i / (n / k);
+//             let sample = mvn[component].sample(&mut rand::thread_rng());
+//             r_row[component] = 1.0;
+
+//             s_row.assign(&Array::from_shape_vec((2,), sample.data.into()).unwrap());
+//         });
+
+//     (samples, responsibilities, means, covariances)
+// }
 
 /// Splits a dataset consiting of two arrays according to a row-wise criteria
 pub fn filter_data<F>(

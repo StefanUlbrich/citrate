@@ -61,7 +61,7 @@ fn expect_bench(gaussian: &Gaussian, data: &Array2<f64>) {
 fn join_bench() {}
 
 fn data2(n: usize) -> (Array2<f64>, Array2<f64>, Array2<f64>, Array3<f64>) {
-    generate_samples(30000, 3, 2)
+    generate_samples(&[10000, 10000, 10000], 2)
 }
 
 // Not working after refactoring
@@ -399,6 +399,6 @@ criterion_group!(
     manual_expect_benchmark,
     // expect_benchmark,
     categorical_benchmark,
-    join_benchmark,
+    // join_benchmark,
 );
 criterion_main!(benches);
