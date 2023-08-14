@@ -1,46 +1,20 @@
-[tool.poetry]
-name = "rust-python-ndarray-tutorial"
-version = "0.1.0"
-description = "A tutorial for writing numerical Python extensions with Rust and `ndarray`"
-authors = ["Stefan Ulbrich <6009224+StefanUlbrich@users.noreply.github.com>"]
-license = "MIT"
-readme = "Readme.md"
-packages = [{include = "gmm", from="src/python"}]
+###############################################################################
+## Packaging (Maturin)
 
+# Meta information
 [project]
-name = "gmm-rs"
+name = "potpourri"
 version = "0.1.1"
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
 ]
 readme = "Readme.md"
 
-
-[tool.poetry.scripts]
-gmm = 'gmm:run'
-bench = 'gmm:bench'
-data = 'gmm:make_data'
-
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.12"
-scipy = "^1.11.1"
-scikit-learn = "^1.3.0"
-numpy = "^1.25.1"
-
-[tool.poetry.group.dev.dependencies]
-seaborn = "^0.12.2"
-matplotlib = "^3.7.2"
-jupyterlab = "^4.0.3"
-black = "^23.7.0"
-ruff = "^0.0.278"
-mypy = "^1.4.1"
-maturin = "^1.1.0"
-
-
+# Configuration
 [tool.maturin]
 python-source = "src/python"
 
@@ -48,9 +22,51 @@ python-source = "src/python"
 requires = ["maturin>=1,<2"]
 build-backend = "maturin"
 
-# [build-system]
-# requires = ["poetry-core"]
-# build-backend = "poetry.core.masonry.api"
+## Meta information ignored by Maturin, i.e., not used for the package
+[tool.poetry]
+name = "potpourri"
+version = "0.0.0"
+description = ""
+authors = ["Stefan Ulbrich <6009224+StefanUlbrich@users.noreply.github.com>"]
+license = "MIT"
+
+# Convenience commands available in virtual environment
+[tool.poetry.scripts]
+potpourri-data = 'potpurri:generate_data'
+
+
+###############################################################################
+## Dependency for virtual environment (developing/testing). Ignored by Maturin!
+
+# Main dependencies (ignored by maturin)
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+scipy = "^1.11.1"
+scikit-learn = "^1.3.0"
+numpy = "^1.25.1"
+seaborn = "^0.12.2"
+matplotlib = "^3.7.2"
+
+# Optionally: jupyter lab
+pip = "^23.2.1"
+[tool.poetry.group.jupyter]
+optional = true
+
+[tool.poetry.group.jupyter.dependencies]
+jupyterlab = "^4.0.3"
+jupyter-black = "^0.3.4"
+ipykernel = "^6.9.1"
+
+# Tools
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+ruff = "^0.0.278"
+mypy = "^1.4.1"
+maturin = "^1.1.0"
+
+
+###############################################################################
+## Tools configuration
 
 [tool.ruff]
 line-length = 120

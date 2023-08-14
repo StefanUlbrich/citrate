@@ -5,7 +5,7 @@ members = [
     "cerebral-rs",
     "cerebral",
     "potpourri-rs",
-    "pypotpourri"
+    "potpourri"
 ]
 
 [build]
