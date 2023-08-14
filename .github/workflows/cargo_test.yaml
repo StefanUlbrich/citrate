@@ -1,0 +1,23 @@
+name: Run tests
+
+on: [push, pull_request]
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🐙 Checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    - name: 🦀 Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: 1.71.1
+        components: rustfmt, clippy
+    - name: 🧪 Test potpourri
+      run: |
+        cargo test -F ndarray -p potpourri
+    - name: 🧪 Test cerebral
+      run: |
+        cargo test -p cerebral
