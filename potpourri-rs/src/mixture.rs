@@ -1,12 +1,13 @@
-// Todo: move outside of the backend!
+//! Traits and implementation required for
+//! [Mixture Models](https://en.wikipedia.org/wiki/Mixture_model) such
+//! as the famous [Gaussian Mixture Model
+//! ](https://en.wikipedia.org/wiki/Mixture_model#Gaussian_mixture_model)
 
 use crate::{AvgLLH, Error, Parametrizable};
 
-/// An additional interface for `Mixables` that can be used as latent states.
-/// These can be categorical distributions, with or without finite Dirichlet
-/// or infinite Dirichlet process priors. The `Mixables` are here used not
-/// multiple components but only as one distribution of the latent states.
-
+/// Represents the hidden (aka. latent) states.
+/// Implementations might be categorical distributions, with or without finite Dirichlet
+/// or infinite Dirichlet process priors.
 pub trait Latent<T>
 where
     T: Parametrizable,
@@ -18,6 +19,17 @@ where
     ) -> Result<(T::Likelihood, AvgLLH), Error>;
 }
 
+
+// TODO: At the end, find out of
+
+/// This trait "extends" the [Parametrizable] trait.
+/// Typically, implementations would not implement [Parametrizable::predict]
+/// (i.e., adding a `todo` or `panic` macro). And implement this function instead.
+/// This is because the likelihood is required as an additional function argument
+/// (especially for regression) as mixtures are orchestrated by an implementation
+/// of [Mixture].
+///
+/// **Warning:** `Mixables` have to compute the log-likelihood in the expectation step!
 pub trait Mixable<T>
 where
     T: Parametrizable,
@@ -29,17 +41,21 @@ where
     ) -> Result<T::DataOut, Error>;
 }
 
-/// This trait represents the traditional mixture models with an underlying
+/// This trait represents the traditional [mixture models
+/// ](https://en.wikipedia.org/wiki/Mixture_model) with an underlying
 /// probability density (as opposed to k-means or SOM). They have a soft
 /// assignment, that is, for each sample and each component the likelihood
 /// is computed that the sample belongs to the component. The alternative
 /// is that a sample can only belong to one of the compent alone.
 ///
+/// This trait is another level of abstraction which contains all additional logic
+/// related for mixture models which is still agnostic of the computation framework.
+/// The actual densities are implementations of [Parametrizable] and [Mixable].
+///
 /// Warning: we don't enforce trait bounds here due to a possible
 /// [compiler bug](https://github.com/rust-lang/rust/issues/110136)
 ///
-/// Warning: `Mixables` have to compute the log-likelihood in the expectation step!
-///
+/// **Warning:** `Mixables` have to compute the log-likelihood in the expectation step!
 #[derive(Clone, Debug)]
 pub struct Mixture<T, L>
 where
@@ -63,6 +79,7 @@ where
     // for<'a> <T as Mixables>::DataIn<'a>: Into<L::DataIn<'a>>,
     L: Parametrizable + Latent<L>,
 {
+    /// Convenience function
     pub fn new(mixables: T, latent: L) -> Self {
         Mixture {
             latent: latent,
