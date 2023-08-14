@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "pycerebral"
+version = "42.1.1"                                                # trick poetry into always installing
+description = "An implementation of self organizing maps in Rust"
+authors = ["Stefan Ulbrich"]
+license = "MIT"
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+pip = ">=22.0"
+
+[tool.poetry.group.jupyter]
+optional = true
+[tool.poetry.group.jupyter.dependencies]
+jupyter-black = "^0.3.4"
+black = "^21.12b0"
+ipykernel = "^6.9.1"
+ipympl = "^0.8.8"
+scipy = "^1.8.0"
+tqdm = "^4.63.1"
+matplotlib = "^3.5.1"
+
+# sphinx-book-theme = "^0.2.0"
+# pre-commit = "^2.17.0" # TODO
+# myst-parser = "^0.17.0"
+
+[tool.poetry.group.dev.dependencies]
+# pylint = "^2.12.1,!=2.12.2"
+# mypy = "^0.931"
+numpy = "^1.22.3"
+sklearn = "^0.0"
+pytest = "^6.2.5"
+maturin = "^0.12.11"
+
+
+
+# this is for the sources in the python subdirectory
+[package.metadata.maturin]
+python-source = "python"
+
+# Created by maturin
+
+[project]
+name = "pysom"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+readme = "Readme.md"
+# Add dependencies
+
+[build-system]
+requires = ["maturin>=0.12,<0.13"]
+build-backend = "maturin"
+
+
