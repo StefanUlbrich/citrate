@@ -1,17 +1,4 @@
-# Found here: https://tomasfarias.dev/posts/sphinx-docs-with-poetry-and-github-pages/
-
-name: Docs2Pages
-on:
-  workflow_dispatch:
-    branches:
-      - main
-  push:
-    # tags: '*'
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build-wheels:
