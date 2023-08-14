@@ -14,7 +14,7 @@ on:
       - main
 
 jobs:
-  build-docs:
+  build-wheels:
     runs-on: ubuntu-latest
     steps:
     - name: 🐙 Checkout
@@ -26,17 +26,18 @@ jobs:
       with:
         toolchain: 1.68.2
         components: rustfmt, clippy
-    - name: 🏗 Build documentation
-      run: |
-        RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -F ndarray -p potpourri  --no-deps
-        RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -p cerebral  --no-deps
-        mkdir gh-pages
-        touch gh-pages/.nojekyll
-        cp -r target/doc/* gh-pages/
-        cp static/* gh-pages
-    - name: ☁️ Deploy documentation
-      if: ${{ github.event_name == 'push' }}
-      uses: JamesIves/github-pages-deploy-action@4.1.4
+    - uses: 🐍 actions/setup-python@v3
       with:
-        branch: gh-pages
-        folder: gh-pages
+        python-version: 3.10.2
+    - name: 📚 Poetry
+      uses: abatilo/actions-poetry@v2.3.0
+      with:
+        poetry-version: 1.4.2
+    - name: 🛞 Build potpourri package
+      run: |
+        cd potpourri
+        poetry run maturin build --release
+    - name: 🛞 Build cerebral package
+      run: |
+        cd cerebral
+        poetry run maturin build --release
