@@ -1,3 +1,5 @@
+//! Logic for error handling.
+
 #[derive(thiserror::Error, Debug, Clone)]
 pub enum Error {
     #[error("Multiple iterations overwrite a fitted model: {n_init:?}, {fitted:?}")]

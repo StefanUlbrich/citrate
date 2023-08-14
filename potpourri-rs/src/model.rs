@@ -1,26 +1,48 @@
+//! This module defines the traits and implementation required
+//! to orchestrate the learning with the Expectation maximization
+
 use crate::{AvgLLH, Error, Learning, Parametrizable};
 use rayon::prelude::*;
 
 use tracing::info;
 
-/// The basis struct to use for models
+
+/// The basis structure for model. It hold
+/// the configuration of the learning process
+/// and a reference to the [Parametrizable].
+/// Its implementation *orchestrates* the learning,
+/// that is, implements the logic that is common
+/// for all methods learned with Expectation Maximization.
 #[derive(Debug)]
 pub struct Model<T>
 where
     T: Parametrizable,
 {
+    /// Reference to a [Parametrizable] instance
     pub parametrizable: T,
-    pub n_components: usize,
+    /// Number of hidden states (or components in case of a mixture).
+    /// This value is necessary for the random initialization.
+    pub n_hidden: usize,
+    /// Limits the number of iterations
     pub max_iterations: usize,
+    /// Expectation Maximization starts with a random initialization and
+    /// can run into local minima. To avoid this problem, multiple models
+    /// (with different intializations) can be trained. The best model
+    /// (w.r.t. the likelihood) is then chosen.
     pub n_init: usize,
+    /// TBD not supported yet.
     pub incremental: bool,
+    /// TBD not supported yet.
     pub incremental_weight: f64,
+    /// Tolerance for when the loglikelihood between iterations are considered
+    /// equal and the algorithm terminates.
     pub tol: f64,
-    // last_sufficient_statistics: Option<T::SufficientStatistics>,
-    // pub initialization: Option<T::Likelihood>,
+    /// Information about the outcome of the last training.
     pub info: ModelInfo,
 }
 
+
+/// Information about the outcome of the last training
 #[derive(Debug)]
 pub struct ModelInfo {
     pub fitted: bool,
@@ -34,35 +56,39 @@ impl<T> Model<T>
 where
     T: Parametrizable + Sync,
 {
+    /// Convenience function to generate new model.
     pub fn new(
         parametrizable: T,
-        n_components: usize,
+        n_hidden: usize,
         max_iterations: usize,
         n_init: usize,
         incremental: bool,
     ) -> Model<T> {
         Model {
             parametrizable,
-            n_components,
+            n_hidden,
             max_iterations,
             n_init,
             incremental,
             incremental_weight: 0.8,
             tol: 1e-6,
-            // last_sufficient_statistics: None,
-            // initialization: None,
             info: ModelInfo {
                 fitted: false,
                 converged: false,
                 n_iterations: 0,
                 likelihood: AvgLLH(f64::NAN),
-                // initialized: false,
             },
         }
     }
 }
 
-/// Intermediate result from a single EM training (better than just using tuples)
+
+
+/// Abstract data type to store intermediate results from a single EM training (better than just using tuples).
+/// Depending on [Model::n_init] multiple trainings can occur and the best of them has to be chosen.
+/// This struct stores the likelihood required for determining the best solution and the
+/// [sufficient statistics](Parametrizable::SufficientStatistics) required to reconstruct
+/// the model parameters.
 #[derive(Debug)]
 struct Intermediate<T: Parametrizable> {
     sufficient_statistics: T::SufficientStatistics,
@@ -91,7 +117,7 @@ impl<T> Model<T>
 where
     T: Parametrizable + Sync,
 {
-    /// Single EM iteration. Consumes a copy of a parametrizable
+    /// Implements a Single EM training. Warning: Consumes a copy of a parametrizable
     fn single_fit(
         &self,
         mut parametrizable: T,
@@ -102,7 +128,7 @@ where
         // use random sufficient statistics for variable initialization
         let mut sufficient_statistics = self.parametrizable.compute(
             &data,
-            &parametrizable.expect_rand(&data, self.n_components)?,
+            &parametrizable.expect_rand(&data, self.n_hidden)?,
         )?;
 
         // .. and optional model initialization
