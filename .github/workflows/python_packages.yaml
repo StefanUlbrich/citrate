@@ -17,6 +17,8 @@ jobs:
   build-wheels:
     runs-on: ubuntu-latest
     steps:
+    - name: 🐧Install Blas
+      run: sudo apt install libopenblas-dev
     - name: 🐙 Checkout
       uses: actions/checkout@master
       with:
