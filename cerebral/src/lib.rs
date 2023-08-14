@@ -213,6 +213,7 @@ impl PySelforganizingNetwork {
 // }
 
 #[pymodule]
+#[pyo3(name = "cerebral")]
 fn pysom(_py: Python<'_>, module: &PyModule) -> PyResult<()> {
     module.add_class::<PyAdaptivity>()?;
     module.add_class::<PyResponsiveness>()?;
