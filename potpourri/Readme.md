@@ -1,8 +1,8 @@
-# Welcome to the `Cerebral` Python package
+# Welcome to the `Potpourri` Python package
 
 
 This package contains Python bindings for the
-[Cerebral](https://stefanulbrich.github.io/citrate/cerebral/index.html) crate.
+[Potpourri](https://stefanulbrich.github.io/citrate/potpourri/index.html) crate.
 
 ## Installation
 
@@ -10,7 +10,7 @@ For now, please install by cloning the repository or installing with the followi
 command as the package is not on PyPI yet.
 
 ```sh
-pip install "git+https://github.com/StefanUlbrich/citrate.git#egg=cerebral&subdirectory=cerebral"
+pip install "git+https://github.com/StefanUlbrich/citrate.git#egg=potpourri&subdirectory=potpourri"
 ```
 
 ## Development
@@ -21,7 +21,7 @@ Make sure you have a recent Python version in your path.
 Then, create a virtual environment and install the bindings
 
 ```sh
-cd cerebral
+cd potpourri
 poetry install
 ```
 
@@ -50,8 +50,8 @@ You can build the wheel file with
 
 ```sh
 poetry run maturin build --release
-ls ../target/wheels/cerebral-*.whl
-# e.g., ../target/wheels/cerebral-0.1.1-cp310-cp310-manylinux_2_34_x86_64.whl
+ls ../target/wheels/potpourri-*.whl
+# e.g., ../target/wheels/potpourri-0.1.1-cp310-cp310-manylinux_2_34_x86_64.whl
 ```
 
 Finally, you can clean up / remove the virtual environment with

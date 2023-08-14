@@ -3,7 +3,7 @@
 
 # Meta information
 [project]
-name = "cerebral"
+name = "potpourri"
 version = "0.1.1"
 requires-python = ">=3.7"
 classifiers = [
@@ -13,21 +13,18 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence"
 ]
 readme = "Readme.md"
-# packages = [{include = "cerebral", from="python"}] # Todo: get poetry build to work
-
 
 # Configuration
 [tool.maturin]
-python-source = "python"
+python-source = "src/python"
 
 [build-system]
 requires = ["maturin>=1,<2"]
 build-backend = "maturin"
 
-
 ## Meta information ignored by Maturin, i.e., not used for the package
 [tool.poetry]
-name = "cerebral"
+name = "potpourri"
 version = "0.0.0"
 description = ""
 authors = ["Stefan Ulbrich <6009224+StefanUlbrich@users.noreply.github.com>"]
@@ -49,9 +46,9 @@ scikit-learn = "^1.3.0"
 numpy = "^1.25.1"
 seaborn = "^0.12.2"
 matplotlib = "^3.7.2"
-pip = "^23.2.1" # required
 
 # Optionally: jupyter lab
+pip = "^23.2.1"
 [tool.poetry.group.jupyter]
 optional = true
 

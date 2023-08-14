@@ -5,6 +5,7 @@ members = [
     "cerebral-rs",
     "cerebral",
     "potpourri-rs",
+    "potpourri"
 ]
 
 [build]

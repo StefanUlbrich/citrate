@@ -1,16 +1,16 @@
 [package]
-name = "pycerebral"
+name = "pypotpourri"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "cerebral"
+name = "potpourri"
 crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.19.2", features = ["extension-module"] }
-cerebral = { path = "../cerebral-rs"}
+potpourri = { path = "../potpourri-rs"}
 numpy = "0.19.0"
 ndarray-rand = "0.14"
 rand_isaac = "0.3"

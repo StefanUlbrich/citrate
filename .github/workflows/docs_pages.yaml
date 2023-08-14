@@ -1,6 +1,6 @@
-# Found here: https://tomasfarias.dev/posts/sphinx-docs-with-poetry-and-github-pages/
+name: Build python packages
 
-name: Docs2Pages
+on: [push, pull_request]
 on:
   workflow_dispatch:
     branches:
