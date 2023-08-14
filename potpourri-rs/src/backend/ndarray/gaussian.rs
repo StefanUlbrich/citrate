@@ -209,6 +209,7 @@ impl Mixable<Gaussian> for Gaussian {
 /// Function that sorts the parameters (means, covariances) of a Gaussian mixture according to the
 /// weights of the components. TODO: This should be part of the Mixable interface
 /// but this is difficult right now (type of the pmf is unknown in the interace).
+/// see [this blog post](https://www.lemonfold.io/posts/2023/rust/sorting_ndarray/)
 pub fn sort_parameters(gmm: &Gaussian, pmf: &ArrayView1<f64>) -> (Array2<f64>, Array3<f64>) {
     let mut means = gmm.means.clone();
     let mut covariances = gmm.covariances.clone();
@@ -217,15 +218,15 @@ pub fn sort_parameters(gmm: &Gaussian, pmf: &ArrayView1<f64>) -> (Array2<f64>, A
         .unwrap()
         .into_iter()
         .enumerate()
-        .sorted_by(|a, b| a.1.partial_cmp(b.1).unwrap())
+        .sorted_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap())
         .enumerate()
-        .for_each(|x| {
+        .for_each(|(i, (j, _))| {
             means
-                .slice_mut(s![x.0, ..])
-                .assign(&gmm.means.slice(s![x.1 .0, ..]));
+                .slice_mut(s![i, ..])
+                .assign(&gmm.means.slice(s![j, ..]));
             covariances
-                .slice_mut(s![x.0, .., ..])
-                .assign(&gmm.covariances.slice(s![x.1 .0, .., ..]));
+                .slice_mut(s![i, .., ..])
+                .assign(&gmm.covariances.slice(s![j, .., ..]));
         });
 
     (means, covariances)
