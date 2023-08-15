@@ -1,4 +1,7 @@
+//! Classical Kohonen networks
 #[derive(Clone)]
+
+/// Rrepresents the adaptivity as defined by Kohonen
 pub struct KohonenAdaptivity {}
 
 use ndarray::{prelude::*, Data};

@@ -1,3 +1,5 @@
+//! Properties of an adaptative self-organizing network
+
 pub mod kohonen;
 
 pub use kohonen::KohonenAdaptivity;
@@ -7,12 +9,13 @@ use crate::{Neural, Responsive};
 
 pub type BoxedAdaptable<N, R> = Box<dyn Adaptable<N, R> + Send>;
 
-/// Interface for structures encapsulating algorithms for self-organization
+/// Trait that update rules / adaptation to new data.
 pub trait Adaptable<N, R>
 where
     R: Responsive<N>,
     N: Neural,
 {
+    /// Adapt a self-organizing network to a single pattern / stimuus
     fn adapt(
         &mut self,
         neurons: &mut N,

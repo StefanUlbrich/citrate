@@ -1,3 +1,5 @@
+//! Properties of lateral and pattern spaces of a network
+
 use ndarray::prelude::*;
 
 /// Provides access to the neurons of a neural network.
@@ -8,7 +10,6 @@ use ndarray::prelude::*;
 /// * tuning patterns: List of patterns of the feature space
 ///   each individual neural is tuned to
 /// Provides read-only, modifying and consuming access.
-
 pub trait Neural {
     fn get_lateral(&self) -> &Array2<f64>;
     fn get_lateral_mut(&mut self) -> &mut Array2<f64>;

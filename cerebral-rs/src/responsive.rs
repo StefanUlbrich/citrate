@@ -1,3 +1,5 @@
+//! Properties of a network of responsive neurons
+
 use crate::Neural;
 
 pub type BoxedResponsive<N> = Box<dyn Responsive<N> + Send>;

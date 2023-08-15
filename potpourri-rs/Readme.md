@@ -21,3 +21,10 @@ the Expectation [Maximization (EM) algorithm](https://en.wikipedia.org/wiki/Expe
 sudo apt install libfontconfig-dev libopenblas-dev # on ubuntu
 cargo run --package potpourri --example generate_data --features ndarray
 ```
+
+Building the documentation is a bit more complicated as we need a custom
+HTML header in order to support mathematical formulas.
+
+```sh
+RUSTDOCFLAGS="--html-in-header ./static/header.html" cargo doc -F ndarray -p potpourri  --no-deps
+```
