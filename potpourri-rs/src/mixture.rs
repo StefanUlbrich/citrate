@@ -12,10 +12,28 @@ pub trait Latent<T>
 where
     T: Parametrizable,
 {
+    /// Combines the likelihood of the data for each components with
+    /// the likelihood of the components themselves.
+    ///
+    /// Warning: Returns *loglikelihoods* and expects *loglikelihoods*
+    /// from the components, see [Mixable].
+    ///
+    /// \[
+    /// \begin{aligned}
+    /// \forall m \in M, \bm x \in X&: \\\\
+    /// \bar \gamma_{\bm x,m} &= \pi_m \cdot p(\bm x | m) \\\\
+    /// \gamma_{\bm x,m} &= \frac{\bar \gamma_{\bm x, m}}{ \sum_{m \in M} \bar \gamma_{\bm x, m} } \\\\
+    ///  \Gamma &= ( \gamma_{\bm x,m} )_{\bm x,m} \in \mathbb R^{n \times k}, \quad n=|X| \wedge m=|M|
+    /// \end{aligned}
+    /// \]
+    ///
+    ///
+    ///
+    /// where $M$ are the components and $X$ is the data set
     fn expect(
         &self,
         data: &T::DataIn<'_>,
-        likelihood: &T::Likelihood,
+        log_likelihood: &T::Likelihood,
     ) -> Result<(T::Likelihood, AvgLLH), Error>;
 }
 
@@ -34,6 +52,9 @@ pub trait Mixable<T>
 where
     T: Parametrizable,
 {
+    /// Predict in dependence of the likelihood (*warning* not log likelihood)
+    /// of the latent model. Needs to be implemented for each mixable
+    /// to allow for different tasks such as classifications and regression.
     fn predict(
         &self,
         latent_likelihood: T::Likelihood,
@@ -138,15 +159,16 @@ where
         Mixable::predict(&self.mixables, likelihood, data)
     }
 
-    fn update(
-        &mut self,
-        sufficient_statistics: &Self::SufficientStatistics,
-        weight: f64,
-    ) -> Result<(), Error> {
-        self.latent.update(&sufficient_statistics.0, weight)?;
-        self.mixables.update(&sufficient_statistics.1, weight)?;
-        Ok(())
-    }
+    // FIXME: Remove
+    // fn update(
+    //     &mut self,
+    //     sufficient_statistics: &Self::SufficientStatistics,
+    //     weight: f64,
+    // ) -> Result<(), Error> {
+    //     self.latent.update(&sufficient_statistics.0, weight)?;
+    //     self.mixables.update(&sufficient_statistics.1, weight)?;
+    //     Ok(())
+    // }
 
     fn merge(
         sufficient_statistics: &[&Self::SufficientStatistics],
