@@ -95,14 +95,14 @@ pub trait Parametrizable {
         data: &Self::DataIn<'_>,
     ) -> Result<Self::DataOut, Error>;
 
-    // TODO: Check whether we need update at all.
+    // FIMXE: Check whether we need update at all (very unlikely as the Parametrizables and Mixables don't expose their sufficient statistics).
     /// Update the stored sufficient statistics (for incremental learning)
     /// Weights is a tuple (a float should suffice, if summing to one)
-    fn update(
-        &mut self,
-        sufficient_statistics: &Self::SufficientStatistics,
-        weight: f64,
-    ) -> Result<(), Error>;
+    // fn update(
+    //     &mut self,
+    //     sufficient_statistics: &Self::SufficientStatistics,
+    //     weight: f64,
+    // ) -> Result<(), Error>;
 
     /// Merge multiple [sufficient statistics](Parametrizable::SufficientStatistics) into one.
     fn merge(
