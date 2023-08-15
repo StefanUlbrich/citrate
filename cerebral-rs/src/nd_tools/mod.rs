@@ -1,4 +1,4 @@
-//! This module defines extensions to the ndarray crate. General functions are defined in the top-level
+//! Extensions to the ndarray crate. General functions are defined in the top-level
 
 pub mod ndindex;
 pub mod point_set;

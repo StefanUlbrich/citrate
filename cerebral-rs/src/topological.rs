@@ -1,3 +1,5 @@
+//! Properties of the topology of a lateral space
+
 use crate::nd_tools::ndindex::get_ndindex_array;
 use crate::Neural;
 use ndarray::{prelude::*, Shape};

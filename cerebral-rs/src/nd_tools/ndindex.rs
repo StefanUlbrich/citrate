@@ -1,5 +1,8 @@
+//! Indices for ndarrays
+
 use ndarray::{prelude::*, Shape};
 
+/// An iterator over the indices of an ndarray
 pub struct NdIndexIterator<D: Dimension> {
     shape: Shape<D>,
     counter: usize,

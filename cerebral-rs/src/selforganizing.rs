@@ -1,3 +1,5 @@
+//! The model for a self-organizing neural network
+
 use ndarray::{prelude::*, Data};
 
 use crate::{Adaptable, Neural, NeuralLayer, Responsive, Topological, Trainable};
