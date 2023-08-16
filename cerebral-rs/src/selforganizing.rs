@@ -158,15 +158,3 @@ pub type BoxedSelforganizing = Box<dyn Selforganizing + Send>;
 // {
 // }
 // pub type BoxedSelforganizingNeural = Box<dyn SelforganizingNeural + Send>;
-
-// #[cfg(not(feature = "ndarray"))]
-
-// #[cfg(test)]
-// mod tests {
-
-//     #[test]
-//     fn it_works() {
-//         let result = 2 + 2;
-//         assert_eq!(result, 4);
-//     }
-// }
