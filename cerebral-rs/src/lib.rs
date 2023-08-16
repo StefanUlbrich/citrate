@@ -129,23 +129,13 @@ pub use responsive::{BoxedResponsive, Responsive};
 pub use topological::{BoxedTopological, Topological};
 pub use trainable::{BoxedTrainable, Trainable};
 
-// FIXME remove
-// pub mod default {
-//     pub use crate::adaptable::KohonenAdaptivity as Adaptivity;
-//     pub use crate::responsive::CartesianResponsiveness as Responsiveness;
-//     pub use crate::topological::CartesianTopology;
-//     pub use crate::trainable::IncrementalLearning;
-// }
+/// Default exports. TODO: rename in prelude
+pub mod default {
+    pub use crate::adaptable::KohonenAdaptivity;
+    pub use crate::responsive::CartesianResponsiveness;
+    pub use crate::topological::CartesianTopology;
+    pub use crate::trainable::IncrementalLearning;
+}
 
 // #[cfg(feature = "ndarray")]
 pub mod nd_tools;
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
