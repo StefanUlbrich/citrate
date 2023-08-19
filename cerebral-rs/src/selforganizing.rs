@@ -4,7 +4,14 @@ use ndarray::{prelude::*, Data};
 
 use crate::{Adaptable, Neural, NeuralLayer, Responsive, Topological, Trainable};
 
-/// Public trait that defines the concept of self organization
+// TODO why a trait and not on the struct itself?
+
+/// Public trait for a model of self-organization.
+/// It combines the methods of [Neural] (which it extends, i.e.,
+/// its implementations need to implement it as well),
+/// [Adaptable], [Responsive], [Topological] and [Trainable]
+/// but with different parameters. Implementations
+/// are supposed to delegate calls to instances of said traits.
 pub trait Selforganizing: Neural {
     // Associated to topology
 
@@ -48,7 +55,7 @@ pub trait Selforganizing: Neural {
     //-> Self
 }
 
-/// Struct that implements structural composition
+/// Default struct for self-organization
 pub struct SelforganizingNetwork<A, T, R, L>
 where
     A: Adaptable<NeuralLayer, R>,
@@ -69,6 +76,8 @@ where
     pub training: L, // Box<B>,
 }
 
+// Implementation of neural
+
 impl<A, T, R, B> Selforganizing for SelforganizingNetwork<A, T, R, B>
 where
     A: Adaptable<NeuralLayer, R>,
@@ -76,12 +85,11 @@ where
     R: Responsive<NeuralLayer>,
     B: Trainable<NeuralLayer, A, R>,
 {
-    fn init_lateral(&mut self) //-> Self
-    {
+    fn init_lateral(&mut self) {
         self.topology.init_lateral(&mut self.neurons);
-        // self
     }
 
+    // TODO think about removing if unused
     fn get_lateral_distance(&mut self, index: usize) -> Array2<f64> {
         todo!()
     }
@@ -99,7 +107,6 @@ where
             influence,
             rate,
         );
-        //self
     }
 
     fn train(&mut self, patterns: &ArrayView2<f64>) {
@@ -109,11 +116,11 @@ where
             &mut self.responsiveness,
             patterns,
         );
-        // self
     }
 }
 
-// #[cfg(feature = "ndarray")]
+// Big TODO: why fullfilling [Neural]? Returning a reference to self.neural would do
+// we would need a get_neural_mut and get_neural .. probably doesn't make much of a difference
 
 impl<A, T, R, B> Neural for SelforganizingNetwork<A, T, R, B>
 where
@@ -122,6 +129,7 @@ where
     R: Responsive<NeuralLayer>,
     B: Trainable<NeuralLayer, A, R>,
 {
+    // TODO fill these
     fn get_lateral(&self) -> &Array2<f64> {
         &self.neurons.lateral
     }
@@ -146,8 +154,11 @@ where
     }
 }
 
+// TODO do I need to implement the traits for this type?
+
 pub type BoxedSelforganizing = Box<dyn Selforganizing + Send>;
 
+// TODO what about this comment block
 // pub trait SelforganizingNeural: SelfOrganizing + Neural {}
 // impl<A, T, R, B> SelforganizingNeural for NeuralLayer<A, T, R, B>
 // where

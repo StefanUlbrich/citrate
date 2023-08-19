@@ -19,9 +19,13 @@ pub trait Neural {
     fn set_patterns(&mut self, patterns: Array2<f64>);
 }
 
+/// The default struct implementing [Neural].
+/// It represents a neural network with the patterns each neuron is tuned to
+/// and the coordinates in the neural space to determine lateral connections
 #[derive(Default)]
 pub struct NeuralLayer {
-    /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method). Row matrix.
+    /// Lateral layer that defines the topology. Can be coordinates or
+    /// connections (depending on method). Row matrix.
     pub lateral: Array2<f64>,
     /// Tuning Patterns the neurons. This is the codebook. Row matrix.
     pub patterns: Array2<f64>,

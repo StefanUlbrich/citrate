@@ -46,6 +46,9 @@ where
     pub shape: Shape<D>,
 }
 
+// TODO maybe better grid? / lattice?
+
+/// Organizes neurons in a regular lattice with $n^d$ Neurons
 impl<D> CartesianTopology<D>
 where
     D: Dimension,
