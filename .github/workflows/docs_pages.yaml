@@ -1,4 +1,4 @@
-name: Build python packages
+name: Build Documentation
 
 on:
   workflow_dispatch:
