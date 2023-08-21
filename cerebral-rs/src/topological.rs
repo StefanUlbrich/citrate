@@ -1,3 +1,5 @@
+//! Properties of the topology of a lateral space
+
 use crate::nd_tools::ndindex::get_ndindex_array;
 use crate::Neural;
 use ndarray::{prelude::*, Shape};
@@ -44,6 +46,9 @@ where
     pub shape: Shape<D>,
 }
 
+// TODO maybe better grid? / lattice?
+
+/// Organizes neurons in a regular lattice with $n^d$ Neurons
 impl<D> CartesianTopology<D>
 where
     D: Dimension,
@@ -75,15 +80,5 @@ where
         return Box::new(CartesianTopology {
             shape: Shape::from(dim),
         });
-    }
-}
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
     }
 }

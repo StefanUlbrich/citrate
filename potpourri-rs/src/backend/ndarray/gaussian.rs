@@ -19,11 +19,11 @@ use super::utils::{
 /// the data to maximize the parameters. It is a triple of
 /// arrays (names as in [Kimura et al.](https://link.springer.com/article/10.1007/s10044-011-0256-4)):
 ///
-/// $$ \begin{aligned}
+/// \[ \begin{aligned}
 /// a_j &= \sum_i^n r_{ij},&& (k) \\\\
 /// b_j &= \sum_i^n r_{ij} \cdot x_i ,&& (k \times d) \\\\
 /// c_j &= \sum_i^n r_{ij} \cdot x_i^T\cdot x_i, &&(k \times d \times d) \\\\
-/// \end{aligned} $$
+/// \end{aligned} \]
 #[derive(Default, Debug, Clone)]
 pub struct Gaussian {
     /// The mean values, $ k\times d $
@@ -32,11 +32,13 @@ pub struct Gaussian {
     pub covariances: Array3<f64>,
     /// The precision matrices (inverted coariances), $(k\times d\times d)$
     pub precisions: Array3<f64>,
+    /// Cached values for computing the likelihoods of the Gaussians
     pub summands: Array1<f64>,
-    sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
+    // sufficient_statistics: <Gaussian as Parametrizable>::SufficientStatistics,
 }
 
 impl Gaussian {
+    /// Convenience method
     pub fn new() -> Gaussian {
         Gaussian {
             ..Default::default()
@@ -162,20 +164,21 @@ impl Parametrizable for Gaussian {
         Ok(())
     }
 
-    fn update(
-        &mut self,
-        sufficient_statistics: &Self::SufficientStatistics,
-        weight: f64,
-    ) -> Result<(), Error> {
-        // check values of weight
-        self.sufficient_statistics.0 =
-            &self.sufficient_statistics.0 * (1.0 - weight) + &sufficient_statistics.0 * weight;
-        self.sufficient_statistics.1 =
-            &self.sufficient_statistics.1 * (1.0 - weight) + &sufficient_statistics.1 * weight;
-        self.sufficient_statistics.2 =
-            &self.sufficient_statistics.2 * (1.0 - weight) + &sufficient_statistics.2 * weight;
-        Ok(())
-    }
+    // FIXME: remove
+    // fn update(
+    //     &mut self,
+    //     sufficient_statistics: &Self::SufficientStatistics,
+    //     weight: f64,
+    // ) -> Result<(), Error> {
+    //     // check values of weight
+    //     self.sufficient_statistics.0 =
+    //         &self.sufficient_statistics.0 * (1.0 - weight) + &sufficient_statistics.0 * weight;
+    //     self.sufficient_statistics.1 =
+    //         &self.sufficient_statistics.1 * (1.0 - weight) + &sufficient_statistics.1 * weight;
+    //     self.sufficient_statistics.2 =
+    //         &self.sufficient_statistics.2 * (1.0 - weight) + &sufficient_statistics.2 * weight;
+    //     Ok(())
+    // }
 
     fn merge(
         sufficient_statistics: &[&Self::SufficientStatistics],
@@ -325,13 +328,4 @@ mod tests {
         // This should fail--we ignored much of the data
         assert!(covariances.abs_diff_eq(&gaussian.covariances, 1e-3));
     }
-
-    // #[traced_test]
-    // #[test]
-    // fn how_to_deal_with_zero_dim() {
-    //     let mut x = arr0(0.0);
-    //     x.assign(&arr0(1.2));
-    //     let y = x.get(()).unwrap();
-    //     x[()] = 4.0;
-    // }
 }

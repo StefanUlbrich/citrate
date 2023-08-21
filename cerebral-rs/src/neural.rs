@@ -1,3 +1,5 @@
+//! Properties of lateral and pattern spaces of a network
+
 use ndarray::prelude::*;
 
 /// Provides access to the neurons of a neural network.
@@ -8,7 +10,6 @@ use ndarray::prelude::*;
 /// * tuning patterns: List of patterns of the feature space
 ///   each individual neural is tuned to
 /// Provides read-only, modifying and consuming access.
-
 pub trait Neural {
     fn get_lateral(&self) -> &Array2<f64>;
     fn get_lateral_mut(&mut self) -> &mut Array2<f64>;
@@ -18,9 +19,13 @@ pub trait Neural {
     fn set_patterns(&mut self, patterns: Array2<f64>);
 }
 
+/// The default struct implementing [Neural].
+/// It represents a neural network with the patterns each neuron is tuned to
+/// and the coordinates in the neural space to determine lateral connections
 #[derive(Default)]
 pub struct NeuralLayer {
-    /// Lateral layer that defines the topology. Can be coordinates or connections (depending on method). Row matrix.
+    /// Lateral layer that defines the topology. Can be coordinates or
+    /// connections (depending on method). Row matrix.
     pub lateral: Array2<f64>,
     /// Tuning Patterns the neurons. This is the codebook. Row matrix.
     pub patterns: Array2<f64>,
@@ -57,15 +62,5 @@ impl Neural for NeuralLayer {
 
     fn set_patterns(&mut self, patterns: Array2<f64>) {
         self.patterns = patterns;
-    }
-}
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
     }
 }

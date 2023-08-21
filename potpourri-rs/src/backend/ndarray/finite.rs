@@ -1,3 +1,6 @@
+//! Contains the implementation of the model for hidden states
+//! of a finite mixture.
+
 use ndarray::prelude::*;
 
 use crate::{AvgLLH, Error, Latent, Parametrizable};
@@ -6,6 +9,8 @@ use super::utils::generate_random_expections;
 
 #[derive(Clone, Debug)]
 
+
+/// Represents a finite set of hiddenstates (or components in a mixture model)
 pub struct Finite {
     // pub dimension: i32,
     pub prior: Option<f64>,
@@ -14,6 +19,7 @@ pub struct Finite {
 }
 
 impl Finite {
+    /// Convenience function
     pub fn new(prior: Option<f64>) -> Finite {
         // let prior = prior.unwrap_or(1.0);
         Finite {
@@ -67,15 +73,17 @@ impl Parametrizable for Finite {
         Err(Error::ForbiddenCode)
     }
 
-    fn update(
-        &mut self,
-        sufficient_statistics: &Self::SufficientStatistics,
-        weight: f64,
-    ) -> Result<(), Error> {
-        self.sufficient_statistics =
-            &self.sufficient_statistics * (1.0 - weight) + sufficient_statistics * weight;
-        Ok(())
-    }
+
+    // FIXME remove
+    // fn update(
+    //     &mut self,
+    //     sufficient_statistics: &Self::SufficientStatistics,
+    //     weight: f64,
+    // ) -> Result<(), Error> {
+    //     self.sufficient_statistics =
+    //         &self.sufficient_statistics * (1.0 - weight) + sufficient_statistics * weight;
+    //     Ok(())
+    // }
 
     fn merge(
         sufficient_statistics: &[&Self::SufficientStatistics],
@@ -95,23 +103,18 @@ impl Parametrizable for Finite {
 }
 use tracing::info;
 
-/// FIXME compute the likelihood.. is it just the sum of all?
 impl Latent<Finite> for Finite {
-    // fn join(
-    //     likelihood_a: &<Finite as Parametrizable>::Likelihood,
-    //     likelihood_b: &<Finite as Parametrizable>::Likelihood,
-    // ) -> Result<(<Finite as Parametrizable>::Likelihood, f64), Error> {
-    // }
+
 
     fn expect(
         &self,
         data: &<Finite as Parametrizable>::DataIn<'_>,
-        likelihood_b: &<Finite as Parametrizable>::Likelihood,
+        log_likelihood_b: &<Finite as Parametrizable>::Likelihood,
     ) -> Result<(<Finite as Parametrizable>::Likelihood, AvgLLH), Error> {
-        let likelihood_a = Parametrizable::expect(self, data)?.0;
-        info!(%likelihood_a);
-        let log_weighted = likelihood_a + likelihood_b; // n x k
-        info!(%likelihood_b);
+        let log_likelihood_a = Parametrizable::expect(self, data)?.0;
+        info!(%log_likelihood_a);
+        let log_weighted = log_likelihood_a + log_likelihood_b; // n x k
+        info!(%log_likelihood_b);
         let weighted = log_weighted.mapv(|x| x.exp()); // sum?
         let s = weighted.shape();
         info!("{}x{}", s[0], s[1]);
@@ -127,14 +130,3 @@ impl Latent<Finite> for Finite {
         ))
     }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
-//     #[test]
-//     fn it_works() {
-//         // let result = add(2, 2);
-//         // assert_eq!(result, 4);
-//     }
-// }

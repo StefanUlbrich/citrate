@@ -1,6 +1,7 @@
 use std::sync::Arc;
 use std::sync::Mutex;
 
+use numpy::{PyArray2, PyReadonlyArray1, PyReadonlyArray2, ToPyArray};
 use pyo3::prelude::*;
 use pyo3::Python;
 
@@ -143,74 +144,74 @@ impl PySelforganizingNetwork {
             }),
         };
     }
+
+    // }
+    // #[pymethods]
+    // impl PySelforganizingNetwork {
+
+    //     #[new]
+    //     fn new(shape: (usize, usize), output_dim: usize /*, string->parameters */) -> Self {
+    //         let seed = 42;
+    //         let mut rng = Isaac64Rng::seed_from_u64(seed);
+    //         let mut som = NeuralLayer {
+    //             neurons: Neurons {
+    //                 lateral: Array::random_using(shape, Uniform::new(0., 10.), &mut rng),
+    //                 patterns: Array::random_using(
+    //                     (shape.0 * shape.1, output_dim),
+    //                     Uniform::new(0., 10.),
+    //                     &mut rng,
+    //                 ),
+    //                 ..Default::default()
+    //             },
+    //             adaptivity: KohonenAdaptivity {},
+    //             topology: CartesianTopology::new((10, 10)),
+    //             responsiveness: CartesianResponsiveness {},
+    //             training: BatchTraining {
+    //                 radii: (2.0, 0.2),
+    //                 rates: (0.7, 0.1),
+    //                 epochs: 1,
+    //             },
+    //         };
+
+    //         // println!("{}", som.neurons.lateral);
+
+    //         som.init_lateral();
+    //         PyNeuralLayer {
+    //             __som: Box::new(som),
+    //         }
+    //     }
+
+    #[getter]
+    fn get_feature<'py>(&self, py: Python<'py>) -> &'py PyArray2<f64> {
+        self.__som.get_patterns().to_pyarray(py)
+    }
+
+    fn get_best_matching(&mut self, feature: PyReadonlyArray1<f64>) -> usize {
+        self.__som.get_best_matching(&feature.as_array())
+    }
+
+    fn adapt(&mut self, feature: PyReadonlyArray1<f64>, influence: f64, rate: f64) {
+        self.__som.adapt(&feature.as_array(), influence, rate)
+    }
+    fn batch(
+        &mut self,
+        features: PyReadonlyArray2<f64>,
+        radii: Option<(f64, f64)>,
+        rates: Option<(f64, f64)>,
+        epochs: Option<usize>,
+    ) {
+        // if let Some(r) = rates {
+        //     self.__som.training.rates = r;
+        // }
+        // if let Some(e) = epochs {
+        //     self.__som.training.epochs = e;
+        // }
+        // if let Some(r) = radii {
+        //     self.__som.training.radii = r;
+        // }
+        self.__som.train(&features.as_array())
+    }
 }
-
-// #[pymethods]
-// impl PySelforganizingNetwork {
-
-//     #[new]
-//     fn new(shape: (usize, usize), output_dim: usize /*, string->parameters */) -> Self {
-//         let seed = 42;
-//         let mut rng = Isaac64Rng::seed_from_u64(seed);
-//         let mut som = NeuralLayer {
-//             neurons: Neurons {
-//                 lateral: Array::random_using(shape, Uniform::new(0., 10.), &mut rng),
-//                 patterns: Array::random_using(
-//                     (shape.0 * shape.1, output_dim),
-//                     Uniform::new(0., 10.),
-//                     &mut rng,
-//                 ),
-//                 ..Default::default()
-//             },
-//             adaptivity: KohonenAdaptivity {},
-//             topology: CartesianTopology::new((10, 10)),
-//             responsiveness: CartesianResponsiveness {},
-//             training: BatchTraining {
-//                 radii: (2.0, 0.2),
-//                 rates: (0.7, 0.1),
-//                 epochs: 1,
-//             },
-//         };
-
-//         // println!("{}", som.neurons.lateral);
-
-//         som.init_lateral();
-//         PyNeuralLayer {
-//             __som: Box::new(som),
-//         }
-//     }
-
-//     #[getter]
-//     fn get_feature<'py>(&self, py: Python<'py>) -> &'py PyArray2<f64> {
-//         self.__som.get_patterns().to_pyarray(py)
-//     }
-
-//     fn get_best_matching(&mut self, feature: PyReadonlyArray1<f64>) -> usize {
-//         self.__som.get_best_matching(&feature.as_array())
-//     }
-
-//     fn adapt(&mut self, feature: PyReadonlyArray1<f64>, influence: f64, rate: f64) {
-//         self.__som.adapt(&feature.as_array(), influence, rate)
-//     }
-//     fn batch(
-//         &mut self,
-//         features: PyReadonlyArray2<f64>,
-//         radii: Option<(f64, f64)>,
-//         rates: Option<(f64, f64)>,
-//         epochs: Option<usize>,
-//     ) {
-//         // if let Some(r) = rates {
-//         //     self.__som.training.rates = r;
-//         // }
-//         // if let Some(e) = epochs {
-//         //     self.__som.training.epochs = e;
-//         // }
-//         // if let Some(r) = radii {
-//         //     self.__som.training.radii = r;
-//         // }
-//         self.__som.train(&features.as_array())
-//     }
-// }
 
 #[pymodule]
 #[pyo3(name = "cerebral")]

@@ -1,17 +1,6 @@
-# Found here: https://tomasfarias.dev/posts/sphinx-docs-with-poetry-and-github-pages/
+name: Build Python packages
 
-name: Docs2Pages
-on:
-  workflow_dispatch:
-    branches:
-      - main
-  push:
-    # tags: '*'
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build-wheels:
@@ -23,6 +12,10 @@ jobs:
       uses: actions/checkout@master
       with:
         fetch-depth: 0
+    - name: 🐍 Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.2
     - name: 🦀 Install Rust
       uses: actions-rs/toolchain@v1
       with:

@@ -1,3 +1,5 @@
+//! Properties of a training procedure
+
 use core::panic;
 
 use crate::{Adaptable, Neural, Responsive};
