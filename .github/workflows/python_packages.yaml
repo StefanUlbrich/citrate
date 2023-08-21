@@ -1,3 +1,5 @@
+name: Build Python packages
+
 on: [push, pull_request]
 
 jobs:
