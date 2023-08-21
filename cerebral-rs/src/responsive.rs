@@ -25,7 +25,6 @@ impl<N> Responsive<N> for BoxedResponsive<N>
 where
     N: Neural,
 {
-    // fn init_patterns();
     fn get_best_matching(&self, neurons: &N, pattern: &ArrayView1<f64>) -> usize {
         (**self).get_best_matching(neurons, pattern)
     }

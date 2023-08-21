@@ -64,9 +64,7 @@ where
     D: Dimension,
 {
     fn init_lateral(&self, neurons: &mut N) {
-        neurons
-            .get_lateral_mut()
-            .assign(&get_ndindex_array(&self.shape));
+        neurons.set_lateral(get_ndindex_array(&self.shape));
     }
 
     fn clone_dyn(&self) -> BoxedTopological<N> {

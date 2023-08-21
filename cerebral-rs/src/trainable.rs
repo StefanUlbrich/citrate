@@ -94,13 +94,3 @@ where
         Box::new(self.clone()) // Forward to the derive(Clone) impl    }
     }
 }
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}

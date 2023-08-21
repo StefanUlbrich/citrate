@@ -44,7 +44,7 @@ impl Neural for NeuralLayer {
         &mut self.lateral
     }
     fn set_lateral(&mut self, lateral: Array2<f64>) {
-        todo!()
+        self.lateral = lateral;
     }
 
     fn get_patterns(&self) -> &Array2<f64> {
@@ -56,7 +56,7 @@ impl Neural for NeuralLayer {
     }
 
     fn set_patterns(&mut self, patterns: Array2<f64>) {
-        todo!()
+        self.patterns = patterns;
     }
 }
 
