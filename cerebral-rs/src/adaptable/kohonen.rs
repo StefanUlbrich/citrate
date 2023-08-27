@@ -1,4 +1,7 @@
+//! Classical Kohonen networks
 #[derive(Clone)]
+
+/// Rrepresents the adaptivity as defined by Kohonen
 pub struct KohonenAdaptivity {}
 
 use ndarray::{prelude::*, Data};
@@ -45,12 +48,3 @@ where
         Box::new(self.clone()) // Forward to the derive(Clone) impl    }
     }
 }
-// #[cfg(test)]
-// mod tests {
-
-//     #[test]
-//     fn it_works() {
-//         let result = 2 + 2;
-//         assert_eq!(result, 4);
-//     }
-// }

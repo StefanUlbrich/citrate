@@ -1,4 +1,9 @@
+//! Logic for error handling.
+
 #[derive(thiserror::Error, Debug, Clone)]
+
+/// The one error type of this crate.
+/// Errors from the backends are mapped in the respective modules
 pub enum Error {
     #[error("Multiple iterations overwrite a fitted model: {n_init:?}, {fitted:?}")]
     ParameterError { n_init: usize, fitted: bool },

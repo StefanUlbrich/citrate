@@ -1,5 +1,8 @@
+//! Indices for ndarrays
+
 use ndarray::{prelude::*, Shape};
 
+/// An iterator over the indices of an ndarray
 pub struct NdIndexIterator<D: Dimension> {
     shape: Shape<D>,
     counter: usize,
@@ -65,14 +68,4 @@ where
     }
 
     result
-}
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
 }

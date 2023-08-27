@@ -1,8 +1,10 @@
+//! Properties of a network of responsive neurons
+
 use crate::Neural;
 
+/// Boxed [Responsive] for dynamic creation (in a Python module for instance)
 pub type BoxedResponsive<N> = Box<dyn Responsive<N> + Send>;
 
-// Tunable?
 /// Interface for structures encapsulating representations input patterns. See
 /// [neural tuning](https://en.wikipedia.org/wiki/Neuronal_tuning)
 pub trait Responsive<N>
@@ -42,6 +44,10 @@ where
     }
 }
 
+// TODO consider renaming ot Euclidean
+
+/// Determines the Responsivenes in a Cartesian space with the
+/// standard Euclidean distance.
 #[derive(Clone)]
 pub struct CartesianResponsiveness {
     // usize seed,
@@ -67,15 +73,5 @@ where
 
     fn clone_dyn(&self) -> BoxedResponsive<N> {
         Box::new(self.clone()) // Forward to the derive(Clone) impl    }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
     }
 }

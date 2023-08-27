@@ -8,9 +8,20 @@
 //! such as adding parallelization on clusters and exploring new models
 //!
 //! Conventions:
-//! * Traits: Capital letters and CamelCase, adjectives used as nouns that indicate a cabability.
-//! * Structs: Capital letters and CamelCase, nouns describing things and concepts
-//! * methods/functions: snake_case and imperatives or short, discriptive imperative clauses
+//! * Traits: Capital letters and CamelCase, adjectives used as nouns that
+//!   indicate a cabability.
+//! * Structs: Capital letters and CamelCase, nouns describing things and
+//!   concepts
+//! * methods/functions: snake_case and imperatives or short, discriptive
+//!   imperative clauses
+//!
+//! Concepts:
+//! * Avoid making assumptions about the chosen numerical framework early. All
+//!   calculations are reserved for the actual models or implementations of
+//!   distributions (in case of the mixture model). This is achieved by
+//!   extensively using
+//!   [Generic Assotiate Types
+//!  (GAT)](https://blog.rust-lang.org/2022/10/28/gats-stabilization.html)
 
 pub mod backend;
 pub mod errors;
@@ -21,81 +32,105 @@ use errors::Error;
 pub use mixture::{Latent, Mixable, Mixture};
 pub use model::Model;
 
-/// Average log-likelihood. Used to meature convergence
+/// Average log-likelihood used to meature convergence. This is a new type for the inbuilt
+/// `f64` datatype
+/// ([new type idiom](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)).
 #[derive(Debug, Clone)]
 pub struct AvgLLH(f64);
 
+/// The main trait all models (such as the basic Mixture Models or Hidden Markov
+/// Models) need to implement. It represents only the logic and parameters of
+/// a machine learning model (which it forms together with an implementation of [Learning]).
+/// A parametrizable model implements the bare
+/// mathematics and must be associated with a struct implements the [Learning]
+/// trait and orchestrates the EM algorithm.
 pub trait Parametrizable {
+
+    /// Sufficient statistics contain all relevant information of a dataset
+    /// (or a part thereof) to compute all model parameters. Models are required
+    /// to be able to join a pair of sufficient statistics into a single one
+    /// for distributed and incremental learning.
     type SufficientStatistics: Send + Sync;
+
+    /// The likelihoods of the hidden states for all data points.
     type Likelihood;
+
+    /// The type of input data. A
+    /// [GAT]((https://blog.rust-lang.org/2022/10/28/gats-stabilization.html))
+    /// to allow for references and array views.
     type DataIn<'a>: Sync;
+
+    /// The data type of predictions. Typically (but not necessarily),
+    /// these are unsigned integer arrays
+    /// for classification tasks and floats for regressions.
     type DataOut;
 
-    // weights: Self::DataIn<'_>,
+    // TODO check whether this is clear later /// Note that for `Mixables`, this is the log-likelihood
 
-    /// The E-Step. Computes the likelihood for each component in the mixture
-    /// Note that for `Mixables`, this is the log-likelihood
+
+    /// The Expectation or E-Step of the EM algorithm. The model computes
+    /// the likelihood of the hidden states for each data point. The result
+    /// is often called *Responsibility Matrix*
     fn expect(&self, data: &Self::DataIn<'_>) -> Result<(Self::Likelihood, AvgLLH), Error>;
 
-    // Consider combining `compute` and `maximize` – no that is a bad idea
-    // &mut self,
-    // store: Option<bool>, // consider removing. The parent class should take care of that
-
-    /// Computes the sufficient statistics from the responsibility matrix. The
-    ///  Optionally, stores the
-    /// sufficient statistics (for incremental learning and store.restore functionality)
-    /// can be disabled for performance (defaults to `True`)
+    /// Computes the sufficient statistics from the responsibility matrix (the result of the
+    /// [E-step](Parametrizable::expect)).
     fn compute(
         &self,
         data: &Self::DataIn<'_>,
         responsibilities: &Self::Likelihood,
     ) -> Result<Self::SufficientStatistics, Error>;
 
-    /// Maximize the model parameters from
+    /// Maximize the model parameters from a sufficient statistics (the return
+    /// of the [compute](Parametrizable::compute) method.
     fn maximize(&mut self, sufficient_statistics: &Self::SufficientStatistics)
         -> Result<(), Error>;
 
+    /// The predict method produces a response to a data set once the model
+    /// has been trained. Typically, the response depends on the application
+    /// as either a regression or a classification task (see [DataOut](Parametrizable::DataOut))
     fn predict(
         &self,
         // responsibilities: &Self::DataIn<'_>,
         data: &Self::DataIn<'_>,
     ) -> Result<Self::DataOut, Error>;
 
+    // FIMXE: Check whether we need update at all (very unlikely as the Parametrizables and Mixables don't expose their sufficient statistics).
     /// Update the stored sufficient statistics (for incremental learning)
     /// Weights is a tuple (a float should suffice, if summing to one)
-    fn update(
-        &mut self,
-        sufficient_statistics: &Self::SufficientStatistics,
-        weight: f64,
-    ) -> Result<(), Error>;
+    // fn update(
+    //     &mut self,
+    //     sufficient_statistics: &Self::SufficientStatistics,
+    //     weight: f64,
+    // ) -> Result<(), Error>;
 
-    /// merge multiple sufficient statistics into one.
+    /// Merge multiple [sufficient statistics](Parametrizable::SufficientStatistics) into one.
     fn merge(
         sufficient_statistics: &[&Self::SufficientStatistics],
         weights: &[f64],
     ) -> Result<Self::SufficientStatistics, Error>;
 
-    /// Generate a random expectation. Used as an initalization. It is recommended
-    /// to draw the expectations from a univorm Dirichlet distribution.
-    /// Note: This works better than an initialization method, because the layers
-    /// such as the `Probabilistic` trait don't need to implement backend-specific
-    /// random samplers.
+    // TODO: find citation!
+    /// Generate a random expectation / responsibility matrix (see [E-step](Parametrizable::expect)).
+    /// Used as an initalization. It is recommended
+    /// to draw the expectations from a uniform Dirichlet distribution.
+    ///
+    /// This kind of initialization is very effective (citation needed) despite its
+    /// simplicity and easy to implement (typically just calling a Dirichlet RNG from
+    /// the computation backend).
     fn expect_rand(&self, _data: &Self::DataIn<'_>, _k: usize) -> Result<Self::Likelihood, Error> {
         todo!()
     }
 }
 
-/// Probabilistic mixables should implement this trait
-
-/// A mixture model has a discrete and unobservable variable (i.e., latent) variable
-/// associated with each data point. It can be interpreted as a pointer to the component
-/// of a mixture generated the sample. This component computes weights the components
-/// in the mixture, that is, the probability for each component that the next sample will
-/// be drawn from it. In case of non-probabilistic models (k-mm and SOM) this is irrelevant.
+/// Simple trait for an implementation that orchestrates
+/// learning a [parametrizable model](Parametrizable)
 pub trait Learning {
     type DataIn<'a>;
     type DataOut;
 
+    /// Starts a training
     fn fit(&mut self, data: &Self::DataIn<'_>) -> Result<(), Error>;
+    /// Generate a response to a data set after training
     fn predict(&self, data: &Self::DataIn<'_>) -> Result<Self::DataOut, Error>;
 }
